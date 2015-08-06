@@ -5,11 +5,11 @@ import webpack from 'webpack-stream';
 import merge from 'merge2';
 
 
-gulp.task('clean', function(cb) {
+gulp.task('clean', (cb) => {
   del(['dist'], cb);
 });
 
-gulp.task('default', ['clean'], function (cb) {
+gulp.task('default', ['clean'], (cb) => {
     let index = gulp.src('index.js')
         .pipe(babel());
 
