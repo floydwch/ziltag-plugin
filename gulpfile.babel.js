@@ -6,7 +6,7 @@ import merge from 'merge2';
 
 
 gulp.task('clean', (cb) => {
-  del(['dist'], cb);
+    del(['dist'], cb);
 });
 
 gulp.task('default', ['clean'], (cb) => {
