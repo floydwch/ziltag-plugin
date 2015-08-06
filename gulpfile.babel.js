@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
+import uglify from 'gulp-uglify';
 import del from 'del';
 import webpack from 'webpack-stream';
 import merge from 'merge2';
@@ -21,6 +22,7 @@ gulp.task('build', ['clean'], (cb) => {
 
     return merge([index, modules])
         .pipe(webpack(webpack_config))
+        .pipe(uglify())
         .pipe(gulp.dest('dist'))
         .pipe(gulp.dest('demo/app/dist'));
 });
