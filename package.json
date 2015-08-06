@@ -26,5 +26,8 @@
     "gulp-babel": "^5.2.0",
     "merge2": "^0.3.6",
     "webpack-stream": "^2.1.0"
+  },
+  "dependencies": {
+    "riot": "^2.2.3"
   }
 }
