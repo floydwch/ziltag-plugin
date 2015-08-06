@@ -1,4 +1,5 @@
 import cssnano from 'cssnano';
+import postcss_nesting from 'postcss-nesting';
 
 module.exports = {
     output: {
@@ -11,6 +12,6 @@ module.exports = {
         ]
     },
     postcss: () => {
-        return [cssnano];
+        return [postcss_nesting, cssnano];
     }
 };
