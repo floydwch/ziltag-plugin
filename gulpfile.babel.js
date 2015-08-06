@@ -12,7 +12,7 @@ gulp.task('clean', (cb) => {
     del(['demo/app/dist/ziltag-plugin.js'], cb);
 });
 
-gulp.task('default', ['clean'], (cb) => {
+gulp.task('build', ['clean'], (cb) => {
     let index = gulp.src('index.js')
         .pipe(babel());
 
@@ -24,3 +24,9 @@ gulp.task('default', ['clean'], (cb) => {
         .pipe(gulp.dest('dist'))
         .pipe(gulp.dest('demo/app/dist'));
 });
+
+gulp.task('watch', () =>  {
+    gulp.watch(['index.js', 'index.css', 'lib/*'], ['build']);
+});
+
+gulp.task('default', ['clean', 'build', 'watch']);
