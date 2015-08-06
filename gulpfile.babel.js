@@ -26,7 +26,7 @@ gulp.task('build', ['clean'], (cb) => {
 });
 
 gulp.task('watch', () =>  {
-    gulp.watch(['index.js', 'index.css', 'lib/*'], ['build']);
+    gulp.watch(['index.js', 'index.css', 'lib/*', 'img/*'], ['build']);
 });
 
 gulp.task('default', ['clean', 'build', 'watch']);
