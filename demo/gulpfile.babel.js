@@ -12,7 +12,7 @@ gulp.task('serve', () => {
     });
 
     gulp.watch(
-        ['*.html', 'css/*.css', 'js/*.js'],
+        ['*.html', 'css/*.css', 'js/*.js', 'dist/*'],
         {cwd: 'app'},
         reload
     );
