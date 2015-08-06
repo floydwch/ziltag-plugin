@@ -4,6 +4,8 @@ import del from 'del';
 import webpack from 'webpack-stream';
 import merge from 'merge2';
 
+import webpack_config from './webpack.config.js';
+
 
 gulp.task('clean', (cb) => {
     del(['dist']);
@@ -18,17 +20,7 @@ gulp.task('default', ['clean'], (cb) => {
         .pipe(babel());
 
     return merge([index, modules])
-        .pipe(webpack({
-            module: {
-                loaders: [{
-                test: /\.js?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel'
-            }]},
-            output: {
-                filename: 'ziltag-plugin.js'
-            }
-        }))
+        .pipe(webpack(webpack_config))
         .pipe(gulp.dest('dist'))
         .pipe(gulp.dest('demo/app/dist'));
 });
