@@ -6,7 +6,8 @@ import merge from 'merge2';
 
 
 gulp.task('clean', (cb) => {
-    del(['dist'], cb);
+    del(['dist']);
+    del(['demo/app/ziltag-plugin.js']);
 });
 
 gulp.task('default', ['clean'], (cb) => {
@@ -23,7 +24,11 @@ gulp.task('default', ['clean'], (cb) => {
                 test: /\.js?$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel'
-            }]}
+            }]},
+            output: {
+                filename: 'ziltag-plugin.js'
+            }
         }))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('demo/app'));
 });
