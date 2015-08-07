@@ -18,5 +18,9 @@
         &:active {
             background: #d3d3d3;
         }
+
+        &:focus {
+            outline: none;
+        }
     }
 }
