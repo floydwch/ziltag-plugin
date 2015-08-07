@@ -4,14 +4,14 @@
     right: 25%;
     width: 50px;
     height: 50px;
-    background: url('img/logo.png') center no-repeat;
+    background: white url('img/logo.png') center no-repeat;
     border-radius: 50px;
     border: none;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 50);
 
     {
         &.ziltag-login-btn--unauth:hover {
-            background: url('img/login-text.png') 12px 18px no-repeat;
+            background: white url('img/login-text.png') 12px 18px no-repeat;
         }
 
         &.ziltag-login-btn--unauth:not(:active) {
@@ -32,7 +32,7 @@
     display: none;
     position: fixed;
     top: 185px;
-    right: 24%;
+    right: calc(25% - 12px);
     padding: 5px;
     width: 300px;
     height: 211px;
@@ -110,4 +110,22 @@
 
 .ziltag-login-form-password {
     background: 0 12px url('img/password-icon.png') no-repeat;
+}
+
+.ziltag-toolbar {
+    display: none;
+}
+
+.ziltag-toolbar--shrink {
+    display: block;
+    position: fixed;
+    z-index: -1;
+    top: 107px;
+    right: calc(25% + 6px);
+    width: 38px;
+    height: 38px;
+    border-radius: 7px;
+    box-shadow: 1px 3px 7px 0 rgba(0, 0, 0, 50);
+    background: 7px 28px url('img/arrow-down.png') no-repeat;
+    opacity: 0.88;
 }
