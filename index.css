@@ -1,4 +1,7 @@
 .ziltag-login-btn {
+    position: fixed;
+    top: 80px;
+    right: 25%;
     width: 50px;
     height: 50px;
     background: url('img/logo.png') center no-repeat;
@@ -27,7 +30,9 @@
 
 .ziltag-login-form {
     display: none;
-    position: relative;
+    position: fixed;
+    top: 185px;
+    right: 24%;
     padding: 5px;
     width: 300px;
     height: 211px;
@@ -42,13 +47,14 @@
         &:before {
             content: '';
             position: absolute;
-            top: -30px;
-            right: 22px;
-            width: 0;
-            height: 0;
-            border-left: 22px solid transparent;
-            border-right: 22px solid transparent;
-            border-bottom: 30px solid white;
+            top: -13px;
+            right: 24px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-top: 1px solid rgb(200, 200, 200);
+            border-left: 1px solid rgb(200, 200, 200);
+            transform: rotate(45deg);
         }
     }
 }
@@ -60,8 +66,8 @@
 .ziltag-login-form-board {
     width: 274px;
     height: 104px;
-    margin: 10px 10px 10px;
-    border: 1px solid rgba(151, 151, 151, 100);
+    margin: 12px 10px 10px;
+    border: 1px solid rgb(151, 151, 151);
     border-radius: 10px;
 
     {
@@ -78,7 +84,7 @@
             display: block;
             height: 1px;
             border: 0;
-            border-top: 1px solid rgba(151, 151, 151, 100);
+            border-top: 1px solid rgb(151, 151, 151);
             margin: 0 15px;
             padding: 0;
         }
@@ -90,7 +96,7 @@
     height: 51px;
     display: block;
     margin: 0 auto;
-    background: rgba(151, 151, 151, 100);
+    background: rgb(151, 151, 151);
     color: white;
     font-size: 18px;
     border: 0 none;
