@@ -10,7 +10,7 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 50);
 
     {
-        &:hover {
+        &.ziltag-login-btn--unauth:hover {
             background: url('img/login-text.png') 12px 18px no-repeat;
         }
 
@@ -59,7 +59,7 @@
     }
 }
 
-.ziltag-login-form-active {
+.ziltag-login-form--active {
     display: block;
 }
 
