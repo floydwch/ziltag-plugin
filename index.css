@@ -1,5 +1,6 @@
 .ziltag-login-btn {
     position: fixed;
+    z-index: 1;
     top: 80px;
     right: 25%;
     width: 50px;
@@ -114,18 +115,53 @@
 
 .ziltag-toolbar {
     display: none;
+    position: fixed;
+    z-index: 0;
+    top: 107px;
+    border-radius: 7px;
+    box-shadow: 1px 3px 7px 0 rgba(0, 0, 0, 50);
+    opacity: 0.88;
 }
 
 .ziltag-toolbar--shrink {
     display: block;
-    position: fixed;
-    z-index: -1;
-    top: 107px;
-    right: calc(25% + 6px);
     width: 38px;
     height: 38px;
-    border-radius: 7px;
-    box-shadow: 1px 3px 7px 0 rgba(0, 0, 0, 50);
-    background: 7px 28px url('img/arrow-down.png') no-repeat;
-    opacity: 0.88;
+    right: calc(25% + 6px);
 }
+
+.ziltag-toolbar--expansion {
+    display: block;
+    width: 53px;
+    height: 120px;
+    right: calc(25% - 1px);
+
+    {
+        .ziltag-toolbar-ziltag {
+            display: block;
+            margin: 40px auto 30px;
+        }
+    }
+}
+
+.ziltag-toolbar-open {
+    width: 38px;
+    height: 38px;
+    background: 7px 28px url('img/arrow-down.png') no-repeat;
+}
+
+.ziltag-toolbar-close {
+    display: none;
+    width: 53px;
+    height: 7px;
+    background: 14px 0 url('img/arrow-up.png') no-repeat;
+}
+
+.ziltag-toolbar-ziltag {
+    display: none;
+    width: 48px;
+    height: 39px;
+    background: url('img/ziltag.png');
+}
+
+
