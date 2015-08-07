@@ -5,4 +5,3 @@ import './lib/tag.js';
 require('./index.css');
 
 riot.mount('ziltag-plugin');
-

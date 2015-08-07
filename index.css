@@ -24,3 +24,79 @@
         }
     }
 }
+
+.ziltag-login-form {
+    position: relative;
+    padding: 5px;
+    width: 300px;
+    height: 211px;
+    border-radius: 10px;
+    box-shadow: 1px 3px 7px 0 rgba(0, 0, 0, 50);
+
+    {
+        input:focus {
+            outline: none;
+        }
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: 22px;
+            width: 0;
+            height: 0;
+            border-left: 22px solid transparent;
+            border-right: 22px solid transparent;
+            border-bottom: 30px solid white;
+        }
+    }
+}
+
+.ziltag-login-form-board {
+    width: 274px;
+    height: 104px;
+    margin: 10px 10px 10px;
+    border: 1px solid rgba(151, 151, 151, 100);
+    border-radius: 10px;
+
+    {
+        input {
+            width: 194px;
+            height: 49px;
+            font-size: 16px;
+            border: none;
+            margin-left: 15px;
+            padding-left: 42px;
+        }
+
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid rgba(151, 151, 151, 100);
+            margin: 0 15px;
+            padding: 0;
+        }
+    }
+}
+
+.ziltag-login-form-submit {
+    width: 273px;
+    height: 51px;
+    display: block;
+    margin: 0 auto;
+    background: rgba(151, 151, 151, 100);
+    color: white;
+    font-size: 18px;
+    border: 0 none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.ziltag-login-form-email {
+    background: 0 15px url('img/email-icon.png') no-repeat;
+}
+
+.ziltag-login-form-password {
+    background: 0 12px url('img/password-icon.png') no-repeat;
+}
