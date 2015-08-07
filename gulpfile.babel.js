@@ -4,6 +4,7 @@ import uglify from 'gulp-uglify';
 import del from 'del';
 import webpack from 'webpack-stream';
 import merge from 'merge2';
+import ghPages from 'gulp-gh-pages';
 
 import webpack_config from './webpack.config.js';
 
@@ -29,6 +30,11 @@ gulp.task('build', ['clean'], (cb) => {
 
 gulp.task('watch', () =>  {
     gulp.watch(['index.js', 'index.css', 'lib/*', 'img/*'], ['build']);
+});
+
+gulp.task('deploy', () => {
+    return gulp.src('./demo/app/**/*')
+        .pipe(ghPages());
 });
 
 gulp.task('default', ['clean', 'build', 'watch']);
