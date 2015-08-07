@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "riot": "^2.2.3",
+    "uuid": "^2.0.1",
     "whatwg-fetch": "^0.9.0"
   }
 }
