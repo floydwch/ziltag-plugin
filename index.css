@@ -60,10 +60,6 @@
     }
 }
 
-.ziltag-login-form--active {
-    display: block;
-}
-
 .ziltag-login-form-board {
     width: 274px;
     height: 104px;
