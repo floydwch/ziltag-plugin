@@ -161,7 +161,7 @@
     background: url('img/ziltag.png');
 }
 
-.ziltag-editing-cover {
+.ziltag-edit-cover {
     display: none;
     position: fixed;
     z-index: 0;
@@ -171,5 +171,22 @@
     height: 100%;
     background: rgb(158, 158, 158);
     opacity: 0.68;
+}
+
+.ziltag-edit-panel {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 336px;
+    height: 363px;
+    background: white;
+}
+
+.ziltag-edit-panel-head {
+    margin: 10px auto;
+    font-size: 14px;
+    width: 56px;
 }
 
