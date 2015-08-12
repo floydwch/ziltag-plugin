@@ -32,7 +32,7 @@ gulp.task('watch', () =>  {
     gulp.watch(['index.js', 'index.css', 'lib/*', 'img/*'], ['build']);
 });
 
-gulp.task('deploy', () => {
+gulp.task('deploy', ['clean', 'build'], () => {
     return gulp.src('./demo/app/**/*')
         .pipe(ghPages());
 });
