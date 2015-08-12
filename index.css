@@ -6,8 +6,8 @@
     width: 50px;
     height: 50px;
     background: white url('img/logo.png') center no-repeat;
-    border-radius: 50px;
     border: none;
+    border-radius: 50px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 50);
 
     {
@@ -161,7 +161,7 @@
     background: url('img/ziltag.png');
 }
 
-.ziltag-editing-cover {
+.ziltag-edit-cover {
     display: none;
     position: fixed;
     z-index: 0;
@@ -173,3 +173,106 @@
     opacity: 0.68;
 }
 
+.ziltag-edit-board {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 336px;
+    height: 563px;
+    background: white;
+}
+
+.ziltag-edit-board-head {
+    margin: 10px auto;
+    font-size: 14px;
+    width: 56px;
+}
+
+.ziltag-edit-board-cancel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: url('img/edit-cancel.png') no-repeat;
+    cursor: pointer;
+}
+
+.ziltag-edit-board-panel {
+    padding: 10px;
+}
+
+.ziltag-edit-board-panel-title {
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    color: rgb(83, 83, 83);
+
+    {
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.ziltag-edit-board-panel-editor {
+    overflow: scroll;
+    height: 200px;
+}
+
+.ziltag-edit-board-panel-hashtags {
+    overflow: scroll;
+    height: 50px;
+    padding: 4px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.ziltag-edit-board-panel-hashtags-input {
+    border: none;
+    height: 100%;
+
+    {
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.ziltag-edit-board-panel-hashtags-hashtag {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #a5d24a;
+    background: #cde69c;
+    color: #638421;
+}
+
+.ziltag-edit-board-panel-hashtags-hashtag-cancel {
+    display: inline-block;
+    margin-left: 5px;
+    color: #82ad2b;
+    cursor: pointer;
+}
+
+.ziltag-edit-board-panel-submit {
+    position: relative;
+    float: right;
+    margin-top: 20px;
+    width: 57px;
+    height: 28px;
+    background: rgb(151, 151, 151);
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+
+    {
+        &:hover {
+            background: red;
+        }
+    }
+}
