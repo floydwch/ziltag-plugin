@@ -1,5 +1,7 @@
+import webpack from 'webpack';
 import cssnano from 'cssnano';
 import postcss_nesting from 'postcss-nesting';
+
 
 module.exports = {
     output: {
@@ -7,11 +9,16 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel' },
+            { test: /\.js$/, exclude:  /(node_modules|vendor)/, loader: 'babel' },
             { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
-            { test: /\.(png|jpg)$/, loader: 'url' }
+            { test: /\.(png|jpg|eot)$/, loader: 'url' }
         ]
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery'
+        })
+    ],
     postcss: () => {
         return [postcss_nesting, cssnano];
     }
