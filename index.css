@@ -1,6 +1,6 @@
 .ziltag-login-btn {
     position: fixed;
-    z-index: 2;
+    z-index: 3;
     top: 80px;
     right: 25%;
     width: 50px;
@@ -113,7 +113,7 @@
 .ziltag-toolbar {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 107px;
     background: white;
     border-radius: 7px;
@@ -171,7 +171,7 @@
     cursor: pointer;
 }
 
-.ziltag-edit-cover {
+.ziltag-edit-cover, .ziltag-reader-cover {
     display: none;
     position: fixed;
     z-index: 0;
@@ -204,7 +204,7 @@
     animation-name: load_edit_board;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
-    animation-duration: 0.2s;
+    animation-duration: .2s;
 }
 
 .ziltag-edit-board-head {
@@ -298,4 +298,28 @@
             background: red;
         }
     }
+}
+
+@keyframes load_reader {
+    0% {
+        transform: translateX(calc(100%));
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.ziltag-reader {
+    display: none;
+    z-index: 1;
+    position: fixed;
+    width: 80%;
+    height: 100%;
+    top: 0;
+    left: 20%;
+    border: none;
+    animation-name: load_reader;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1s;
 }
