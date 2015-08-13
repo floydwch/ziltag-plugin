@@ -173,6 +173,15 @@
     opacity: 0.68;
 }
 
+@keyframes load_edit_board {
+    0% {
+        transform: translateX(-470px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 .ziltag-edit-board {
     display: none;
     position: fixed;
@@ -182,6 +191,10 @@
     width: 470px;
     height: 563px;
     background: white;
+    animation-name: load_edit_board;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.2s;
 }
 
 .ziltag-edit-board-head {
