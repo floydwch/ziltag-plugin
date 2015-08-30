@@ -1,7 +1,5 @@
-import riot from 'riot';
-import './lib/tag.js';
+import React from 'react';
 
+import Switch from './components/switch.jsx';
 
-require('./index.css');
-
-riot.mount('ziltag-plugin');
+React.render(<Switch></Switch>, document.body);
