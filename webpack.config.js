@@ -9,7 +9,7 @@ module.exports = {
     entry: [
         'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
         'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-        './index.js' // Your appʼs entry point
+        './index' // Your appʼs entry point
     ],
     output: {
         filename: 'ziltag-plugin.js',
