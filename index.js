@@ -1,5 +1,6 @@
 import React from 'react';
 
-import Switch from './components/switch.jsx';
+import ZiltagApp from './components/ziltag-app';
 
-React.render(<Switch></Switch>, document.body);
+
+React.render(<ZiltagApp></ZiltagApp>, document.getElementsByTagName('ziltagapp')[0]);
