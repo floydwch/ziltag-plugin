@@ -5,7 +5,7 @@ import webpackStream from 'webpack-stream';
 import WebpackDevServer from 'webpack-dev-server';
 import ghPages from 'gulp-gh-pages';
 
-import webpackConfig from './webpack.config.js';
+import webpackConfig from './webpack.config';
 
 
 gulp.task('clean', (cb) => {
