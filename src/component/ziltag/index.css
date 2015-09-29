@@ -1,0 +1,7 @@
+.ziltag-ziltag {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: url(ziltag.png);
+    cursor: pointer;
+}

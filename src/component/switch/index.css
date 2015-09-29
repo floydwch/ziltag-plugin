@@ -1,0 +1,11 @@
+.ziltag-switch {
+    width: 52px;
+    height: 59px;
+    float: right;
+    background: url(switch-init.png);
+    cursor: pointer;
+}
+
+.ziltag-switch:hover {
+    background: url(switch-on.png);
+}

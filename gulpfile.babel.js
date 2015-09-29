@@ -1,12 +1,11 @@
 import gulp from 'gulp';
-import babel from 'gulp-babel';
-import uglify from 'gulp-uglify';
 import del from 'del';
-import webpack from 'webpack-stream';
-import merge from 'merge2';
+import webpack from 'webpack';
+import webpackStream from 'webpack-stream';
+import WebpackDevServer from 'webpack-dev-server';
 import ghPages from 'gulp-gh-pages';
 
-import webpack_config from './webpack.config.js';
+import webpackConfig from './webpack.config';
 
 
 gulp.task('clean', (cb) => {
@@ -14,27 +13,30 @@ gulp.task('clean', (cb) => {
     del(['demo/app/dist/ziltag-plugin.js'], cb);
 });
 
+gulp.task('serve', ['clean'], () => {
+    new WebpackDevServer(webpack(webpackConfig), {
+        publicPath: webpackConfig.output.publicPath,
+        contentBase: 'demo/app',
+        hot: true,
+        historyApiFallback: true
+    }).listen(3000, 'localhost', (err, result) => {
+        if(err) {
+            console.log(err);
+        }
+        console.log('Listening at localhost:3000');
+    });
+});
+
 gulp.task('build', ['clean'], (cb) => {
-    let index = gulp.src('index.js')
-        .pipe(babel());
-
-    let modules = gulp.src('lib/*.js')
-        .pipe(babel());
-
-    return merge([index, modules])
-        .pipe(webpack(webpack_config))
-        .pipe(uglify())
+    return gulp.src('index.js')
+        .pipe(webpackStream(webpackConfig, webpack))
         .pipe(gulp.dest('dist'))
         .pipe(gulp.dest('demo/app/dist'));
 });
 
-gulp.task('watch', () =>  {
-    gulp.watch(['index.js', 'index.css', 'lib/*', 'img/*'], ['build']);
-});
-
 gulp.task('deploy', ['clean', 'build'], () => {
-    return gulp.src('./demo/app/**/*')
+    return gulp.src('demo/app/**/*')
         .pipe(ghPages());
 });
 
-gulp.task('default', ['clean', 'build', 'watch']);
+gulp.task('default', ['clean', 'build']);
