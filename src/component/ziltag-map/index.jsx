@@ -33,7 +33,7 @@ class ZiltagMap extends React.Component {
           working_ziltag_preview.ziltag_id == raw_ziltag.id
       ) {
         var is_focused = true;
-      } else{
+      } else {
         var is_focused = false;
       }
 
