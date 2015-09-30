@@ -23,7 +23,7 @@ class ZiltagMap extends React.Component {
       height
     };
 
-    const is_working = working_ziltag_map.map_id == map_id;
+    const is_working = map_id && working_ziltag_map.map_id == map_id;
 
     let ziltags = [];
     for (let i = 0; i < (raw_ziltags || []).length; ++i) {
