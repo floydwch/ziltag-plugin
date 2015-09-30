@@ -17,9 +17,8 @@ class ZiltagPreview extends React.Component {
 
     return  <div className={preview_class}>
       <div className='ziltag-ziltag-preview__board'>
-        {content}
-        <br/>
-        by {usr}
+        <div className='ziltag-ziltag-preview__board__content'>{content}</div>
+        <div className='ziltag-ziltag-preview__board__publisher'>by {usr}</div>
       </div>
       <div className={arrow_class}></div>
     </div>;
