@@ -19,6 +19,7 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.debug = true;
   dev_webpack_config.entry.push('webpack-dev-server/client?http://localhost:3000');
   dev_webpack_config.entry.push('webpack/hot/only-dev-server');
+  dev_webpack_config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
   new WebpackDevServer(webpack(dev_webpack_config), {
     publicPath: dev_webpack_config.output.publicPath,
