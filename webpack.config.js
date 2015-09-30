@@ -5,11 +5,8 @@ import postcss_nesting from 'postcss-nesting';
 
 
 module.exports = {
-  devtool: 'source-map',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000', // WebpackDevServer host and port
-    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    './src/index' // Your appʼs entry point
+    './src/index'
     ],
     output: {
       filename: 'ziltag-plugin.js',
@@ -21,9 +18,9 @@ module.exports = {
     },
     module: {
       loaders: [
-      { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['react-hot', 'babel?optional[]=runtime'] },
-      { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
-      { test: /\.(png|jpg|eot)$/, loader: 'url' }
+        { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['react-hot', 'babel?optional[]=runtime'] },
+        { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
+        { test: /\.(png|jpg|eot)$/, loader: 'url' }
       ]
     },
     plugins: [
