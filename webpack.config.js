@@ -21,7 +21,7 @@ module.exports = {
     },
     module: {
       loaders: [
-      { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['react-hot', 'babel'] },
+      { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['react-hot', 'babel?optional[]=runtime'] },
       { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
       { test: /\.(png|jpg|eot)$/, loader: 'url' }
       ]

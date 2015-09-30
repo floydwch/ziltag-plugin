@@ -38,6 +38,7 @@
     "webpack-stream": "^2.1.0"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.25",
     "classnames": "^2.1.4",
     "node-uuid": "^1.4.3",
     "react": "^0.13.3",
