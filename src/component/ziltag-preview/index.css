@@ -13,9 +13,8 @@
 .ziltag-ziltag-preview__board {
     width: 150px;
     height: 40px;
-    background: rgba(204, 204, 204, 0.4);
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 5px;
-    opacity: 0.9;
     padding: 10px;
     overflow: hidden;
     font-size: 15px;
