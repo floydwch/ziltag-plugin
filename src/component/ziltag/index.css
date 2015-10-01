@@ -1,5 +1,6 @@
 .ziltag-ziltag {
     position: absolute;
+    /*z-index: 1;*/
     width: 24px;
     height: 24px;
     background: url(ziltag.png);

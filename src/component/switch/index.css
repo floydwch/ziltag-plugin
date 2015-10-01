@@ -1,6 +1,8 @@
 .ziltag-switch {
+    position: relative;
     width: 52px;
     height: 59px;
+    z-index: 2;
     float: right;
     background: url(switch-init.png);
     cursor: pointer;
