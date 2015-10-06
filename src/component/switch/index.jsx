@@ -10,7 +10,14 @@ class Switch extends React.Component {
     return <div
       style={style}
       className='ziltag-switch'
-      onClick={() => actions.open_ziltag_reader(map_id)}
+      onClick={() => actions.activate_ziltag_reader(map_id)}
+      onMouseLeave={
+        (e) => {
+          if (e.nativeEvent.relatedTarget.nodeName != 'IMG') {
+            actions.deactivate_ziltag_map();
+          }
+        }
+      }
     >
     </div>;
   }
