@@ -18,25 +18,29 @@ class ZiltagApp extends Component {
 
     const actions = bindActionCreators(app_actions, dispatch);
 
-    return (
-      <div>
-        <ZiltagMap
-          actions={actions}
-          map_id={ziltag_map.map_id}
-          x={ziltag_map.x}
-          y={ziltag_map.y}
-          width={ziltag_map.width}
-          height={ziltag_map.height}
-          ziltags={ziltag_map.ziltags}
-          ziltag_preview={ziltag_preview}
-        />
-        <ZiltagReader
-          actions={actions}
-          map_id={ziltag_reader.map_id}
-          ziltag_id={ziltag_reader.ziltag_id}
-        />
-      </div>
-    );
+    return <div>
+        {
+          ziltag_map.map_id &&
+          <ZiltagMap
+            actions={actions}
+            map_id={ziltag_map.map_id}
+            x={ziltag_map.x}
+            y={ziltag_map.y}
+            width={ziltag_map.width}
+            height={ziltag_map.height}
+            ziltags={ziltag_map.ziltags}
+            ziltag_preview={ziltag_preview}
+          />
+        }
+        {
+          ziltag_reader.map_id &&
+          <ZiltagReader
+            actions={actions}
+            map_id={ziltag_reader.map_id}
+            ziltag_id={ziltag_reader.ziltag_id}
+          />
+        }
+    </div>;
   }
 }
 
