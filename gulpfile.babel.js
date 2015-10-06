@@ -8,13 +8,13 @@ import ghPages from 'gulp-gh-pages';
 import webpack_config from './webpack.config';
 
 
-gulp.task('clean', (cb) => {
+gulp.task('clean', (done) => {
   del(['dist']);
-  del(['demo/app/dist/ziltag-plugin.js'], cb);
+  del(['demo/app/dist/ziltag-plugin.js'], done);
 });
 
 gulp.task('serve', ['clean'], () => {
-  let dev_webpack_config = Object.assign({}, webpack_config);
+  const dev_webpack_config = Object.assign({}, webpack_config);
   dev_webpack_config.devtool = 'source-map';
   dev_webpack_config.debug = true;
   dev_webpack_config.entry.push('webpack-dev-server/client?http://localhost:3000');
@@ -35,7 +35,7 @@ gulp.task('serve', ['clean'], () => {
 });
 
 gulp.task('build', ['clean'], (cb) => {
-  let pro_webpack_config = Object.assign({}, webpack_config);
+  const pro_webpack_config = Object.assign({}, webpack_config);
   pro_webpack_config.plugins = pro_webpack_config.plugins.concat(
     new webpack.DefinePlugin({
       'process.env': {
