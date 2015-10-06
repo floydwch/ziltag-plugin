@@ -2,31 +2,55 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import node_uuid from 'node-uuid';
 
 import ZiltagApp from './app';
 import ZiltagAppReducer from './reducer';
-import { init_ziltag_map, fetch_ziltags } from './action';
+import { activate_ziltag_map, deactivate_ziltag_map } from './action';
 
 
 document.addEventListener('DOMContentLoaded', () => {
   const store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer);
   const imgs = document.getElementsByTagName('img');
-  const API_ADDRESS = 'http://staging.ziltag.com/api/v1/ziltags?src=';
+
+  function is_outside(relatedTarget) {
+    if (relatedTarget == null) {
+      return true;
+    } else {
+      const check_names = [
+        'ziltag-switch',
+        'ziltag-ziltag',
+        'ziltag-ziltag-preview'
+      ];
+      for (const check_name of check_names) {
+        if (relatedTarget.className.indexOf(check_name) != -1) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  window.addEventListener('resize', () => {
+    store.dispatch(deactivate_ziltag_map());
+  });
 
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i];
-    const bind_id = node_uuid.v1();
 
-    img.addEventListener('load', () => {
-      store.dispatch(
-        init_ziltag_map(
-          bind_id, img.offsetLeft, img.offsetTop, img.width, img.height
-        )
-      );
+    img.addEventListener('mouseenter', (e) => {
+      const { offsetLeft, offsetTop, width, height, src } = img;
+      if (is_outside(e.relatedTarget)) {
+        store.dispatch(
+          activate_ziltag_map(
+            offsetLeft, offsetTop, width, height, src, location.href)
+        );
+      }
     });
-
-    store.dispatch(fetch_ziltags(bind_id, img.src));
+    img.addEventListener('mouseleave', (e) => {
+      if (is_outside(e.relatedTarget)) {
+        store.dispatch(deactivate_ziltag_map());
+      }
+    });
   }
 
   if (module.hot) {

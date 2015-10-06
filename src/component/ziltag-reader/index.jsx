@@ -16,7 +16,7 @@ class ZiltagReader extends React.Component {
       }
 
       return  <div
-        onClick={actions.close_ziltag_reader}
+        onClick={actions.deactivate_ziltag_reader}
         className='ziltag-ziltag-reader__cover'
       >
         <iframe className='ziltag-ziltag-reader' src={src}></iframe>

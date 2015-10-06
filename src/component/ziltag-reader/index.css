@@ -1,6 +1,5 @@
 .ziltag-ziltag-reader {
     position: fixed;
-    z-index: 1;
     top: 10%;
     left: 5%;
     width: 90%;
@@ -10,7 +9,7 @@
 
 .ziltag-ziltag-reader__cover {
     position: fixed;
-    z-index: 0;
+    z-index: 3;
     top: 0;
     left: 0;
     width: 100%;

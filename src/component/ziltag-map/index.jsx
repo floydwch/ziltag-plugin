@@ -10,57 +10,44 @@ class ZiltagMap extends React.Component {
   render() {
     const {
       x, y, width, height, map_id,
-      ziltags: raw_ziltags,
-      working_ziltag_map,
-      working_ziltag_preview,
+      ziltags,
+      ziltag_preview,
       actions
     } = this.props;
 
     const style = {
       top: y,
-      left: x,
-      width,
-      height
+      left: x
     };
 
-    const is_working = map_id && working_ziltag_map.map_id == map_id;
+    const tag_ziltags = [];
+    for (let i = 0; i < (ziltags || []).length; ++i) {
+      const ziltag = ziltags[i];
 
-    let ziltags = [];
-    for (let i = 0; i < (raw_ziltags || []).length; ++i) {
-      const raw_ziltag = raw_ziltags[i];
-
-      if (working_ziltag_preview.map_id == map_id &&
-          working_ziltag_preview.ziltag_id == raw_ziltag.id
-      ) {
-        var is_focused = true;
-      } else {
-        var is_focused = false;
-      }
-
-      ziltags.push(
+      tag_ziltags.push(
         <Ziltag
           key={i}
           actions={actions}
-          ziltag_id={raw_ziltag.id}
+          ziltag_id={ziltag.id}
           map_id={map_id}
-          x={raw_ziltag.x * width}
-          y={raw_ziltag.y * height}
-          preview={raw_ziltag.preview}
-          usr={raw_ziltag.usr}
-          preview_direction={raw_ziltag.x >= 0.5 ? 'left' : 'right'}
-          is_focused={is_focused}
+          x={ziltag.x * width}
+          y={ziltag.y * height}
+          preview={ziltag.preview}
+          usr={ziltag.usr}
+          preview_direction={ziltag.x >= 0.5 ? 'left' : 'right'}
+          is_focused={ziltag.id && ziltag_preview.ziltag_id == ziltag.id}
         />
       );
     }
 
+    const switch_width = 52;
+
     return <div
       style={style}
       className='ziltag-ziltag-map'
-      onMouseEnter={() => actions.activate_ziltag_map(map_id)}
-      onMouseLeave={actions.deactivate_ziltag_map}
     >
-      {is_working && <Switch map_id={map_id} actions={actions}/>}
-      {is_working && ziltags}
+      <Switch map_id={map_id} x={width - switch_width} y={0} actions={actions}/>
+      {tag_ziltags}
     </div>;
   }
 }
