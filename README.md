@@ -1,6 +1,6 @@
 # ziltag-plugin
 
-## Production Build
+## Build
 Install dependencies first.
 
 `npm install`
@@ -14,3 +14,11 @@ To build a production version.
 `gulp build --production`
 
 The plugin will thus be built as `/dist/ziltag-plugin.js`.
+
+## Installation
+
+Embed following script into the page. The `data-ziltag` should be filled with the token which assigned to the user.
+
+```
+<script src="dist/ziltag-plugin.js" data-ziltag='d3d4b9'></script>
+```

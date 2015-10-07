@@ -1,8 +1,7 @@
-export function activate_ziltag_map(x, y, width, height, src, href) {
-  const dev_token = 'd3d4b9';
+export function activate_ziltag_map(x, y, width, height, token, src, href) {
   return dispatch => {
     return fetch(`${SERVER_ADDRESS}/api/v1/ziltags/` +
-      `?token=${dev_token}&src=${src}&href=${href}`)
+      `?token=${token}&src=${src}&href=${href}`)
       .then(resp => resp.json())
       .then(json => {
         const { map: map_id, ziltags } = json;

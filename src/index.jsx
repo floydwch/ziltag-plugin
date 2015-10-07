@@ -11,6 +11,7 @@ import { activate_ziltag_map, deactivate_ziltag_map } from './action';
 document.addEventListener('DOMContentLoaded', () => {
   const store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer);
   const imgs = document.getElementsByTagName('img');
+  const scripts = document.getElementsByTagName('script');
 
   function is_outside(relatedTarget) {
     if (relatedTarget == null) {
@@ -34,6 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
     store.dispatch(deactivate_ziltag_map());
   });
 
+  for (let i = 0; i < scripts.length; ++i) {
+    const script = scripts[i];
+    if (script.dataset.ziltag) {
+      var ziltag_token = script.dataset.ziltag;
+    }
+  }
+
+  if (!ziltag_token) {
+    console.error('Must give a token to setup Ziltag.');
+  }
+
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i];
 
@@ -42,7 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
           activate_ziltag_map(
-            offsetLeft, offsetTop, width, height, src, location.href)
+            offsetLeft, offsetTop, width, height,
+            ziltag_token, src, location.href
+          )
         );
       }
     });
