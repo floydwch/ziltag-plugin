@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { SERVER_ADDRESS } from '../../config';
-
 require('./index.css');
 
 
 class ZiltagReader extends React.Component {
   render() {
     const { map_id, ziltag_id, actions } = this.props;
-    const src = `${SERVER_ADDRESS}/ziltags/${map_id}/${ziltag_id || ''}`;
+    const src = `${SERVER_ADDRESS}/ziltags/` + `
+      ${map_id}/${ziltag_id || ''}`;
 
     return  <div
       onClick={actions.deactivate_ziltag_reader}

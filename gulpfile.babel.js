@@ -4,6 +4,7 @@ import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
 import WebpackDevServer from 'webpack-dev-server';
 import ghPages from 'gulp-gh-pages';
+import { argv } from 'yargs';
 
 import webpack_config from './webpack.config';
 
@@ -17,9 +18,16 @@ gulp.task('serve', ['clean'], () => {
   const dev_webpack_config = Object.assign({}, webpack_config);
   dev_webpack_config.devtool = 'source-map';
   dev_webpack_config.debug = true;
-  dev_webpack_config.entry.push('webpack-dev-server/client?http://localhost:3000');
-  dev_webpack_config.entry.push('webpack/hot/only-dev-server');
-  dev_webpack_config.plugins.push(new webpack.HotModuleReplacementPlugin());
+  dev_webpack_config.entry = dev_webpack_config.entry.concat(
+    'webpack-dev-server/client?http://localhost:4000',
+    'webpack/hot/only-dev-server'
+  );
+  dev_webpack_config.plugins = dev_webpack_config.plugins.concat(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      SERVER_ADDRESS: JSON.stringify('localhost:3000')
+    })
+  );
 
   new WebpackDevServer(webpack(dev_webpack_config), {
     publicPath: dev_webpack_config.output.publicPath,
@@ -41,7 +49,11 @@ gulp.task('build', ['clean'], (cb) => {
       'process.env': {
         // This has effect on the react lib size
         'NODE_ENV': JSON.stringify('production')
-      }
+      },
+      SERVER_ADDRESS:
+        argv.staging
+        ? JSON.stringify('staging.ziltag.com')
+        : JSON.stringify('ziltag.com')
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()

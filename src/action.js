@@ -1,11 +1,7 @@
-import { SERVER_ADDRESS } from './config';
-
-
 export function activate_ziltag_map(x, y, width, height, src, href) {
   const dev_token = 'd3d4b9';
   return dispatch => {
-    return fetch(
-      `${SERVER_ADDRESS}/api/v1/ziltags/` +
+    return fetch(`${SERVER_ADDRESS}/api/v1/ziltags/` +
       `?token=${dev_token}&src=${src}&href=${href}`)
       .then(resp => resp.json())
       .then(json => {
