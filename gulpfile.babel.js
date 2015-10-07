@@ -51,9 +51,9 @@ gulp.task('build', ['clean'], (cb) => {
         'NODE_ENV': JSON.stringify('production')
       },
       SERVER_ADDRESS:
-        argv.staging
-        ? JSON.stringify('staging.ziltag.com')
-        : JSON.stringify('ziltag.com')
+        argv.production
+        ? JSON.stringify('ziltag.com')
+        : JSON.stringify('staging.ziltag.com')
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
