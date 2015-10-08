@@ -50,11 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = imgs[i];
 
     img.addEventListener('mouseenter', (e) => {
-      const { offsetLeft, offsetTop, width, height, src } = img;
+      const { width, height, src } = img;
+      const { left, top } = img.getBoundingClientRect();
+
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
           activate_ziltag_map(
-            offsetLeft, offsetTop, width, height,
+            left, top, width, height,
             ziltag_token, src, location.href
           )
         );
