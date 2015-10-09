@@ -51,7 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     img.addEventListener('mouseenter', (e) => {
       const { width, height, src } = img;
-      const { left, top } = img.getBoundingClientRect();
+      const rect = img.getBoundingClientRect();
+      const left = rect.left + document.body.scrollLeft;
+      const top = rect.top + document.body.scrollTop;
 
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
