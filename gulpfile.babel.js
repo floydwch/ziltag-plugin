@@ -11,7 +11,7 @@ import webpack_config from './webpack.config';
 
 gulp.task('clean', (done) => {
   del(['dist']);
-  del(['demo/app/dist/ziltag-plugin.js'], done);
+  del(['demo/app/dist'], done);
 });
 
 gulp.task('serve', ['clean'], () => {
