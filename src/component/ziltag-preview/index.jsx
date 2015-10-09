@@ -7,6 +7,7 @@ require('./index.css');
 class ZiltagPreview extends React.Component {
   render() {
     const { direction, content, usr } = this.props;
+    const style = { zIndex: 1001 };
 
     if (direction == 'right') {
       var preview_class = 'ziltag-ziltag-preview--right';
@@ -16,7 +17,7 @@ class ZiltagPreview extends React.Component {
       var preview_board_class = 'ziltag-ziltag-preview__board--left';
     }
 
-    return  <div className={classNames('ziltag-ziltag-preview', preview_class)}>
+    return  <div style={style} className={classNames('ziltag-ziltag-preview', preview_class)}>
       <div className={
         classNames('ziltag-ziltag-preview__board', preview_board_class)
       }>

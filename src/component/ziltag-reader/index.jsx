@@ -8,10 +8,12 @@ class ZiltagReader extends React.Component {
     const { map_id, ziltag_id, actions } = this.props;
     const src = `${SERVER_ADDRESS}/ziltags/` +
     `${map_id}/${ziltag_id || ''}`;
+    const style = { zIndex: 1003 };
 
     return  <div
-      onClick={actions.deactivate_ziltag_reader}
+      style={style}
       className='ziltag-ziltag-reader__cover'
+      onClick={actions.deactivate_ziltag_reader}
     >
       <iframe className='ziltag-ziltag-reader' src={src}></iframe>
     </div>;

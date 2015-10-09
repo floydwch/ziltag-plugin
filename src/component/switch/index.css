@@ -2,7 +2,6 @@
     position: absolute;
     width: 52px;
     height: 59px;
-    z-index: 1002;
     background: url(switch-init.png);
     cursor: pointer;
 }
