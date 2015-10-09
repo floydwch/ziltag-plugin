@@ -20,5 +20,5 @@ The plugin will thus be built as `/dist/ziltag-plugin.js`.
 Embed following script into the page. The `data-ziltag` should be filled with the token which assigned to the user.
 
 ```
-<script src="dist/ziltag-plugin.js" data-ziltag="d3d4b9"></script>
+<script src="https://ziltag.github.io/ziltag-plugin/dist/ziltag-plugin.js" data-ziltag="d3d4b9"></script>
 ```
