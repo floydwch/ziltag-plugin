@@ -8,7 +8,7 @@ class ZiltagReader extends React.Component {
     const { map_id, ziltag_id, actions } = this.props;
     const src = `${SERVER_ADDRESS}/ziltags/` +
     `${map_id}/${ziltag_id || ''}`;
-    const style = { zIndex: 1004 };
+    const style = { zIndex: MAX_Z_INDEX };
 
     return  <div
       style={style}

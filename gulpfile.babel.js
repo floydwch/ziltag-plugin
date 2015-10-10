@@ -9,6 +9,10 @@ import { argv } from 'yargs';
 import webpack_config from './webpack.config';
 
 
+const common_define = {
+  MAX_Z_INDEX: 2147483647
+};
+
 gulp.task('clean', (done) => {
   del(['dist']);
   del(['demo/app/dist'], done);
@@ -24,9 +28,9 @@ gulp.task('serve', ['clean'], () => {
   );
   dev_webpack_config.plugins = dev_webpack_config.plugins.concat(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
+    new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS: JSON.stringify('http://localhost:3000')
-    })
+    }))
   );
 
   new WebpackDevServer(webpack(dev_webpack_config), {
@@ -45,16 +49,16 @@ gulp.task('serve', ['clean'], () => {
 gulp.task('build', ['clean'], (cb) => {
   const pro_webpack_config = Object.assign({}, webpack_config);
   pro_webpack_config.plugins = pro_webpack_config.plugins.concat(
-    new webpack.DefinePlugin({
+    new webpack.DefinePlugin(Object.assign({}, common_define, {
       'process.env': {
         // This has effect on the react lib size
-        'NODE_ENV': JSON.stringify('production')
+        NODE_ENV: JSON.stringify('production')
       },
       SERVER_ADDRESS:
         argv.production
         ? JSON.stringify('http://ziltag.com')
         : JSON.stringify('http://staging.ziltag.com')
-    }),
+    })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
   );

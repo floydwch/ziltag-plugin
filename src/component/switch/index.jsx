@@ -6,7 +6,7 @@ require('./index.css');
 class Switch extends React.Component {
   render() {
     const { map_id, x, y, actions } = this.props;
-    const style = { top: y, left: x, zIndex: 1003 };
+    const style = { top: y, left: x, zIndex: MAX_Z_INDEX - 1 };
     return <div
       style={style}
       className='ziltag-switch'

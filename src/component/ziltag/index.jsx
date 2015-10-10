@@ -12,7 +12,7 @@ class Ziltag extends React.Component {
     const style = {
       top: y - radius,
       left: x - radius,
-      zIndex: 1001
+      zIndex: MAX_Z_INDEX - 3
     };
 
     return <div
