@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Ziltag from '../ziltag';
+import ZiltagPreview from '../ziltag-preview'
 import Switch from '../switch';
 
 require('./index.css');
@@ -32,12 +33,19 @@ class ZiltagMap extends React.Component {
           map_id={map_id}
           x={ziltag.x * width}
           y={ziltag.y * height}
-          preview={ziltag.preview}
-          usr={ziltag.usr}
-          preview_direction={ziltag.x >= 0.5 ? 'left' : 'right'}
           is_focused={ziltag.id && ziltag_preview.ziltag_id == ziltag.id}
         />
       );
+
+      if (ziltag.id && ziltag_preview.ziltag_id == ziltag.id) {
+        var tag_ziltag_preview = <ZiltagPreview
+          x={ziltag.x * width}
+          y={ziltag.y * height}
+          direction={ziltag.x >= 0.5 ? 'left' : 'right'}
+          content={ziltag.preview}
+          usr={ziltag.usr}
+        />;
+      }
     }
 
     const switch_width = 52;
@@ -48,6 +56,7 @@ class ZiltagMap extends React.Component {
     >
       <Switch map_id={map_id} x={width - switch_width} y={0} actions={actions}/>
       {tag_ziltags}
+      {tag_ziltag_preview}
     </div>;
   }
 }

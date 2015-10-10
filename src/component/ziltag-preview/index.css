@@ -3,6 +3,10 @@
   src: url(Roboto-Regular.ttf);
 }
 
+.ziltag-ziltag-preview__wrap {
+  position: absolute;
+}
+
 .ziltag-ziltag-preview {
   position: absolute;
   top: -18px;

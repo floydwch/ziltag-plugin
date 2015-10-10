@@ -10,7 +10,8 @@ import webpack_config from './webpack.config';
 
 
 const common_define = {
-  MAX_Z_INDEX: 2147483647
+  MAX_Z_INDEX: 2147483647,
+  ZILTAG_RADIUS: 12
 };
 
 gulp.task('clean', (done) => {
