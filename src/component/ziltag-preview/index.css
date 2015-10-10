@@ -28,10 +28,13 @@
 .ziltag-ziltag-preview__board__content {
   height: 30px;
   font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: rgba(0, 0, 0, .87);
 }
 
 .ziltag-ziltag-preview__board__publisher {
-  font-size: 12px;
+  line-height: 1.2;
   color: rgba(83, 83, 83, .54);
 }
