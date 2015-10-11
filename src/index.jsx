@@ -36,16 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const
       switch_width = 52,
       switch_height = 59,
-      ziltag_max_diameter = 46;
+      ziltag_radius = 12,
+      ziltag_max_radius = 23,
+      ziltag_preview_margin = 2,
+      ziltag_preview_width = 172,
+      ziltag_preview_height = 60;
 
     if (img.dataset.ziltag == 'false') {
       return false;
     }
 
-    if (width < switch_width || height < switch_height) {
-      return false;
-    } else if (width < switch_width + ziltag_max_diameter
-        && height < switch_height + ziltag_max_diameter) {
+    if (width / 2 < (ziltag_radius +
+      ziltag_preview_margin + ziltag_preview_width)
+      || height < (ziltag_max_radius + ziltag_preview_height)) {
       return false;
     }
 
