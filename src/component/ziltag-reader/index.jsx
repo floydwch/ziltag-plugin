@@ -12,7 +12,7 @@ class ZiltagReader extends React.Component {
 
     return  <div
       style={style}
-      className='ziltag-ziltag-reader__cover'
+      className='ziltag-ziltag-reader-cover'
       onClick={actions.deactivate_ziltag_reader}
     >
       <iframe className='ziltag-ziltag-reader' src={src}></iframe>
