@@ -31,6 +31,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function is_enabled(img) {
+    const { width, height } = img;
+    const
+      switch_width = 52,
+      switch_height = 59,
+      ziltag_max_diameter = 46;
+
+    if (img.dataset.ziltag == 'false') {
+      return false;
+    }
+
+    if (width < switch_width || height < switch_height) {
+      return false;
+    } else if (width < switch_width + ziltag_max_diameter
+        && height < switch_height + ziltag_max_diameter) {
+      return false;
+    }
+
+    return true;
+  }
+
   window.addEventListener('resize', () => {
     store.dispatch(deactivate_ziltag_map());
   });
@@ -49,27 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i];
 
-    if (img.dataset.ziltag == 'false') {
-      continue;
-    }
-
     img.addEventListener('mouseenter', (e) => {
+      if (!is_enabled(img)) {
+        return;
+      }
+
       const { width, height, src } = img;
       const rect = img.getBoundingClientRect();
       const left = rect.left + document.body.scrollLeft;
       const top = rect.top + document.body.scrollTop;
-
-      const
-        switch_width = 52,
-        switch_height = 59,
-        ziltag_max_diameter = 46;
-
-      if (width < switch_width || height < switch_height) {
-        return;
-      } else if (width < switch_width + ziltag_max_diameter
-          && height < switch_height + ziltag_max_diameter) {
-        return;
-      }
 
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
@@ -81,6 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     img.addEventListener('mouseleave', (e) => {
+      if (!is_enabled(img)) {
+        return;
+      }
+
       if (is_outside(e.relatedTarget)) {
         store.dispatch(deactivate_ziltag_map());
       }
