@@ -6,9 +6,10 @@ require('./index.css');
 class Ziltag extends React.Component {
   render() {
     const { ziltag_id, map_id, x, y, actions } = this.props;
+    const radius = 12;
     const style = {
-      top: y - ZILTAG_RADIUS,
-      left: x - ZILTAG_RADIUS,
+      top: y - radius,
+      left: x - radius,
       zIndex: MAX_Z_INDEX - 3
     };
 
