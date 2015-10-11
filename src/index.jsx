@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i];
 
+    if (img.dataset.ziltag == 'false') {
+      continue;
+    }
+
     img.addEventListener('mouseenter', (e) => {
       const { width, height, src } = img;
       const rect = img.getBoundingClientRect();
