@@ -59,6 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const left = rect.left + document.body.scrollLeft;
       const top = rect.top + document.body.scrollTop;
 
+      const
+        switch_width = 52,
+        switch_height = 59,
+        ziltag_max_diameter = 46;
+
+      if (width < switch_width || height < switch_height) {
+        return;
+      } else if (width < switch_width + ziltag_max_diameter
+          && height < switch_height + ziltag_max_diameter) {
+        return;
+      }
+
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
           activate_ziltag_map(
