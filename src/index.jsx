@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function is_enabled(img) {
     const { width, height } = img;
+
+    /*
     const
       switch_width = 52,
       switch_height = 59,
@@ -42,13 +44,27 @@ document.addEventListener('DOMContentLoaded', () => {
       ziltag_preview_width = 172,
       ziltag_preview_height = 60;
 
+    const theoretic_min_width = 2 * (ziltag_radius +
+      ziltag_preview_margin + ziltag_preview_width);
+
+    theoretic_min_width == 372;
+
+    const theoretic_min_height = ziltag_max_radius +
+      ziltag_preview_height;
+
+    theoretic_min_height == 83;
+
+    */
+
+    const
+      min_width = 400,
+      min_height = 100;
+
     if (img.dataset.ziltag == 'false') {
       return false;
     }
 
-    if (width / 2 < (ziltag_radius +
-      ziltag_preview_margin + ziltag_preview_width)
-      || height < (ziltag_max_radius + ziltag_preview_height)) {
+    if (width < min_width || height < min_height) {
       return false;
     }
 

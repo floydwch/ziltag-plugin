@@ -22,8 +22,11 @@ Embed following script into the page. The `data-ziltag` should be filled with th
 <script src="https://ziltag.github.io/ziltag-plugin/dist/ziltag-plugin.js" data-ziltag="d3d4b9"></script>
 ```
 
-## Attribute
+## Attributes
 ### Disable Ziltag on Specific Image
 To disable Ziltag on specific image, add a `data-ziltag="false"` attribute on the `img`.
 
 `<img src="...src" data-ziltag="false"/>`
+
+## Limits
+The `img`'s width must be greater than or equal to `400px`, height must be greater than or equal to `100px`.
