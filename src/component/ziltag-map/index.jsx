@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Ziltag from '../ziltag';
-import ZiltagPreview from '../ziltag-preview'
+import ZiltagPreview from '../ziltag-preview';
 import Switch from '../switch';
 
 require('./index.css');
@@ -37,11 +37,23 @@ class ZiltagMap extends React.Component {
         />
       );
 
+      if (ziltag.x >= 0.5) {
+        var side = 'right';
+      } else {
+        var side = 'left';
+      }
+
+      if (ziltag.y * height < 30) {
+        side = 'upper-' + side;
+      } else if (height - ziltag.y * height < 30) {
+        side = 'lower-' + side;
+      }
+
       if (ziltag.id && ziltag_preview.ziltag_id == ziltag.id) {
         var tag_ziltag_preview = <ZiltagPreview
           x={ziltag.x * width}
           y={ziltag.y * height}
-          direction={ziltag.x >= 0.5 ? 'left' : 'right'}
+          side={side}
           content={ziltag.preview}
           usr={ziltag.usr}
         />;

@@ -1,28 +1,37 @@
 @font-face {
-  font-family: roboto;
+  font-family: Roboto;
   src: url(Roboto-Regular.ttf);
-}
-
-.ziltag-ziltag-preview__wrap {
-  position: absolute;
 }
 
 .ziltag-ziltag-preview {
   position: absolute;
-  top: -18px;
   width: 172px;
   height: 60px;
-  font-family: roboto;
+  font-family: Roboto;
 }
 
 .ziltag-ziltag-preview--right {
-  left: 26px;
   background: url(preview-right.png);
 }
 
+.ziltag-ziltag-preview--upper-right {
+  background: url(preview-upper-right.png);
+}
+
+.ziltag-ziltag-preview--lower-right {
+  background: url(preview-lower-right.png);
+}
+
 .ziltag-ziltag-preview--left {
-  left: -174px;
   background: url(preview-left.png);
+}
+
+.ziltag-ziltag-preview--upper-left {
+  background: url(preview-upper-left.png);
+}
+
+.ziltag-ziltag-preview--lower-left {
+  background: url(preview-lower-left.png);
 }
 
 .ziltag-ziltag-preview__board {
@@ -31,7 +40,9 @@
   overflow: hidden;
 }
 
-.ziltag-ziltag-preview__board--right {
+.ziltag-ziltag-preview__board--left,
+.ziltag-ziltag-preview__board--upper-left,
+.ziltag-ziltag-preview__board--lower-left {
   margin-left: 19px;
 }
 
@@ -45,6 +56,6 @@
 }
 
 .ziltag-ziltag-preview__board__publisher {
-  line-height: 14px;
+  height: 14px;
   color: rgba(83, 83, 83, .54);
 }
