@@ -14,7 +14,8 @@ class ZiltagReader extends React.Component {
   }
 
   componentWillUnmount() {
-    if (document && document.body) {
+    if (document && document.body &&
+      this.state && this.state.ori_body_overflow != undefined) {
       document.body.style.overflow = this.state.ori_body_overflow;
     }
   }
