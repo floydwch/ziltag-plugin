@@ -6,17 +6,13 @@ require('./index.css');
 class ZiltagReader extends React.Component {
   componentWillMount() {
     if (document && document.body) {
-      this.setState({
-        ori_body_overflow: document.body.style.overflow
-      });
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('ziltag-ziltag-reader-activated');
     }
   }
 
   componentWillUnmount() {
-    if (document && document.body &&
-      this.state && this.state.ori_body_overflow != undefined) {
-      document.body.style.overflow = this.state.ori_body_overflow;
+    if (document && document.body) {
+      document.body.classList.remove('ziltag-ziltag-reader-activated');
     }
   }
 
