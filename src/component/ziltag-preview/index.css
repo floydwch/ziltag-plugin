@@ -1,13 +1,8 @@
-@font-face {
-  font-family: Roboto;
-  src: url(Roboto-Regular.ttf);
-}
-
 .ziltag-ziltag-preview {
   position: absolute;
   width: 172px;
   height: 60px;
-  font-family: Roboto;
+  font-family: Roboto, GillSans, Calibri, Trebuchet, sans-serif;
 }
 
 .ziltag-ziltag-preview--right {
