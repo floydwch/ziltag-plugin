@@ -32,15 +32,9 @@ export function deactivate_ziltag_preview() {
 }
 
 export function activate_ziltag_reader(map_id, ziltag_id) {
-  if (document && document.body) {
-    document.body.classList.add('ziltag-ziltag-reader-activated');
-  }
   return { type: 'ACTIVATE_ZILTAG_READER', map_id, ziltag_id };
 }
 
 export function deactivate_ziltag_reader() {
-  if (document && document.body) {
-    document.body.classList.remove('ziltag-ziltag-reader-activated');
-  }
   return { type: 'DEACTIVATE_ZILTAG_READER' };
 }

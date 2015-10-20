@@ -28,9 +28,15 @@ function ziltag_preview(state={}, action) {
 function ziltag_reader(state={}, action) {
   switch (action.type) {
     case 'ACTIVATE_ZILTAG_READER':
+      if (document && document.body) {
+        document.body.classList.add('ziltag-ziltag-reader-activated');
+      }
       const { map_id, ziltag_id } = action;
       return { map_id, ziltag_id };
     case 'DEACTIVATE_ZILTAG_READER':
+      if (document && document.body) {
+        document.body.classList.remove('ziltag-ziltag-reader-activated');
+      }
       return {};
     default:
       return state;
