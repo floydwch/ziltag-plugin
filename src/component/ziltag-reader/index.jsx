@@ -4,18 +4,6 @@ require('./index.css');
 
 
 class ZiltagReader extends React.Component {
-  componentWillMount() {
-    if (document && document.body) {
-      document.body.classList.add('ziltag-ziltag-reader-activated');
-    }
-  }
-
-  componentWillUnmount() {
-    if (document && document.body) {
-      document.body.classList.remove('ziltag-ziltag-reader-activated');
-    }
-  }
-
   render() {
     const { map_id, ziltag_id, actions } = this.props;
     const src = `${SERVER_ADDRESS}/ziltags/` +
