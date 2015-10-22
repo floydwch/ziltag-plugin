@@ -18,7 +18,7 @@ module.exports = {
     },
     module: {
       loaders: [
-        { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['react-hot', 'babel?optional[]=runtime'] },
+        { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loaders: ['babel?optional[]=runtime'] },
         { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
         { test: /\.(png|jpg|eot)$/, loader: 'url' },
         { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: 'file-loader' }
