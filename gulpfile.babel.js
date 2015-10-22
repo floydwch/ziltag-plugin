@@ -5,6 +5,7 @@ import webpackStream from 'webpack-stream';
 import WebpackDevServer from 'webpack-dev-server';
 import ghPages from 'gulp-gh-pages';
 import { argv } from 'yargs';
+import env from 'gulp-env';
 
 import webpack_config from './webpack.config';
 import common_define from './src/common_define';
@@ -44,13 +45,14 @@ gulp.task('serve', ['clean'], () => {
 });
 
 gulp.task('build', ['clean'], (cb) => {
+  env({
+    vars:{
+      NODE_ENV: 'production'
+    }
+  });
   const pro_webpack_config = Object.assign({}, webpack_config);
   pro_webpack_config.plugins = pro_webpack_config.plugins.concat(
     new webpack.DefinePlugin(Object.assign({}, common_define, {
-      'process.env': {
-        // This has effect on the react lib size
-        NODE_ENV: JSON.stringify('production')
-      },
       SERVER_ADDRESS:
         argv.production
         ? JSON.stringify('http://ziltag.com')
