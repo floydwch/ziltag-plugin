@@ -20,16 +20,16 @@ gulp.task('serve', ['clean'], () => {
   const dev_webpack_config = Object.assign({}, webpack_config);
   dev_webpack_config.devtool = 'source-map';
   dev_webpack_config.debug = true;
-  dev_webpack_config.entry = dev_webpack_config.entry.concat(
+  dev_webpack_config.entry = [...dev_webpack_config.entry,
     'webpack-dev-server/client?http://localhost:4000',
     'webpack/hot/only-dev-server'
-  );
-  dev_webpack_config.plugins = dev_webpack_config.plugins.concat(
+  ];
+  dev_webpack_config.plugins = [...dev_webpack_config.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS: JSON.stringify('http://localhost:3000')
     }))
-  );
+  ];
 
   new WebpackDevServer(webpack(dev_webpack_config), {
     publicPath: dev_webpack_config.output.publicPath,
@@ -51,7 +51,7 @@ gulp.task('build', ['clean'], (cb) => {
     }
   });
   const pro_webpack_config = Object.assign({}, webpack_config);
-  pro_webpack_config.plugins = pro_webpack_config.plugins.concat(
+  pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
         argv.production
@@ -60,7 +60,7 @@ gulp.task('build', ['clean'], (cb) => {
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
-  );
+  ];
 
   return gulp.src('index.js')
   .pipe(webpackStream(pro_webpack_config, webpack))
