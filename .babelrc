@@ -16,5 +16,5 @@
       }
     }
   },
-  "optional": ["runtime"]
+  "optional": ["runtime", "optimisation.react.constantElements", "optimisation.react.inlineElements"]
 }

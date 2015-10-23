@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -130,11 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const mount_node = document.createElement('div');
   document.body.appendChild(mount_node);
 
-  React.render(
-    // The child must be wrapped in a function
-    // to work around an issue in React 0.13.
+  ReactDOM.render(
     <Provider store={store}>
-      {() => <ZiltagApp />}
+      <ZiltagApp />
     </Provider>,
     mount_node
   );
