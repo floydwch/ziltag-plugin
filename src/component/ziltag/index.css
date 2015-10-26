@@ -13,13 +13,13 @@
   border: 3px solid rgba(255, 255, 255, .5);
   border-radius: 50%;
   box-shadow: 0 0 3px black, inset 0 0 3px black;
-  animation-name: bubble;
+  animation-name: ziltag-bubble;
   animation-duration: .38s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
 
-@keyframes bubble {
+@keyframes ziltag-bubble {
   from {
     width: 24px;
     height: 24px;
