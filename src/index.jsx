@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const
       switch_width = 52,
       switch_height = 59,
-      ziltag_radius = 12,
+      ziltag_radius = 6,
       ziltag_max_radius = 23,
       ziltag_preview_margin = 2,
       ziltag_preview_width = 172,
