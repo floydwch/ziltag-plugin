@@ -9,7 +9,7 @@ class ZiltagPreview extends React.Component {
     const { x, y, side, content, usr } = this.props;
     const style = { zIndex: MAX_Z_INDEX - 2 };
     const
-      ziltag_radius = 12,
+      ziltag_radius = 6,
       width = 172,
       height = 60,
       margin = 2;
