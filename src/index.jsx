@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         store.dispatch(
           activate_ziltag_map(
             left, top, width, height,
-            ziltag_token, src, location.href
+            ziltag_token, src, encodeURIComponent(location.href)
           )
         );
       }
