@@ -1,7 +1,9 @@
 export function activate_ziltag_map(x, y, width, height, token, src, href) {
   return dispatch => {
     return fetch(`${SERVER_ADDRESS}/api/v1/ziltags/` +
-      `?token=${token}&src=${src}&href=${href}`)
+      `?token=${token}` +
+      `&src=${encodeURIComponent(src)}` +
+      `&href=${encodeURIComponent(href)}`)
       .then(resp => resp.json())
       .then(json => {
         const { map: map_id, ziltags } = json;
