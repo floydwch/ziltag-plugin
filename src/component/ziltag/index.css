@@ -20,6 +20,7 @@
   border-radius: 30px;
   background: #0099ED;
   border: 5px solid #0099ED;
+  box-sizing: content-box;
   animation: ziltag-pulse 2s infinite;
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-text-stroke: 0.35px;
