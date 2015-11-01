@@ -7,7 +7,7 @@ import ghPages from 'gulp-gh-pages';
 import { argv } from 'yargs';
 import env from 'gulp-env';
 
-import webpack_config from './webpack.config';
+import webpack_config from './webpack.config.babel';
 import common_define from './src/common_define';
 
 
