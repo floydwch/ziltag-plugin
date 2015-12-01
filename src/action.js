@@ -3,21 +3,24 @@ export function activate_ziltag_map(x, y, width, height, token, src, href) {
     return fetch(`${SERVER_ADDRESS}/api/v1/ziltags/` +
       `?token=${token}` +
       `&src=${encodeURIComponent(src)}` +
-      `&href=${encodeURIComponent(href)}`)
-      .then(resp => resp.json())
-      .then(json => {
-        const { map: map_id, ziltags } = json;
-        const action = {
-          type: 'ACTIVATE_ZILTAG_MAP',
-          x,
-          y,
-          width,
-          height,
-          map_id,
-          ziltags
-        };
-        dispatch(action);
-      });
+      `&href=${encodeURIComponent(href)}` +
+      `&width=${width}` +
+      `&height=${height}`
+    )
+    .then(resp => resp.json())
+    .then(json => {
+      const { map: map_id, ziltags } = json;
+      const action = {
+        type: 'ACTIVATE_ZILTAG_MAP',
+        x,
+        y,
+        width,
+        height,
+        map_id,
+        ziltags
+      };
+      dispatch(action);
+    });
   };
 }
 
