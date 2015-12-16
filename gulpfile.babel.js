@@ -27,7 +27,8 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.plugins = [...dev_webpack_config.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(Object.assign({}, common_define, {
-      SERVER_ADDRESS: JSON.stringify('http://localhost:2000')
+      SERVER_ADDRESS: JSON.stringify('http://localhost:2000'),
+      API_ADDRESS: JSON.stringify('http://localhost:3000')
     }))
   ];
 
@@ -54,6 +55,10 @@ gulp.task('build', ['clean'], (cb) => {
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
+        argv.production
+        ? JSON.stringify('http://ziltag.com')
+        : JSON.stringify('http://staging.ziltag.com'),
+      API_ADDRESS:
         argv.production
         ? JSON.stringify('http://api.ziltag.com')
         : JSON.stringify('http://api.staging.ziltag.com')
