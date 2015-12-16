@@ -27,7 +27,7 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.plugins = [...dev_webpack_config.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(Object.assign({}, common_define, {
-      SERVER_ADDRESS: JSON.stringify('http://localhost:3000')
+      SERVER_ADDRESS: JSON.stringify('http://localhost:2000')
     }))
   ];
 
