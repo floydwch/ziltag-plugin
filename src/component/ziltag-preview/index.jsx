@@ -51,7 +51,7 @@ class ZiltagPreview extends React.Component {
         classNames('ziltag-ziltag-preview__board', preview_board_class)
       }>
         <div className='ziltag-ziltag-preview__board__content'>{content}</div>
-        <div style={{ fontSize: 12 }} className='ziltag-ziltag-preview__board__publisher'>by {usr}</div>
+        <div style={{ fontSize: 12 }} className='ziltag-ziltag-preview__board__publisher'>by {usr.name}</div>
       </div>
     </div>;
   }
