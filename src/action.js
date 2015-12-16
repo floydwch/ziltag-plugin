@@ -9,7 +9,7 @@ export function activate_ziltag_map(x, y, width, height, token, src, href) {
     )
     .then(resp => resp.json())
     .then(json => {
-      const { map: map_id, ziltags } = json;
+      const { id: map_id, ziltags } = json;
       const action = {
         type: 'ACTIVATE_ZILTAG_MAP',
         x,
