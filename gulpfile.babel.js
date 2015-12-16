@@ -55,8 +55,8 @@ gulp.task('build', ['clean'], (cb) => {
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
         argv.production
-        ? JSON.stringify('http://ziltag.com')
-        : JSON.stringify('http://staging.ziltag.com')
+        ? JSON.stringify('http://api.ziltag.com')
+        : JSON.stringify('http://api.staging.ziltag.com')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
