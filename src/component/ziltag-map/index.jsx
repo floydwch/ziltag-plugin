@@ -54,7 +54,7 @@ class ZiltagMap extends React.Component {
           x={ziltag.x * width}
           y={ziltag.y * height}
           side={side}
-          content={ziltag.preview}
+          content={ziltag.content}
           usr={ziltag.usr}
         />;
       }
