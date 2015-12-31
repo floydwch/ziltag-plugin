@@ -4,7 +4,6 @@ import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
 import WebpackDevServer from 'webpack-dev-server';
 import ghPages from 'gulp-gh-pages';
-import { argv } from 'yargs';
 import env from 'gulp-env';
 
 import webpack_config from './webpack.config.babel';
@@ -45,7 +44,7 @@ gulp.task('serve', ['clean'], () => {
   });
 });
 
-gulp.task('build', ['clean'], (cb) => {
+gulp.task('build:staging', (cb) => {
   env({
     vars:{
       NODE_ENV: 'production'
@@ -55,13 +54,9 @@ gulp.task('build', ['clean'], (cb) => {
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
-        argv.production
-        ? JSON.stringify('http://ziltag.com')
-        : JSON.stringify('http://staging.ziltag.com'),
+        JSON.stringify('http://staging.ziltag.com'),
       API_ADDRESS:
-        argv.production
-        ? JSON.stringify('http://api.ziltag.com')
-        : JSON.stringify('http://api.staging.ziltag.com')
+        JSON.stringify('http://api.staging.ziltag.com')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -69,13 +64,39 @@ gulp.task('build', ['clean'], (cb) => {
 
   return gulp.src('index.js')
   .pipe(webpackStream(pro_webpack_config, webpack))
-  .pipe(gulp.dest('dist'))
-  .pipe(gulp.dest('demo/app/dist'));
+  .pipe(gulp.dest('dist/staging'))
+  .pipe(gulp.dest('demo/app/dist/staging'));
 });
 
-gulp.task('deploy', ['clean', 'build'], () => {
-  return gulp.src('demo/app/**/*')
+gulp.task('build:production', (cb) => {
+  env({
+    vars:{
+      NODE_ENV: 'production'
+    }
+  });
+  const pro_webpack_config = Object.assign({}, webpack_config);
+  pro_webpack_config.plugins = [...pro_webpack_config.plugins,
+    new webpack.DefinePlugin(Object.assign({}, common_define, {
+      SERVER_ADDRESS:
+        JSON.stringify('http://ziltag.com'),
+      API_ADDRESS:
+        JSON.stringify('http://api.ziltag.com')
+    })),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  ];
+
+  return gulp.src('index.js')
+  .pipe(webpackStream(pro_webpack_config, webpack))
+  .pipe(gulp.dest('dist/production'))
+  .pipe(gulp.dest('demo/app/dist/production'));
+});
+
+gulp.task('build', ['clean', 'build:staging', 'build:production']);
+
+gulp.task('deploy', ['build'], () => {
+  return gulp.src('demo/app/*/*/*')
   .pipe(ghPages());
 });
 
-gulp.task('default', ['clean', 'build']);
+gulp.task('default', ['build']);
