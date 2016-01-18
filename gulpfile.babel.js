@@ -54,9 +54,9 @@ gulp.task('build:staging', (cb) => {
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
-        JSON.stringify('http://staging.ziltag.com'),
+        JSON.stringify('https://staging.ziltag.com'),
       API_ADDRESS:
-        JSON.stringify('http://api.staging.ziltag.com')
+        JSON.stringify('https://staging.ziltag.com')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -78,9 +78,9 @@ gulp.task('build:production', (cb) => {
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
-        JSON.stringify('http://ziltag.com'),
+        JSON.stringify('https://ziltag.com'),
       API_ADDRESS:
-        JSON.stringify('http://api.ziltag.com')
+        JSON.stringify('https://ziltag.com')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
