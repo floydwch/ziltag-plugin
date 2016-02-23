@@ -9,7 +9,7 @@ export function activate_ziltag_map(x, y, width, height, token, src, href) {
     )
     .then(resp => resp.json())
     .then(json => {
-      const { id: map_id, ziltags } = json;
+      const { id: map_id, ziltags } = json
       const action = {
         type: 'ACTIVATE_ZILTAG_MAP',
         x,
@@ -18,34 +18,34 @@ export function activate_ziltag_map(x, y, width, height, token, src, href) {
         height,
         map_id,
         ziltags
-      };
-      dispatch(action);
-    });
-  };
+      }
+      dispatch(action)
+    })
+  }
 }
 
 export function deactivate_ziltag_map() {
-  return { type: 'DEACTIVATE_ZILTAG_MAP' };
+  return { type: 'DEACTIVATE_ZILTAG_MAP' }
 }
 
 export function activate_ziltag_preview(map_id, ziltag_id) {
-  return { type: 'ACTIVATE_ZILTAG_PREVIEW', map_id, ziltag_id };
+  return { type: 'ACTIVATE_ZILTAG_PREVIEW', map_id, ziltag_id }
 }
 
 export function deactivate_ziltag_preview() {
-  return { type: 'DEACTIVATE_ZILTAG_PREVIEW' };
+  return { type: 'DEACTIVATE_ZILTAG_PREVIEW' }
 }
 
 export function activate_ziltag_reader(map_id, ziltag_id) {
   if (document && document.body) {
-    document.body.classList.add('ziltag-ziltag-reader-activated');
+    document.body.classList.add('ziltag-ziltag-reader-activated')
   }
-  return { type: 'ACTIVATE_ZILTAG_READER', map_id, ziltag_id };
+  return { type: 'ACTIVATE_ZILTAG_READER', map_id, ziltag_id }
 }
 
 export function deactivate_ziltag_reader() {
   if (document && document.body) {
-    document.body.classList.remove('ziltag-ziltag-reader-activated');
+    document.body.classList.remove('ziltag-ziltag-reader-activated')
   }
-  return { type: 'DEACTIVATE_ZILTAG_READER' };
+  return { type: 'DEACTIVATE_ZILTAG_READER' }
 }

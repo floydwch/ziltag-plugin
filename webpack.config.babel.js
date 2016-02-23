@@ -1,13 +1,13 @@
-import path from 'path';
-import webpack from 'webpack';
-import cssnano from 'cssnano';
-import postcss_nesting from 'postcss-nesting';
+import path from 'path'
+import webpack from 'webpack'
+import cssnano from 'cssnano'
+import postcss_nesting from 'postcss-nesting'
 
 
 module.exports = {
   entry: [
     './src/index'
-    ],
+  ],
   output: {
     filename: 'ziltag-plugin.js',
     path: path.join(__dirname, 'dist'),
@@ -30,6 +30,6 @@ module.exports = {
     })
   ],
   postcss: () => {
-    return [postcss_nesting, cssnano];
+    return [postcss_nesting, cssnano]
   }
-};
+}
