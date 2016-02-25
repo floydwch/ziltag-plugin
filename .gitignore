@@ -3,6 +3,7 @@ bower_components/*
 */node_modules/*
 */bower_components/*
 dist/*
-demo/app/dist
+demo/development/*
+demo/*/dist/*
 *.sublime-*
 .publish
