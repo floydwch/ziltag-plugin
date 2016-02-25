@@ -38,7 +38,7 @@
     "gulp-gh-pages": "^0.5.2",
     "imports-loader": "^0.6.4",
     "postcss-cssnext": "^2.4.0",
-    "postcss-loader": "^0.5.1",
+    "postcss-loader": "^0.8.1",
     "postcss-nesting": "^0.1.0",
     "react-transform-hmr": "^1.0.1",
     "style-loader": "^0.12.3",
