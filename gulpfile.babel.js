@@ -11,8 +11,7 @@ import common_define from './src/common_define'
 
 
 gulp.task('clean', (done) => {
-  del(['dist'])
-  del(['demo/app/dist'], done)
+  del(['dist'], done)
 })
 
 gulp.task('serve', ['clean'], () => {
@@ -26,14 +25,14 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.plugins = [...dev_webpack_config.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(Object.assign({}, common_define, {
-      SERVER_ADDRESS: JSON.stringify('http://localhost:2000'),
-      API_ADDRESS: JSON.stringify('http://localhost:3000')
+      SERVER_ADDRESS: JSON.stringify('https://staging.ziltag.com'),
+      API_ADDRESS: JSON.stringify('https://staging.ziltag.com')
     }))
   ]
 
   new WebpackDevServer(webpack(dev_webpack_config), {
     publicPath: dev_webpack_config.output.publicPath,
-    contentBase: 'demo/app',
+    contentBase: 'demo/staging/app',
     hot: true,
     historyApiFallback: true
   }).listen(4000, 'localhost', (err, result) => {
@@ -44,7 +43,7 @@ gulp.task('serve', ['clean'], () => {
   })
 })
 
-gulp.task('build:staging', (cb) => {
+gulp.task('build:staging', ['clean'], (cb) => {
   env({
     vars:{
       NODE_ENV: 'production'
@@ -56,7 +55,10 @@ gulp.task('build:staging', (cb) => {
       SERVER_ADDRESS:
         JSON.stringify('https://staging.ziltag.com'),
       API_ADDRESS:
-        JSON.stringify('https://staging.ziltag.com')
+        JSON.stringify('https://staging.ziltag.com'),
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -64,11 +66,11 @@ gulp.task('build:staging', (cb) => {
 
   return gulp.src('index.js')
   .pipe(webpackStream(pro_webpack_config, webpack))
-  .pipe(gulp.dest('dist/staging'))
-  .pipe(gulp.dest('demo/app/dist/staging'))
+  .pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('demo/staging/dist'))
 })
 
-gulp.task('build:production', (cb) => {
+gulp.task('build:production', ['clean'], (cb) => {
   env({
     vars:{
       NODE_ENV: 'production'
@@ -80,7 +82,10 @@ gulp.task('build:production', (cb) => {
       SERVER_ADDRESS:
         JSON.stringify('https://ziltag.com'),
       API_ADDRESS:
-        JSON.stringify('https://ziltag.com')
+        JSON.stringify('https://ziltag.com'),
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -88,15 +93,16 @@ gulp.task('build:production', (cb) => {
 
   return gulp.src('index.js')
   .pipe(webpackStream(pro_webpack_config, webpack))
-  .pipe(gulp.dest('dist/production'))
-  .pipe(gulp.dest('demo/app/dist/production'))
+  .pipe(gulp.dest('dist'))
+  .pipe(gulp.dest('demo/production/dist'))
 })
 
-gulp.task('build', ['clean', 'build:staging', 'build:production'])
-
-gulp.task('deploy', ['build'], () => {
-  return gulp.src('demo/app/*/*/*')
+gulp.task('deploy:staging', ['build:staging'], () => {
+  return gulp.src('demo/**/**/*', {base: './demo'})
   .pipe(ghPages())
 })
 
-gulp.task('default', ['build'])
+gulp.task('deploy:production', ['build:production'], () => {
+  return gulp.src('demo/**/**/*', {base: './demo'})
+  .pipe(ghPages())
+})

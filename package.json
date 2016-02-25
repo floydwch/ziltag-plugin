@@ -5,10 +5,11 @@
   "scripts": {
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "gulp serve",
     "build:staging": "gulp build:staging",
     "build:production": "gulp build:production",
-    "serve": "gulp serve",
-    "deploy": "gulp deploy"
+    "deploy:staging": "gulp deploy:staging",
+    "deploy:production": "gulp deploy:production"
   },
   "repository": {
     "type": "git",
