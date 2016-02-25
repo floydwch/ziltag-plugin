@@ -1,32 +1,29 @@
 .ziltag-ziltag {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 3px solid rgba(0, 0, 0, 0.75);
-  box-shadow: inset 0 0 1px rgba(151, 151, 151, 0.5);
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, .9);
+  border: 5px solid rgba(0, 0, 0, .45);
   border-radius: 50%;
+  box-shadow: inset 0 0 1px rgba(151, 151, 151, 1);
   box-sizing: border-box;
-  cursor: pointer;
 }
 
 .ziltag-ziltag::before {
   content: '';
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   position: absolute;
-  top: -17px;
-  left: -17px;
-  border-radius: 30px;
-  background: #0099ED;
-  border: 5px solid #0099ED;
+  top: -33px;
+  left: -33px;
+  border-radius: 60px;
+  background: rgba(0, 0, 0, .45);
+  border: 10px solid rgba(0, 0, 0, .45);
   box-sizing: content-box;
   animation: ziltag-pulse 2s infinite;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-text-stroke: 0.35px;
-  -webkit-transform: translate3d(0, 0, 0);
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
+  font-smoothing: subpixel-antialiased;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000;
   backface-visibility: hidden;
 }
 
