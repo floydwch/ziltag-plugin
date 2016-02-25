@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-require('./index.css');
+require('./index.css')
 
 
 class ZiltagReader extends React.Component {
@@ -16,8 +16,8 @@ class ZiltagReader extends React.Component {
       onClick={actions.deactivate_ziltag_reader}
     >
       <iframe className='ziltag-ziltag-reader' src={src}></iframe>
-    </div>;
+    </div>
   }
 }
 
-export default ZiltagReader;
+export default ZiltagReader

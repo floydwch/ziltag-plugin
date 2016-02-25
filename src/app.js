@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import * as app_actions from './action';
-import ZiltagMap from './component/ziltag-map';
-import ZiltagReader from './component/ziltag-reader';
+import * as app_actions from './action'
+import ZiltagMap from './component/ziltag-map'
+import ZiltagReader from './component/ziltag-reader'
 
 
 class ZiltagApp extends Component {
@@ -14,9 +14,9 @@ class ZiltagApp extends Component {
       ziltag_preview,
       ziltag_reader,
       dispatch
-    } = this.props;
+    } = this.props
 
-    const actions = bindActionCreators(app_actions, dispatch);
+    const actions = bindActionCreators(app_actions, dispatch)
 
     return <div>
         {
@@ -40,17 +40,17 @@ class ZiltagApp extends Component {
             ziltag_id={ziltag_reader.ziltag_id}
           />
         }
-    </div>;
+    </div>
   }
 }
 
 function mapStateToProps(state) {
-  const { ziltag_map, ziltag_preview, ziltag_reader } = state;
+  const { ziltag_map, ziltag_preview, ziltag_reader } = state
   return {
     ziltag_map,
     ziltag_preview,
     ziltag_reader
-  };
+  }
 }
 
-export default connect(mapStateToProps)(ZiltagApp);
+export default connect(mapStateToProps)(ZiltagApp)
