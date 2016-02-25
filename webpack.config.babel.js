@@ -1,7 +1,9 @@
 import path from 'path'
+
 import webpack from 'webpack'
 import cssnano from 'cssnano'
 import postcss_nesting from 'postcss-nesting'
+import postcss_cssnext from 'postcss-cssnext'
 
 
 module.exports = {
@@ -19,7 +21,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude:  /(node_modules|vendor)/, loader: 'babel' },
-      { test: /\.css$/, loader: 'style!css!postcss!cssnext' },
+      { test: /\.css$/, loader: 'style!css!postcss' },
       { test: /\.(png|jpg|eot)$/, loader: 'url' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, loader: 'file-loader' }
     ]
@@ -30,6 +32,6 @@ module.exports = {
     })
   ],
   postcss: () => {
-    return [postcss_nesting, cssnano]
+    return [postcss_nesting, postcss_cssnext, cssnano]
   }
 }
