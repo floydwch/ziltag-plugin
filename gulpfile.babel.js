@@ -11,7 +11,8 @@ import common_define from './src/common_define'
 
 
 gulp.task('clean', (done) => {
-  del(['dist'], done)
+  del(['dist'])
+  del(['demo/**/dist'], done)
 })
 
 gulp.task('serve', ['clean'], () => {
@@ -97,12 +98,7 @@ gulp.task('build:production', ['clean'], (cb) => {
   .pipe(gulp.dest('demo/production/dist'))
 })
 
-gulp.task('deploy:staging', ['build:staging'], () => {
-  return gulp.src('demo/**/**/*', {base: './demo'})
-  .pipe(ghPages())
-})
-
-gulp.task('deploy:production', ['build:production'], () => {
+gulp.task('deploy', ['build:staging', 'build:production'], () => {
   return gulp.src('demo/**/**/*', {base: './demo'})
   .pipe(ghPages())
 })

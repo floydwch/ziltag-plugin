@@ -8,8 +8,7 @@
     "serve": "gulp serve",
     "build:staging": "gulp build:staging",
     "build:production": "gulp build:production",
-    "deploy:staging": "gulp deploy:staging",
-    "deploy:production": "gulp deploy:production"
+    "deploy": "gulp deploy"
   },
   "repository": {
     "type": "git",
