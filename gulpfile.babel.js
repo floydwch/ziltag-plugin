@@ -32,7 +32,7 @@ gulp.task('serve', ['clean'], () => {
 
   new WebpackDevServer(webpack(dev_webpack_config), {
     publicPath: dev_webpack_config.output.publicPath,
-    contentBase: 'demo/staging/app',
+    contentBase: 'demo/development/app',
     hot: true,
     historyApiFallback: true
   }).listen(4000, 'localhost', (err, result) => {
