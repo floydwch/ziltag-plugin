@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import { activate_ziltag_map, deactivate_ziltag_map } from './action'
+import { activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader } from './action'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,6 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('resize', () => {
     store.dispatch(deactivate_ziltag_map())
+  })
+
+  window.addEventListener('message', ({data}) => {
+    if (data == 'deactivate_ziltag_reader') {
+      store.dispatch(deactivate_ziltag_reader())
+    }
   })
 
   for (let i = 0; i < scripts.length; ++i) {
