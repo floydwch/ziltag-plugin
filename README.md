@@ -23,4 +23,4 @@ To disable Ziltag on specific image, add a `data-ziltag="false"` attribute on th
 `<img src="...src" data-ziltag="false"/>`
 
 ## Limits
-The `img`'s width must be greater than or equal to `400px`, height must be greater than or equal to `100px`.
+The `img`'s width must be greater than or equal to `200px`, height must be greater than or equal to `100px`.
