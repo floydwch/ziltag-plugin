@@ -26,8 +26,8 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.plugins = [...dev_webpack_config.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin(Object.assign({}, common_define, {
-      SERVER_ADDRESS: JSON.stringify('https://ziltag.dev'),
-      API_ADDRESS: JSON.stringify('https://ziltag.dev')
+      SERVER_ADDRESS: JSON.stringify('http://ziltag.dev'),
+      API_ADDRESS: JSON.stringify('http://ziltag.dev')
     }))
   ]
 
