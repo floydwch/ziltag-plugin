@@ -105,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { width, height, src } = img
       const rect = img.getBoundingClientRect()
-      const left = rect.left + document.body.scrollLeft
-      const top = rect.top + document.body.scrollTop
+      const left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+      const top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
