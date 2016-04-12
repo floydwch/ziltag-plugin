@@ -11,6 +11,13 @@ import ZiltagAppReducer from './reducer'
 import { activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader } from './action'
 
 
+const roboto_font_link = document.createElement('link')
+roboto_font_link.rel = 'stylesheet'
+roboto_font_link.href = '//fonts.googleapis.com/css?family=Roboto:300,400,500'
+roboto_font_link.type = 'text/css'
+
+document.head.appendChild(roboto_font_link)
+
 document.addEventListener('DOMContentLoaded', () => {
   const store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer)
   const imgs = document.getElementsByTagName('img')
