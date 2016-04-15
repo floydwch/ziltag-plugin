@@ -136,9 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
     module.hot.accept('./reducer', () => {
-      const nextReducer = require('./reducer')
+      const nextReducer = require('./reducer').default
       store.replaceReducer(nextReducer)
     })
   }
