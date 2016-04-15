@@ -2,7 +2,6 @@ import path from 'path'
 
 import webpack from 'webpack'
 import cssnano from 'cssnano'
-import postcss_nesting from 'postcss-nesting'
 import postcss_cssnext from 'postcss-cssnext'
 
 
@@ -32,6 +31,6 @@ module.exports = {
     })
   ],
   postcss: () => {
-    return [postcss_nesting, postcss_cssnext, cssnano]
+    return [postcss_cssnext, cssnano]
   }
 }
