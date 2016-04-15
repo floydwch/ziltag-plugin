@@ -135,13 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  if (module.hot) {
-    module.hot.accept('./reducer', () => {
-      const nextReducer = require('./reducer').default
-      store.replaceReducer(nextReducer)
-    })
-  }
-
   const mount_node = document.createElement('div')
   document.body.appendChild(mount_node)
 
@@ -151,4 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
     </Provider>,
     mount_node
   )
+
+  if (module.hot) {
+    module.hot.accept('./app', () => {
+      const NextZiltagApp = require('./app').default
+      ReactDOM.render(
+        <Provider store={store}>
+          <NextZiltagApp />
+        </Provider>,
+        mount_node
+      )
+    })
+
+    module.hot.accept('./reducer', () => {
+      const nextReducer = require('./reducer').default
+      store.replaceReducer(nextReducer)
+    })
+  }
 })
