@@ -157,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     module.hot.accept('./reducer', () => {
-      const nextReducer = require('./reducer').default
-      store.replaceReducer(nextReducer)
+      const next_reducer = require('./reducer').default
+      store.replaceReducer(next_reducer)
     })
   }
 })
