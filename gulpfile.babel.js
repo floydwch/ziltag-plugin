@@ -20,7 +20,7 @@ gulp.task('serve', ['clean'], () => {
   dev_webpack_config.devtool = 'source-map'
   dev_webpack_config.debug = true
   dev_webpack_config.entry = [...dev_webpack_config.entry,
-    `webpack-dev-server/client?//localhost:${process.env.PORT || 4000}`,
+    `webpack-dev-server/client?http://localhost:${process.env.PORT || 4000}`,
     'webpack/hot/only-dev-server'
   ]
   dev_webpack_config.plugins = [...dev_webpack_config.plugins,
