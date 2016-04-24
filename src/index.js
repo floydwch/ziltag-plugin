@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
@@ -19,7 +19,28 @@ roboto_font_link.type = 'text/css'
 document.head.appendChild(roboto_font_link)
 
 document.addEventListener('DOMContentLoaded', () => {
-  const store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer)
+  if (process.env.NODE_ENV != 'production') {
+    const persistState = require('redux-devtools').persistState
+    const DevTools = require('./devtool').default
+
+    function getDebugSessionKey() {
+      const matches = window.location.href.match(/[?&]debug_session=([^&#]+)\b/)
+      return (matches && matches.length > 0) ? matches[1] : null
+    }
+
+    var store = createStore(
+      ZiltagAppReducer,
+      {},
+      compose(
+        applyMiddleware(thunk),
+        DevTools.instrument(),
+        persistState(getDebugSessionKey())
+      )
+    )
+  } else {
+    var store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer)
+  }
+
   const imgs = document.getElementsByTagName('img')
   const scripts = document.getElementsByTagName('script')
 
