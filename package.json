@@ -29,7 +29,7 @@
     "babel-preset-stage-0": "^6.0.15",
     "css-loader": "^0.15.6",
     "cssnano": "^2.1.1",
-    "cz-conventional-changelog": "^1.1.5",
+    "cz-conventional-changelog": "^1.1.6",
     "del": "^1.2.0",
     "exports-loader": "^0.6.2",
     "file-loader": "^0.8.4",
