@@ -1,6 +1,6 @@
 export function activate_ziltag_map(x, y, width, height, token, src, href) {
   return dispatch => {
-    return fetch(`${API_ADDRESS}/api/v1/ziltags/` +
+    return fetch(`${API_ADDRESS}/api/v1/ziltags` +
       `?token=${token}` +
       `&src=${encodeURIComponent(src)}` +
       `&href=${encodeURIComponent(href)}` +
