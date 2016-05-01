@@ -1,9 +1,5 @@
-node_modules/*
-bower_components/*
-*/node_modules/*
-*/bower_components/*
-dist/*
-demo/*/dist/*
+node_modules
+dist
 *.sublime-*
 .publish
 hotel.log
