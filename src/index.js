@@ -4,11 +4,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import { activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader } from './action'
+import {activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader} from './actor'
+import root_saga from './saga'
 
 
 const roboto_font_link = document.createElement('link')
@@ -19,6 +20,8 @@ roboto_font_link.type = 'text/css'
 document.head.appendChild(roboto_font_link)
 
 document.addEventListener('DOMContentLoaded', () => {
+  const sagaMiddleware = createSagaMiddleware()
+
   if (process.env.NODE_ENV != 'production') {
     const persistState = require('redux-devtools').persistState
     const DevTools = require('./devtool').default
@@ -32,14 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ZiltagAppReducer,
       {},
       compose(
-        applyMiddleware(thunk),
+        applyMiddleware(sagaMiddleware),
         DevTools.instrument(),
         persistState(getDebugSessionKey())
       )
     )
   } else {
-    var store = applyMiddleware(thunk)(createStore)(ZiltagAppReducer)
+    var store = applyMiddleware(sagaMiddleware)(createStore)(ZiltagAppReducer)
   }
+
+  sagaMiddleware.run(root_saga)
 
   const imgs = document.getElementsByTagName('img')
   const scripts = document.getElementsByTagName('script')
@@ -139,8 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (is_outside(e.relatedTarget)) {
         store.dispatch(
           activate_ziltag_map(
-            left, top, width, height,
-            ziltag_token, src, location.href
+            {
+              x: left,
+              y: top,
+              width,
+              height,
+              token: ziltag_token,
+              src,
+              href: location.href
+            }
           )
         )
       }

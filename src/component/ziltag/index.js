@@ -18,9 +18,9 @@ class Ziltag extends React.Component {
       style={style}
       onClick={() => {
         actions.deactivate_ziltag_map()
-        actions.activate_ziltag_reader(map_id, ziltag_id)
+        actions.activate_ziltag_reader({map_id, ziltag_id})
       }}
-      onMouseEnter={() => actions.activate_ziltag_preview(map_id, ziltag_id)}
+      onMouseEnter={() => actions.activate_ziltag_preview({map_id, ziltag_id})}
       onMouseLeave={actions.deactivate_ziltag_preview}
     ></div>
   }

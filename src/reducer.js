@@ -3,9 +3,8 @@ import { combineReducers } from 'redux'
 
 function ziltag_map(state={}, action) {
   switch (action.type) {
-    case 'ACTIVATE_ZILTAG_MAP':
-      const { x, y, width, height, map_id, ziltags } = action
-      return { x, y, width, height, map_id, ziltags }
+    case 'ZILTAG_MAP_ACTIVATED':
+      return action.payload
     case 'DEACTIVATE_ZILTAG_MAP':
       return {}
     default:
@@ -16,8 +15,7 @@ function ziltag_map(state={}, action) {
 function ziltag_preview(state={}, action) {
   switch (action.type) {
     case 'ACTIVATE_ZILTAG_PREVIEW':
-      const { map_id, ziltag_id } = action
-      return { map_id, ziltag_id }
+      return action.payload
     case 'DEACTIVATE_ZILTAG_PREVIEW':
       return {}
     default:
@@ -27,10 +25,9 @@ function ziltag_preview(state={}, action) {
 
 function ziltag_reader(state={}, action) {
   switch (action.type) {
-    case 'ACTIVATE_ZILTAG_READER':
-      const { map_id, ziltag_id } = action
-      return { map_id, ziltag_id }
-    case 'DEACTIVATE_ZILTAG_READER':
+    case 'ZILTAG_READER_ACTIVATED':
+      return action.payload
+    case 'ZILTAG_READER_DEACTIVATED':
       return {}
     default:
       return state
