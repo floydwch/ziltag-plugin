@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as app_actions from './action'
+import * as app_actors from './actor'
 import ZiltagMap from './component/ziltag-map'
 import ZiltagReader from './component/ziltag-reader'
 
@@ -25,7 +25,7 @@ class ZiltagApp extends Component {
       dispatch
     } = this.props
 
-    const actions = bindActionCreators(app_actions, dispatch)
+    const actions = bindActionCreators(app_actors, dispatch)
 
     if (process.env.NODE_ENV != 'production') {
       var DevTools = require('./devtool').default
