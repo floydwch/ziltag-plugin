@@ -4,6 +4,8 @@ import {createAction} from 'redux-actions'
 export const activate_ziltag_map = createAction('ACTIVATE_ZILTAG_MAP')
 export const deactivate_ziltag_map = createAction('DEACTIVATE_ZILTAG_MAP')
 export const ziltag_map_activated = createAction('ZILTAG_MAP_ACTIVATED')
+export const fetch_ziltag_map = createAction('FETCH_ZILTAG_MAP')
+export const ziltag_map_fetched = createAction('ZILTAG_MAP_FETCHED')
 export const activate_ziltag_preview = createAction('ACTIVATE_ZILTAG_PREVIEW')
 export const deactivate_ziltag_preview = createAction('DEACTIVATE_ZILTAG_PREVIEW')
 export const activate_ziltag_reader = createAction('ACTIVATE_ZILTAG_READER')

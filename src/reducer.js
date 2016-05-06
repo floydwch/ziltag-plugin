@@ -1,12 +1,41 @@
 import { combineReducers } from 'redux'
 
 
-function ziltag_map(state={}, action) {
+function ziltag_maps(state={}, action) {
   switch (action.type) {
-    case 'ZILTAG_MAP_ACTIVATED':
-      return action.payload
+    case 'ZILTAG_MAP_FETCHED':
+      return {
+        ...state,
+        [action.payload.map_id]: {
+          ...state[action.payload.map_id],
+          ...action.payload
+        }
+      }
+    case 'ACTIVATE_ZILTAG_MAP':
+      for (let id in state) {
+        if (state[id].src == action.payload.src) {
+          return {
+            ...state,
+            [state[id].map_id]: {
+              ...state[id],
+              ...action.payload,
+              activated: true
+            }
+          }
+        }
+      }
     case 'DEACTIVATE_ZILTAG_MAP':
-      return {}
+      for (let id in state) {
+        if (state[id].activated) {
+          return {
+            ...state,
+            [state[id].map_id]: {
+              ...state[id],
+              activated: false
+            }
+          }
+        }
+      }
     default:
       return state
   }
@@ -35,7 +64,7 @@ function ziltag_reader(state={}, action) {
 }
 
 const ZiltagAppReducer = combineReducers({
-  ziltag_map,
+  ziltag_maps,
   ziltag_preview,
   ziltag_reader
 })

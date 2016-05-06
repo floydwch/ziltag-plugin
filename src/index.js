@@ -8,7 +8,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import {activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader} from './actor'
+import {activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map} from './actor'
 import root_saga from './saga'
 
 
@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const matches = window.location.href.match(/[?&]debug_session=([^&#]+)\b/)
       return (matches && matches.length > 0) ? matches[1] : null
     }
-
     var store = createStore(
       ZiltagAppReducer,
       {},
@@ -67,9 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function is_enabled(img) {
+  function is_qualified(img) {
     const { width, height } = img
-
     /*
     const
       switch_width = 52,
@@ -95,10 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const
       min_width = 200,
       min_height = 100
-
-    if (img.dataset.ziltag == 'false') {
-      return false
-    }
 
     if (width < min_width || height < min_height) {
       return false
@@ -131,12 +125,26 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]
 
+    if (img.dataset.ziltag == 'false') {
+      continue
+    }
+
+    store.dispatch(
+      fetch_ziltag_map(
+        {
+          token: ziltag_token,
+          src: img.src,
+          href: location.href
+        }
+      )
+    )
+
     img.addEventListener('mouseenter', (e) => {
-      if (!is_enabled(img)) {
+      if (!is_qualified(img)) {
         return
       }
 
-      const { width, height, src } = img
+      const {width, height, src} = img
       const rect = img.getBoundingClientRect()
       const left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
       const top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
@@ -157,11 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
         )
       }
     })
-    img.addEventListener('mouseleave', (e) => {
-      if (!is_enabled(img)) {
-        return
-      }
 
+    img.addEventListener('mouseleave', (e) => {
       if (is_outside(e.relatedTarget)) {
         store.dispatch(deactivate_ziltag_map())
       }
