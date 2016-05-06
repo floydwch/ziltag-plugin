@@ -19,7 +19,7 @@ class ZiltagApp extends Component {
 
   render() {
     const {
-      ziltag_map,
+      ziltag_maps,
       ziltag_preview,
       ziltag_reader,
       dispatch
@@ -31,17 +31,21 @@ class ZiltagApp extends Component {
       var DevTools = require('./devtool').default
     }
 
+    const current_ziltag_map = ziltag_maps[Object.keys(ziltag_maps).find((id) => {
+      return ziltag_maps[id].activated
+    })] || {}
+
     return <div>
       {
-        ziltag_map.map_id &&
+        current_ziltag_map.map_id &&
         <ZiltagMap
           actions={actions}
-          map_id={ziltag_map.map_id}
-          x={ziltag_map.x}
-          y={ziltag_map.y}
-          width={ziltag_map.width}
-          height={ziltag_map.height}
-          ziltags={ziltag_map.ziltags}
+          map_id={current_ziltag_map.map_id}
+          x={current_ziltag_map.x}
+          y={current_ziltag_map.y}
+          width={current_ziltag_map.width}
+          height={current_ziltag_map.height}
+          ziltags={current_ziltag_map.ziltags}
           ziltag_preview={ziltag_preview}
         />
       }
@@ -63,9 +67,9 @@ class ZiltagApp extends Component {
 }
 
 function mapStateToProps(state) {
-  const { ziltag_map, ziltag_preview, ziltag_reader } = state
+  const {ziltag_maps, ziltag_preview, ziltag_reader} = state
   return {
-    ziltag_map,
+    ziltag_maps,
     ziltag_preview,
     ziltag_reader
   }

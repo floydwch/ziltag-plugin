@@ -1,7 +1,8 @@
-import {takeLatest} from 'redux-saga'
+import {takeLatest, takeEvery} from 'redux-saga'
 import {call, put} from 'redux-saga/effects'
 
 import {
+  ziltag_map_fetched,
   ziltag_map_activated,
   ziltag_reader_activated,
   ziltag_reader_deactivated
@@ -10,25 +11,27 @@ import {
 
 function* fetch_ziltag_map(action) {
   const {
-    x, y, width, height, token, src, href
+    token, src, href
   } = action.payload
 
   const target = `${API_ADDRESS}/api/v1/ziltags/` +
     `?token=${token}` +
     `&src=${encodeURIComponent(src)}` +
-    `&href=${encodeURIComponent(href)}` +
-    `&width=${width}` +
-    `&height=${height}`
+    `&href=${encodeURIComponent(href)}`
 
   const {
     id: map_id,
     ziltags
   } = yield call(() => fetch(target).then(resp => resp.json()))
 
-  yield put(ziltag_map_activated({map_id, x, y, width, height, ziltags}))
+  yield put(ziltag_map_fetched({map_id, src, ziltags}))
 }
 
-function* ziltag_map() {
+function* watch_fetch_ziltag_map() {
+  const action = yield* takeEvery('FETCH_ZILTAG_MAP', fetch_ziltag_map)
+}
+
+function* watch_activate_ziltag_map() {
   const action = yield* takeLatest('ACTIVATE_ZILTAG_MAP', fetch_ziltag_map)
 }
 
@@ -61,7 +64,8 @@ function* watch_deactivate_ziltag_reader() {
 
 export default function* root_saga() {
   yield [
-    ziltag_map(),
+    watch_fetch_ziltag_map(),
+    watch_activate_ziltag_map(),
     watch_activate_ziltag_reader(),
     watch_deactivate_ziltag_reader()
   ]
