@@ -22,6 +22,10 @@ class ZiltagMap extends React.Component {
       left: x
     }
 
+    const {
+      is_mobile
+    } = client_state
+
     const tag_ziltags = []
     for (let i = 0; i < (ziltags || []).length; ++i) {
       const ziltag = ziltags[i]
@@ -68,7 +72,10 @@ class ZiltagMap extends React.Component {
       style={style}
       className='ziltag-ziltag-map'
     >
+    {
+      !is_mobile &&
       <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
+    }
       {tag_ziltags}
       {tag_ziltag_preview}
     </div>
