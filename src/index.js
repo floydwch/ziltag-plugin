@@ -5,10 +5,11 @@ import ReactDOM from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
+import MobileDetect from 'mobile-detect'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import {activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map} from './actor'
+import {update_client_state, activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map} from './actor'
 import root_saga from './saga'
 
 
@@ -44,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   sagaMiddleware.run(root_saga)
+
+  const is_mobile = !!new MobileDetect(window.navigator.userAgent).mobile()
 
   const imgs = document.getElementsByTagName('img')
   const scripts = document.getElementsByTagName('script')
@@ -101,16 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true
   }
 
-  window.addEventListener('resize', () => {
-    store.dispatch(deactivate_ziltag_map())
-  })
-
-  window.addEventListener('message', ({data}) => {
-    if (data == 'deactivate_ziltag_reader') {
-      store.dispatch(deactivate_ziltag_reader())
-    }
-  })
-
   for (let i = 0; i < scripts.length; ++i) {
     const script = scripts[i]
     if (script.dataset.ziltag) {
@@ -122,6 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Must give a token to setup Ziltag.')
   }
 
+  store.dispatch(update_client_state({is_mobile}))
+
+  if (!is_mobile) {
+    window.addEventListener('resize', () => {
+      store.dispatch(deactivate_ziltag_map())
+    })
+
+    window.addEventListener('message', ({data}) => {
+      if (data == 'deactivate_ziltag_reader') {
+        store.dispatch(deactivate_ziltag_reader())
+      }
+    })
+  }
+
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]
 
@@ -129,48 +136,74 @@ document.addEventListener('DOMContentLoaded', () => {
       continue
     }
 
-    store.dispatch(
-      fetch_ziltag_map(
-        {
+    if (!is_mobile) {
+      store.dispatch(
+        fetch_ziltag_map({
           token: ziltag_token,
           src: img.src,
           href: location.href
-        }
+        })
       )
-    )
 
-    img.addEventListener('mouseenter', (e) => {
-      if (!is_qualified(img)) {
-        return
-      }
+      img.addEventListener('mouseenter', (e) => {
+        if (!is_qualified(img)) {
+          return
+        }
 
-      const {width, height, src} = img
-      const rect = img.getBoundingClientRect()
-      const left = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-      const top = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+        const {width, height, src} = img
+        const rect = img.getBoundingClientRect()
+        const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+        const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-      if (is_outside(e.relatedTarget)) {
-        store.dispatch(
-          activate_ziltag_map(
-            {
-              x: left,
-              y: top,
+        if (is_outside(e.relatedTarget)) {
+          store.dispatch(
+            activate_ziltag_map({
+              x,
+              y,
               width,
               height,
               token: ziltag_token,
               src,
               href: location.href
-            }
+            })
           )
-        )
-      }
-    })
+          store.dispatch(
+            fetch_ziltag_map({
+              token: ziltag_token,
+              src: img.src,
+              href: location.href
+            })
+          )
+        }
+      })
 
-    img.addEventListener('mouseleave', (e) => {
-      if (is_outside(e.relatedTarget)) {
-        store.dispatch(deactivate_ziltag_map())
-      }
-    })
+      img.addEventListener('mouseleave', (e) => {
+        if (is_outside(e.relatedTarget)) {
+          store.dispatch(deactivate_ziltag_map())
+        }
+      })
+    }
+    else {
+      img.addEventListener('load', () => {
+        const {width, height, src} = img
+        const rect = img.getBoundingClientRect()
+        const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+        const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+        store.dispatch(
+          fetch_ziltag_map({
+            token: ziltag_token,
+            src: img.src,
+            href: location.href,
+            is_mobile,
+            x,
+            y,
+            width,
+            height
+          })
+        )
+      })
+    }
   }
 
   const mount_node = document.createElement('div')

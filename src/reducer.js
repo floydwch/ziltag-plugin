@@ -1,6 +1,18 @@
 import { combineReducers } from 'redux'
 
 
+function client_state(state={}, action) {
+  switch (action.type) {
+    case 'UPDATE_CLIENT_STATE':
+      return {
+        ...state,
+        ...action.payload
+      }
+    default:
+      return state
+  }
+}
+
 function ziltag_maps(state={}, action) {
   switch (action.type) {
     case 'ZILTAG_MAP_FETCHED':
@@ -64,6 +76,7 @@ function ziltag_reader(state={}, action) {
 }
 
 const ZiltagAppReducer = combineReducers({
+  client_state,
   ziltag_maps,
   ziltag_preview,
   ziltag_reader
