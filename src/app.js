@@ -22,37 +22,53 @@ class ZiltagApp extends Component {
       ziltag_maps,
       ziltag_preview,
       ziltag_reader,
+      client_state,
       dispatch
     } = this.props
 
-    const actions = bindActionCreators(app_actors, dispatch)
+    const actors = bindActionCreators(app_actors, dispatch)
 
     if (process.env.NODE_ENV != 'production') {
       var DevTools = require('./devtool').default
     }
 
-    const current_ziltag_map = ziltag_maps[Object.keys(ziltag_maps).find((id) => {
-      return ziltag_maps[id].activated
-    })] || {}
+    const ziltag_map_components = Object.keys(ziltag_maps).map(id => {
+      const {
+        activated,
+        map_id,
+        x,
+        y,
+        width,
+        height,
+        ziltags
+      } = ziltag_maps[id]
+
+      if (activated) {
+        return (
+          <ZiltagMap
+            key={map_id}
+            actors={actors}
+            map_id={map_id}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            ziltags={ziltags}
+            ziltag_preview={ziltag_preview}
+            client_state={client_state}
+          />
+        )
+      }
+    })
 
     return <div>
       {
-        current_ziltag_map.map_id &&
-        <ZiltagMap
-          actions={actions}
-          map_id={current_ziltag_map.map_id}
-          x={current_ziltag_map.x}
-          y={current_ziltag_map.y}
-          width={current_ziltag_map.width}
-          height={current_ziltag_map.height}
-          ziltags={current_ziltag_map.ziltags}
-          ziltag_preview={ziltag_preview}
-        />
+        ziltag_map_components
       }
       {
         ziltag_reader.map_id &&
         <ZiltagReader
-          actions={actions}
+          actors={actors}
           map_id={ziltag_reader.map_id}
           ziltag_id={ziltag_reader.ziltag_id}
         />
@@ -67,8 +83,9 @@ class ZiltagApp extends Component {
 }
 
 function mapStateToProps(state) {
-  const {ziltag_maps, ziltag_preview, ziltag_reader} = state
+  const {client_state, ziltag_maps, ziltag_preview, ziltag_reader} = state
   return {
+    client_state,
     ziltag_maps,
     ziltag_preview,
     ziltag_reader

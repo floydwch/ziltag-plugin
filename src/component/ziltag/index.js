@@ -5,7 +5,18 @@ require('./index.css')
 
 class Ziltag extends React.Component {
   render() {
-    const { ziltag_id, map_id, x, y, actions } = this.props
+    const {
+      ziltag_id, map_id, x, y, client_state, actors
+    } = this.props
+
+    const {
+      deactivate_ziltag_map,
+      activate_ziltag_reader,
+      activate_ziltag_preview,
+      deactivate_ziltag_preview,
+      goto_ziltag_page
+    } = actors
+
     const radius = 12
     const style = {
       top: y - radius,
@@ -17,11 +28,16 @@ class Ziltag extends React.Component {
       className='ziltag-ziltag'
       style={style}
       onClick={() => {
-        actions.deactivate_ziltag_map()
-        actions.activate_ziltag_reader({map_id, ziltag_id})
+        if (client_state.is_mobile) {
+          goto_ziltag_page({id: ziltag_id})
+        }
+        else {
+          deactivate_ziltag_map()
+          activate_ziltag_reader({map_id, ziltag_id})
+        }
       }}
-      onMouseEnter={() => actions.activate_ziltag_preview({map_id, ziltag_id})}
-      onMouseLeave={actions.deactivate_ziltag_preview}
+      onMouseEnter={() => activate_ziltag_preview({map_id, ziltag_id})}
+      onMouseLeave={deactivate_ziltag_preview}
     ></div>
   }
 }

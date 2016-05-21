@@ -13,7 +13,8 @@ class ZiltagMap extends React.Component {
       x, y, width, height, map_id,
       ziltags,
       ziltag_preview,
-      actions
+      client_state,
+      actors
     } = this.props
 
     const style = {
@@ -28,12 +29,13 @@ class ZiltagMap extends React.Component {
       tag_ziltags.push(
         <Ziltag
           key={i}
-          actions={actions}
+          actors={actors}
           ziltag_id={ziltag.id}
           map_id={map_id}
           x={ziltag.x * width}
           y={ziltag.y * height}
           is_focused={ziltag.id && ziltag_preview.ziltag_id == ziltag.id}
+          client_state={client_state}
         />
       )
 
@@ -66,7 +68,7 @@ class ZiltagMap extends React.Component {
       style={style}
       className='ziltag-ziltag-map'
     >
-      <Switch map_id={map_id} x={width - switch_width} y={0} actions={actions}/>
+      <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
       {tag_ziltags}
       {tag_ziltag_preview}
     </div>
