@@ -104,6 +104,48 @@ document.addEventListener('DOMContentLoaded', () => {
     return true
   }
 
+  function _activate_ziltag_map(img, {is_mobile}) {
+    const {width, height, src} = img
+    const rect = img.getBoundingClientRect()
+    const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+    const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+    if (is_mobile) {
+      store.dispatch(
+        fetch_ziltag_map({
+          token: ziltag_token,
+          href: location.href,
+          src,
+          is_mobile,
+          x,
+          y,
+          width,
+          height
+        })
+      )
+    }
+    else {
+      store.dispatch(
+        activate_ziltag_map({
+          token: ziltag_token,
+          href: location.href,
+          src,
+          x,
+          y,
+          width,
+          height
+        })
+      )
+      store.dispatch(
+        fetch_ziltag_map({
+          token: ziltag_token,
+          href: location.href,
+          src
+        })
+      )
+    }
+  }
+
   for (let i = 0; i < scripts.length; ++i) {
     const script = scripts[i]
     if (script.dataset.ziltag) {
@@ -146,34 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
       )
 
       img.addEventListener('mouseenter', (e) => {
-        if (!is_qualified(img)) {
-          return
-        }
-
-        const {width, height, src} = img
-        const rect = img.getBoundingClientRect()
-        const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-        const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-
-        if (is_outside(e.relatedTarget)) {
-          store.dispatch(
-            activate_ziltag_map({
-              x,
-              y,
-              width,
-              height,
-              token: ziltag_token,
-              src,
-              href: location.href
-            })
-          )
-          store.dispatch(
-            fetch_ziltag_map({
-              token: ziltag_token,
-              src: img.src,
-              href: location.href
-            })
-          )
+        if (is_qualified(img) && is_outside(e.relatedTarget)) {
+          _activate_ziltag_map(img, {is_mobile})
         }
       })
 
@@ -184,25 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
     else {
-      img.addEventListener('load', () => {
-        const {width, height, src} = img
-        const rect = img.getBoundingClientRect()
-        const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-        const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-
-        store.dispatch(
-          fetch_ziltag_map({
-            token: ziltag_token,
-            src: img.src,
-            href: location.href,
-            is_mobile,
-            x,
-            y,
-            width,
-            height
-          })
-        )
-      })
+      if (img.complete) {
+        _activate_ziltag_map(img, {is_mobile})
+      }
+      else {
+        img.addEventListener('load', () => _activate_ziltag_map(img, {is_mobile}))
+      }
     }
   }
 
