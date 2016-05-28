@@ -50,6 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const imgs = document.getElementsByTagName('img')
   const scripts = document.getElementsByTagName('script')
+  const metas = document.getElementsByTagName('meta')
+
+  const is_responsive = !![].find.call(metas, (meta) => {
+    return meta.name === 'viewport'
+  })
+
+  if (!is_responsive) {
+    return
+  }
 
   function is_outside(relatedTarget) {
     if (relatedTarget == null) {
