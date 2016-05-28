@@ -50,6 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const imgs = document.getElementsByTagName('img')
   const scripts = document.getElementsByTagName('script')
+  const metas = document.getElementsByTagName('meta')
+
+  const is_responsive = !![].find.call(metas, (meta) => {
+    return meta.name === 'viewport'
+  })
+
+  if (!is_responsive) {
+    return
+  }
 
   function is_outside(relatedTarget) {
     if (relatedTarget == null) {
@@ -69,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function is_qualified(img) {
+  function is_qualified_img(img) {
     const { width, height } = img
     /*
     const
@@ -188,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       )
 
       img.addEventListener('mouseenter', (e) => {
-        if (is_qualified(img) && is_outside(e.relatedTarget)) {
+        if (is_qualified_img(img) && is_outside(e.relatedTarget)) {
           _activate_ziltag_map(img, {is_mobile})
         }
       })
