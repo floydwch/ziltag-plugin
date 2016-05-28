@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return meta.name === 'viewport'
   })
 
-  if (!is_responsive) {
+  if (is_mobile && !is_responsive) {
     return
   }
 
