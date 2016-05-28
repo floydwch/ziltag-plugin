@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
     else {
-      if (img.complete) {
+      if (img.complete && img.naturalWidth) {
         _activate_ziltag_map(img, {is_mobile})
       }
       else {
