@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function is_qualified(img) {
+  function is_qualified_img(img) {
     const { width, height } = img
     /*
     const
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
       )
 
       img.addEventListener('mouseenter', (e) => {
-        if (is_qualified(img) && is_outside(e.relatedTarget)) {
+        if (is_qualified_img(img) && is_outside(e.relatedTarget)) {
           _activate_ziltag_map(img, {is_mobile})
         }
       })
