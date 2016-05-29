@@ -22,8 +22,14 @@ function* fetch_ziltag_map(action) {
 
   const {
     id: map_id,
-    ziltags
+    ziltags,
+    error
   } = yield call(() => fetch(target).then(resp => resp.json()))
+
+  if (error) {
+    console.error(error)
+    return
+  }
 
   yield put(ziltag_map_fetched({map_id, src, ziltags}))
 
