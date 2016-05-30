@@ -17,6 +17,10 @@ class Ziltag extends React.Component {
       goto_ziltag_page
     } = actors
 
+    const {
+      is_mobile
+    } = client_state
+
     const radius = 12
     const style = {
       top: y - radius,
@@ -28,7 +32,7 @@ class Ziltag extends React.Component {
       className='ziltag-ziltag'
       style={style}
       onClick={() => {
-        if (client_state.is_mobile) {
+        if (is_mobile) {
           goto_ziltag_page({id: ziltag_id})
         }
         else {
@@ -36,7 +40,11 @@ class Ziltag extends React.Component {
           activate_ziltag_reader({map_id, ziltag_id})
         }
       }}
-      onMouseEnter={() => activate_ziltag_preview({map_id, ziltag_id})}
+      onMouseEnter={() => {
+        if (!is_mobile) {
+          activate_ziltag_preview({map_id, ziltag_id})
+        }
+      }}
       onMouseLeave={deactivate_ziltag_preview}
     ></div>
   }
