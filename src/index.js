@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function is_qualified_img(img) {
-    const { width, height } = img
+    const {clientWidth: width, clientHeight: height} = img
     /*
     const
       switch_width = 52,
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function _activate_ziltag_map(img, {is_mobile}) {
-    const {width, height, src} = img
+    const {clientWidth: width, clientHeight: height, src} = img
     const rect = img.getBoundingClientRect()
     const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
     const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
