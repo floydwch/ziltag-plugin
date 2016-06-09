@@ -1,19 +1,24 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 require('./index.css')
 
 
-class ZiltagReader extends React.Component {
+class ZiltagReader extends Component {
+  shouldComponentUpdate(next_props, next_state) {
+    return false
+  }
+
   render() {
-    const {map_id, ziltag_id, actors} = this.props
-    const path = ziltag_id ? `ziltags/${ziltag_id}` : `ziltag_maps/${map_id}`
-    const src = `${SERVER_ADDRESS}/${path}`
-    const style = { zIndex: MAX_Z_INDEX }
+    const {deactivate_ziltag_reader} = this.props.actors
+    const src = `${SERVER_ADDRESS}/reader`
+    const style = {
+      zIndex: MAX_Z_INDEX,
+    }
 
     return  <div
       style={style}
       className='ziltag-ziltag-reader-cover'
-      onClick={actors.deactivate_ziltag_reader}
+      onClick={deactivate_ziltag_reader}
     >
       <iframe className='ziltag-ziltag-reader' src={src}></iframe>
     </div>
