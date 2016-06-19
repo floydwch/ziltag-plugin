@@ -66,7 +66,7 @@ class ZiltagApp extends Component {
         ziltag_map_components
       }
       {
-        <div style={{visibility: ziltag_reader.map_id ? 'visible' : 'hidden'}}>
+        <div style={{display: ziltag_reader.map_id ? 'block' : 'none'}}>
           <ZiltagReader
             actors={actors}
             map_id={ziltag_reader.map_id}
