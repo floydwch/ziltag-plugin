@@ -14,7 +14,8 @@ class Ziltag extends React.Component {
       activate_ziltag_reader,
       activate_ziltag_preview,
       deactivate_ziltag_preview,
-      goto_ziltag_page
+      goto_ziltag_page,
+      load_ziltag
     } = actors
 
     const {
@@ -43,6 +44,7 @@ class Ziltag extends React.Component {
       onMouseEnter={() => {
         if (!is_mobile) {
           activate_ziltag_preview({map_id, ziltag_id})
+          load_ziltag({id: ziltag_id})
         }
       }}
       onMouseLeave={deactivate_ziltag_preview}
