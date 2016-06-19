@@ -66,12 +66,13 @@ class ZiltagApp extends Component {
         ziltag_map_components
       }
       {
-        ziltag_reader.map_id &&
-        <ZiltagReader
-          actors={actors}
-          map_id={ziltag_reader.map_id}
-          ziltag_id={ziltag_reader.ziltag_id}
-        />
+        <div style={{visibility: ziltag_reader.map_id ? 'visible' : 'hidden'}}>
+          <ZiltagReader
+            actors={actors}
+            map_id={ziltag_reader.map_id}
+            ziltag_id={ziltag_reader.ziltag_id}
+          />
+        </div>
       }
       {
         process.env.NODE_ENV != 'production'

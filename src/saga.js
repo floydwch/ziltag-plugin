@@ -1,5 +1,5 @@
 import {takeLatest, takeEvery} from 'redux-saga'
-import {call, put} from 'redux-saga/effects'
+import {call, put, take} from 'redux-saga/effects'
 
 import {
   ziltag_map_fetched,
@@ -93,11 +93,31 @@ function* watch_goto_ziltag_page() {
   yield* takeEvery('GOTO_ZILTAG_PAGE', goto_ziltag_page)
 }
 
+function* load_ziltag() {
+  while (true) {
+    const action = yield take('LOAD_ZILTAG')
+    document.querySelector('.ziltag-ziltag-reader')
+      .contentWindow
+      .postMessage(action, '*')
+  }
+}
+
+function* load_ziltag_map() {
+  while (true) {
+    const action = yield take('LOAD_ZILTAG_MAP')
+    document.querySelector('.ziltag-ziltag-reader')
+      .contentWindow
+      .postMessage(action, '*')
+  }
+}
+
 export default function* root_saga() {
   yield [
     watch_fetch_ziltag_map(),
     watch_activate_ziltag_reader(),
     watch_deactivate_ziltag_reader(),
-    watch_goto_ziltag_page()
+    watch_goto_ziltag_page(),
+    load_ziltag(),
+    load_ziltag_map()
   ]
 }
