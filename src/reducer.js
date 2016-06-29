@@ -58,6 +58,7 @@ function ziltag_preview(state={}, action) {
     case 'ACTIVATE_ZILTAG_PREVIEW':
       return action.payload
     case 'DEACTIVATE_ZILTAG_PREVIEW':
+    case 'ZILTAG_READER_ACTIVATED':
       return {}
     default:
       return state
