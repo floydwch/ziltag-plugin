@@ -14,12 +14,16 @@ class ZiltagMap extends React.Component {
       ziltags,
       ziltag_preview,
       client_state,
+      onMouseEnter,
+      onMouseLeave,
       actors
     } = this.props
 
     const style = {
       top: y,
-      left: x
+      left: x,
+      width,
+      height
     }
 
     const {
@@ -71,6 +75,8 @@ class ZiltagMap extends React.Component {
     return <div
       style={style}
       className='ziltag-ziltag-map'
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
     {
       !is_mobile &&

@@ -27,6 +27,10 @@ class ZiltagApp extends Component {
     } = this.props
 
     const actors = bindActionCreators(app_actors, dispatch)
+    const {
+      load_ziltag_map,
+      deactivate_ziltag_map
+    } = actors
 
     if (process.env.NODE_ENV != 'production') {
       var DevTools = require('./devtool').default
@@ -56,6 +60,8 @@ class ZiltagApp extends Component {
             ziltags={ziltags}
             ziltag_preview={ziltag_preview}
             client_state={client_state}
+            onMouseEnter={() => load_ziltag_map({id: map_id})}
+            onMouseLeave={deactivate_ziltag_map}
           />
         )
       }
