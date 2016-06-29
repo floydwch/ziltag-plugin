@@ -201,12 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
           _activate_ziltag_map(img, {is_mobile})
         }
       })
-
-      img.addEventListener('mouseleave', (e) => {
-        if (is_outside(e.relatedTarget)) {
-          store.dispatch(deactivate_ziltag_map())
-        }
-      })
     }
     else {
       if (img.complete && img.naturalWidth) {
