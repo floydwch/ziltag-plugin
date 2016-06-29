@@ -18,13 +18,6 @@ class Switch extends React.Component {
       className='ziltag-switch'
       onClick={() => activate_ziltag_reader({map_id})}
       onMouseEnter={() => load_ziltag_map({id: map_id})}
-      onMouseLeave={
-        (e) => {
-          if (e.nativeEvent.relatedTarget.nodeName != 'IMG') {
-            deactivate_ziltag_map()
-          }
-        }
-      }
     >
     </div>
   }
