@@ -22,6 +22,7 @@ class ZiltagMap extends React.Component {
     const style = {
       top: y,
       left: x,
+      zIndex: MAX_Z_INDEX - 4,
       width,
       height
     }
