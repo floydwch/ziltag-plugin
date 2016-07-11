@@ -36,7 +36,7 @@ class Ziltag extends React.Component {
         if (!is_mobile) {
           deactivate_ziltag_map()
         }
-        activate_ziltag_reader({map_id, ziltag_id, is_mobile})
+        activate_ziltag_reader({map_id, ziltag_id})
       }}
       onMouseEnter={() => {
         load_ziltag({id: ziltag_id})

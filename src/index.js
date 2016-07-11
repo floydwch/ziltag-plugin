@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('message', ({data}) => {
     if (data == 'deactivate_ziltag_reader') {
-      store.dispatch(deactivate_ziltag_reader({is_mobile}))
+      store.dispatch(deactivate_ziltag_reader())
     }
   })
 

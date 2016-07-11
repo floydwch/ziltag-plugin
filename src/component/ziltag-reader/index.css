@@ -12,16 +12,11 @@
   left: 100%;
   width: 100vw;
   height: 100vh;
-  transition: left 1s;
+  transition: left .3s;
 }
 
 body.ziltag-ziltag-reader-activated {
   overflow: hidden;
-}
-
-body.ziltag-ziltag-reader-activated--mobile {
-  width: 100vw;
-  height: 100vh;
 }
 
 body.ziltag-ziltag-reader-activated .ziltag-ziltag-reader--mobile {
