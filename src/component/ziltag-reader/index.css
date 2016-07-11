@@ -7,6 +7,14 @@
   border: 0;
 }
 
+.ziltag-ziltag-reader--mobile {
+  top: 0;
+  left: 100%;
+  width: 100vw;
+  height: 100vh;
+  transition: left 1s;
+}
+
 .ziltag-ziltag-reader-cover {
   position: fixed;
   top: 0;
@@ -18,4 +26,8 @@
 
 body.ziltag-ziltag-reader-activated {
   overflow: hidden;
+}
+
+body.ziltag-ziltag-reader-activated .ziltag-ziltag-reader--mobile {
+  left: 0;
 }
