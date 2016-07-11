@@ -29,7 +29,8 @@ class ZiltagApp extends Component {
     const actors = bindActionCreators(app_actors, dispatch)
     const {
       load_ziltag_map,
-      deactivate_ziltag_map
+      deactivate_ziltag_map,
+      deactivate_ziltag_reader
     } = actors
 
     const {
@@ -75,12 +76,39 @@ class ZiltagApp extends Component {
       }
     })
 
+    var reader_cover_style = {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'rgba(0, 0, 0, 0.5)'
+    }
+
+    if (is_mobile) {
+      var reader_cover_style = {
+        ...reader_cover_style,
+        left: ziltag_reader.map_id ? 0 : '100%',
+        zIndex: MAX_Z_INDEX
+      }
+    } else {
+      var reader_cover_style = {
+        ...reader_cover_style,
+        display: ziltag_reader.map_id ? 'block' : 'none',
+        zIndex: MAX_Z_INDEX
+      }
+    }
+
     return <div>
       {
         ziltag_map_components
       }
       {
-        <div style={{display: ziltag_reader.map_id ? 'block' : 'none'}}>
+        <div
+          className='ziltag-ziltag-reader-cover'
+          style={reader_cover_style}
+          onClick={deactivate_ziltag_reader}
+        >
           <ZiltagReader
             actors={actors}
             client_state={client_state}
