@@ -172,13 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
       store.dispatch(deactivate_ziltag_map())
     })
-
-    window.addEventListener('message', ({data}) => {
-      if (data == 'deactivate_ziltag_reader') {
-        store.dispatch(deactivate_ziltag_reader())
-      }
-    })
   }
+
+  window.addEventListener('message', ({data}) => {
+    if (data == 'deactivate_ziltag_reader') {
+      store.dispatch(deactivate_ziltag_reader({is_mobile}))
+    }
+  })
 
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]

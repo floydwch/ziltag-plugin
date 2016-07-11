@@ -69,7 +69,11 @@ function* activate_ziltag_reader(action) {
   })
 }
 
-function* deactivate_ziltag_reader() {
+function* deactivate_ziltag_reader(action) {
+  const {
+    is_mobile
+  } = action.payload
+
   yield call(() => {
     document.body.classList.remove('ziltag-ziltag-reader-activated')
     if (is_mobile) {
