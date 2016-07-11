@@ -20,7 +20,7 @@ body.ziltag-ziltag-reader-activated {
 }
 
 body.ziltag-ziltag-reader-activated--mobile {
-  position: relative;
+  position: fixed;
 }
 
 body.ziltag-ziltag-reader-activated .ziltag-ziltag-reader--mobile {
