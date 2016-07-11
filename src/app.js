@@ -32,6 +32,10 @@ class ZiltagApp extends Component {
       deactivate_ziltag_map
     } = actors
 
+    const {
+      is_mobile
+    } = client_state
+
     if (process.env.NODE_ENV != 'production') {
       var DevTools = require('./devtool').default
     }
@@ -61,7 +65,11 @@ class ZiltagApp extends Component {
             ziltag_preview={ziltag_preview}
             client_state={client_state}
             onMouseEnter={() => load_ziltag_map({id: map_id})}
-            onMouseLeave={deactivate_ziltag_map}
+            onMouseLeave={() => {
+              if (!is_mobile) {
+                deactivate_ziltag_map()
+              }
+            }}
           />
         )
       }
