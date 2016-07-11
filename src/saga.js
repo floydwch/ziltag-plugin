@@ -1,4 +1,4 @@
-import {takeLatest, takeEvery} from 'redux-saga'
+import {takeLatest, takeEvery, delay} from 'redux-saga'
 import {call, put, take} from 'redux-saga/effects'
 
 import {
@@ -58,10 +58,11 @@ function* activate_ziltag_reader(action) {
     ziltag_id
   } = action.payload
 
+  yield put(ziltag_reader_activated({map_id, ziltag_id}))
+  yield call(delay, 0)
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')
   })
-  yield put(ziltag_reader_activated({map_id, ziltag_id}))
 }
 
 function* deactivate_ziltag_reader() {
