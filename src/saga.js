@@ -55,19 +55,26 @@ function* watch_fetch_ziltag_map() {
 function* activate_ziltag_reader(action) {
   const {
     map_id,
-    ziltag_id
+    ziltag_id,
+    is_mobile
   } = action.payload
 
   yield put(ziltag_reader_activated({map_id, ziltag_id}))
   yield call(delay, 0)
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')
+    if (is_mobile) {
+      document.body.classList.add('ziltag-ziltag-reader-activated--mobile')
+    }
   })
 }
 
 function* deactivate_ziltag_reader() {
   yield call(() => {
     document.body.classList.remove('ziltag-ziltag-reader-activated')
+    if (is_mobile) {
+      document.body.classList.add('ziltag-ziltag-reader-activated--mobile')
+    }
   })
   yield put(ziltag_reader_deactivated())
 }
