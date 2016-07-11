@@ -68,7 +68,7 @@ class ZiltagApp extends Component {
             onMouseEnter={() => load_ziltag_map({id: map_id})}
             onMouseLeave={() => {
               if (!is_mobile) {
-                deactivate_ziltag_map()
+                deactivate_ziltag_map({is_mobile})
               }
             }}
           />
