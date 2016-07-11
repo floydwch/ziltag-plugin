@@ -19,6 +19,10 @@ body.ziltag-ziltag-reader-activated {
   overflow: hidden;
 }
 
+body.ziltag-ziltag-reader-activated--mobile {
+  position: relative;
+}
+
 body.ziltag-ziltag-reader-activated .ziltag-ziltag-reader--mobile {
   left: 0;
 }

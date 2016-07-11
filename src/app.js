@@ -109,7 +109,11 @@ class ZiltagApp extends Component {
         <div
           className='ziltag-ziltag-reader-cover'
           style={reader_cover_style}
-          onClick={deactivate_ziltag_reader}
+          onClick={() => {
+            if (!is_mobile) {
+              deactivate_ziltag_reader()
+            }
+          }}
         >
           <ZiltagReader
             actors={actors}
