@@ -82,9 +82,7 @@ class ZiltagApp extends Component {
       width: '100%',
       height: '100%',
       display: ziltag_reader.map_id ? 'block' : 'none',
-      position: 'fixed',
-      overflow: 'scroll',
-      WebkitOverflowScrolling: 'touch'
+      position: 'fixed'
     }
 
     if (is_mobile) {
