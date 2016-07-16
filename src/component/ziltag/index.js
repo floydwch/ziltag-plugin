@@ -35,6 +35,8 @@ class Ziltag extends React.Component {
       onClick={() => {
         if (!is_mobile) {
           deactivate_ziltag_map()
+        } else {
+          load_ziltag({id: ziltag_id})
         }
         activate_ziltag_reader({map_id, ziltag_id, is_mobile})
       }}
