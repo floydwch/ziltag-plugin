@@ -65,6 +65,7 @@ function* activate_ziltag_reader(action) {
     document.body.classList.add('ziltag-ziltag-reader-activated')
     if (is_mobile) {
       document.body.classList.add('ziltag-ziltag-reader-activated--mobile')
+      document.documentElement.classList.add('ziltag-ziltag-reader-activated--mobile')
     }
   })
 }
@@ -78,6 +79,7 @@ function* deactivate_ziltag_reader(action) {
     document.body.classList.remove('ziltag-ziltag-reader-activated')
     if (is_mobile) {
       document.body.classList.remove('ziltag-ziltag-reader-activated--mobile')
+      document.documentElement.classList.remove('ziltag-ziltag-reader-activated--mobile')
     }
   })
   yield put(ziltag_reader_deactivated())

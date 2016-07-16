@@ -77,11 +77,11 @@ class ZiltagApp extends Component {
     })
 
     var reader_cover_style = {
-      position: 'fixed',
       top: 0,
       left: 0,
-      width: '100vw',
-      height: '100vh',
+      width: '100%',
+      height: '100%',
+      display: ziltag_reader.map_id ? 'block' : 'none',
       overflow: 'scroll',
       WebkitOverflowScrolling: 'touch'
     }
@@ -89,13 +89,13 @@ class ZiltagApp extends Component {
     if (is_mobile) {
       var reader_cover_style = {
         ...reader_cover_style,
-        left: ziltag_reader.map_id ? 0 : '100%',
+        position: 'absolute',
         zIndex: MAX_Z_INDEX
       }
     } else {
       var reader_cover_style = {
         ...reader_cover_style,
-        display: ziltag_reader.map_id ? 'block' : 'none',
+        position: 'fixed',
         background: 'rgba(0, 0, 0, 0.5)',
         zIndex: MAX_Z_INDEX
       }
@@ -122,11 +122,6 @@ class ZiltagApp extends Component {
             ziltag_id={ziltag_reader.ziltag_id}
           />
         </div>
-      }
-      {
-        process.env.NODE_ENV != 'production'
-        ? this.state.is_mounted && <DevTools/>
-        : ''
       }
     </div>
   }
