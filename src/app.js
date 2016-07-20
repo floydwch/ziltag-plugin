@@ -122,6 +122,11 @@ class ZiltagApp extends Component {
           />
         </div>
       }
+      {
+        process.env.NODE_ENV != 'production'
+        ? this.state.is_mounted && <DevTools/>
+        : ''
+      }
     </div>
   }
 }
