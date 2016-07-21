@@ -37,17 +37,13 @@ function ziltag_maps(state={}, action) {
         }
       }
     case 'DEACTIVATE_ZILTAG_MAP':
+      const deactivated_ziltag_maps = {...state}
       for (let id in state) {
         if (state[id].activated) {
-          return {
-            ...state,
-            [state[id].map_id]: {
-              ...state[id],
-              activated: false
-            }
-          }
+          deactivated_ziltag_maps[id].activated = false
         }
       }
+      return deactivated_ziltag_maps
     default:
       return state
   }

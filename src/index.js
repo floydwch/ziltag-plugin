@@ -172,6 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
       store.dispatch(deactivate_ziltag_map())
     })
+  } else {
+    window.addEventListener('resize', () => {
+      store.dispatch(deactivate_ziltag_map())
+      for (let i = 0; i < imgs.length; ++i) {
+        const img = imgs[i]
+        if (img.dataset.ziltag == 'false') {
+          continue
+        }
+        _activate_ziltag_map(img, {is_mobile})
+      }
+    })
   }
 
   window.addEventListener('message', ({data}) => {
