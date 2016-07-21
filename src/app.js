@@ -117,7 +117,7 @@ class ZiltagApp extends Component {
           style={reader_cover_style}
           onClick={() => {
             if (!is_mobile) {
-              deactivate_ziltag_reader()
+              deactivate_ziltag_reader({is_mobile})
             }
           }}
         >
