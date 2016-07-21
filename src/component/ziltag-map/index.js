@@ -16,6 +16,7 @@ class ZiltagMap extends React.Component {
       client_state,
       onMouseEnter,
       onMouseLeave,
+      onTouchStart,
       actors
     } = this.props
 
@@ -78,6 +79,7 @@ class ZiltagMap extends React.Component {
       className='ziltag-ziltag-map'
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onTouchStart={onTouchStart}
     >
     {
       !is_mobile &&

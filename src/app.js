@@ -29,6 +29,7 @@ class ZiltagApp extends Component {
     const actors = bindActionCreators(app_actors, dispatch)
     const {
       load_ziltag_map,
+      load_ziltag,
       deactivate_ziltag_map,
       deactivate_ziltag_reader
     } = actors
@@ -70,6 +71,12 @@ class ZiltagApp extends Component {
               if (!is_mobile) {
                 deactivate_ziltag_map({is_mobile})
               }
+            }}
+            onTouchStart={() => {
+              load_ziltag_map({id: map_id})
+              ziltags.forEach(ziltag => {
+                load_ziltag({id: ziltag.id})
+              })
             }}
           />
         )
