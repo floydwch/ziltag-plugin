@@ -1,5 +1,5 @@
 import {takeLatest, takeEvery, delay} from 'redux-saga'
-import {call, put, take} from 'redux-saga/effects'
+import {call, put, take, select} from 'redux-saga/effects'
 
 import {
   ziltag_map_fetched,
@@ -59,7 +59,12 @@ function* activate_ziltag_reader(action) {
     is_mobile
   } = action.payload
 
-  yield put(ziltag_reader_activated({map_id, ziltag_id}))
+  yield put(ziltag_reader_activated({
+    map_id,
+    ziltag_id,
+    scrollX: window.scrollX,
+    scrollY: window.scrollY
+  }))
   yield call(delay, 0)
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')
@@ -75,9 +80,12 @@ function* deactivate_ziltag_reader(action) {
     is_mobile
   } = action.payload
 
+  const ziltag_reader = yield select(state => state.ziltag_reader)
+
   yield call(() => {
     document.body.classList.remove('ziltag-ziltag-reader-activated')
     if (is_mobile) {
+      window.scrollTo(ziltag_reader.scrollX, ziltag_reader.scrollY)
       document.body.classList.remove('ziltag-ziltag-reader-activated--mobile')
       document.documentElement.classList.remove('ziltag-ziltag-reader-activated--mobile')
     }
