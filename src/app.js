@@ -95,7 +95,8 @@ class ZiltagApp extends Component {
     if (is_mobile) {
       var reader_cover_style = {
         ...reader_cover_style,
-        overflow: 'scroll',
+        overflow: 'auto',
+        '-webkit-overflow-scrolling': 'touch',
         background: 'white',
         zIndex: MAX_Z_INDEX
       }
