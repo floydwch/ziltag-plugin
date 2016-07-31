@@ -92,7 +92,7 @@ class ZiltagApp extends Component {
 
     var reader_cover_style = {
       ...reader_cover_style,
-      display: is_mobile ? 'block' : 'none',
+      display: is_mobile || activated ? 'block' : 'none',
       pointerEvents: activated ? 'auto' : 'none'
     }
 
