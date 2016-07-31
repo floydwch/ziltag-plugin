@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 import * as app_actors from './actor'
 import ZiltagMap from './component/ziltag-map'
@@ -83,29 +84,11 @@ class ZiltagApp extends Component {
       }
     })
 
-    var reader_cover_style = {
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      display: ziltag_reader.map_id ? 'block' : 'none',
-      position: 'fixed'
-    }
+    const activated = !!ziltag_reader.map_id
 
-    if (is_mobile) {
-      var reader_cover_style = {
-        ...reader_cover_style,
-        overflow: 'auto',
-        '-webkit-overflow-scrolling': 'touch',
-        background: 'white',
-        zIndex: MAX_Z_INDEX
-      }
-    } else {
-      var reader_cover_style = {
-        ...reader_cover_style,
-        background: 'rgba(0, 0, 0, 0.5)',
-        zIndex: MAX_Z_INDEX
-      }
+    var reader_cover_style = {
+      display: activated ? 'block' : 'none',
+      zIndex: MAX_Z_INDEX
     }
 
     return <div>
@@ -114,7 +97,11 @@ class ZiltagApp extends Component {
       }
       {
         <div
-          className='ziltag-ziltag-reader-cover'
+          className={classNames(
+            'ziltag-ziltag-reader-cover', {
+              'ziltag-ziltag-reader-cover--mobile': is_mobile
+            }
+          )}
           style={reader_cover_style}
           onClick={() => {
             if (!is_mobile) {

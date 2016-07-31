@@ -16,6 +16,21 @@
   transition: left .3s;
 }
 
+.ziltag-ziltag-reader-cover {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ziltag-ziltag-reader-cover--mobile {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: white;
+}
+
 body.ziltag-ziltag-reader-activated {
   overflow: hidden;
 }
