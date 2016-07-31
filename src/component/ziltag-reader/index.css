@@ -13,7 +13,7 @@
   left: 100%;
   width: 100%;
   height: 100%;
-  transition: left .3s;
+  transition: left .7s;
 }
 
 .ziltag-ziltag-reader-cover {
@@ -28,7 +28,7 @@
 .ziltag-ziltag-reader-cover--mobile {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background: white;
+  background: none;
 }
 
 body.ziltag-ziltag-reader-activated {
@@ -48,6 +48,6 @@ html.ziltag-ziltag-reader-activated--mobile {
   overflow: hidden;
 }
 
-body.ziltag-ziltag-reader-activated .ziltag-ziltag-reader--mobile {
+body.ziltag-ziltag-reader-activated--mobile .ziltag-ziltag-reader--mobile {
   left: 0;
 }

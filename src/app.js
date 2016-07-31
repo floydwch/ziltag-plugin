@@ -87,8 +87,13 @@ class ZiltagApp extends Component {
     const activated = !!ziltag_reader.map_id
 
     var reader_cover_style = {
-      display: activated ? 'block' : 'none',
       zIndex: MAX_Z_INDEX
+    }
+
+    var reader_cover_style = {
+      ...reader_cover_style,
+      display: is_mobile ? 'block' : 'none',
+      pointerEvents: activated ? 'auto' : 'none'
     }
 
     return <div>
@@ -114,6 +119,7 @@ class ZiltagApp extends Component {
             client_state={client_state}
             map_id={ziltag_reader.map_id}
             ziltag_id={ziltag_reader.ziltag_id}
+            activated={activated}
           />
         </div>
       }

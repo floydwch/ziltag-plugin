@@ -11,6 +11,7 @@ class ZiltagReader extends Component {
 
   render() {
     const {
+      activated,
       actors,
       client_state
     } = this.props
@@ -25,7 +26,8 @@ class ZiltagReader extends Component {
       <iframe
         className={
           classNames('ziltag-ziltag-reader', {
-            'ziltag-ziltag-reader--mobile': is_mobile
+            'ziltag-ziltag-reader--mobile': is_mobile,
+            'ziltag-ziltag-reader--activated': activated
           })
         }
         src={src}
