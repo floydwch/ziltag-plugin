@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
       store.dispatch(deactivate_ziltag_map())
     })
   } else {
-    window.addEventListener('resize', () => {
+    window.addEventListener('orientationchange', () => {
       store.dispatch(deactivate_ziltag_map())
       for (let i = 0; i < imgs.length; ++i) {
         const img = imgs[i]
