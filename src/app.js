@@ -7,6 +7,8 @@ import * as app_actors from './actor'
 import ZiltagMap from './component/ziltag-map'
 import ZiltagReader from './component/ziltag-reader'
 
+import {ENABLE_DEVTOOL} from '../env'
+
 
 class ZiltagApp extends Component {
   constructor(props) {
@@ -39,7 +41,7 @@ class ZiltagApp extends Component {
       is_mobile
     } = client_state
 
-    if (process.env.NODE_ENV != 'production') {
+    if (process.env.NODE_ENV != 'production' && ENABLE_DEVTOOL) {
       var DevTools = require('./devtool').default
     }
 
@@ -124,7 +126,7 @@ class ZiltagApp extends Component {
         </div>
       }
       {
-        process.env.NODE_ENV != 'production'
+        process.env.NODE_ENV != 'production' && ENABLE_DEVTOOL
         ? this.state.is_mounted && <DevTools/>
         : ''
       }
