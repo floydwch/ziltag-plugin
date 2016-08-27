@@ -25,6 +25,7 @@ class ZiltagApp extends Component {
       ziltag_maps,
       ziltag_preview,
       ziltag_reader,
+      user,
       client_state,
       dispatch
     } = this.props
@@ -68,6 +69,7 @@ class ZiltagApp extends Component {
             height={height}
             ziltags={ziltags}
             ziltag_preview={ziltag_preview}
+            user={user}
             client_state={client_state}
             onMouseEnter={() => load_ziltag_map({id: map_id})}
             onMouseLeave={() => {
@@ -135,12 +137,13 @@ class ZiltagApp extends Component {
 }
 
 function mapStateToProps(state) {
-  const {client_state, ziltag_maps, ziltag_preview, ziltag_reader} = state
+  const {client_state, ziltag_maps, ziltag_preview, ziltag_reader, user} = state
   return {
     client_state,
     ziltag_maps,
     ziltag_preview,
-    ziltag_reader
+    ziltag_reader,
+    user
   }
 }
 

@@ -72,11 +72,22 @@ function ziltag_reader(state={}, action) {
   }
 }
 
+function user(state = {}, action) {
+  switch (action.type) {
+    case 'me_fetched':
+      console.log('action', action)
+      return action.payload.user
+    default:
+      return state
+  }
+}
+
 const ZiltagAppReducer = combineReducers({
   client_state,
   ziltag_maps,
   ziltag_preview,
-  ziltag_reader
+  ziltag_reader,
+  user
 })
 
 export default ZiltagAppReducer

@@ -9,7 +9,7 @@ import MobileDetect from 'mobile-detect'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import {update_client_state, activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map} from './actor'
+import {update_client_state, activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map, fetch_me} from './actor'
 import root_saga from './saga'
 
 
@@ -167,6 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   store.dispatch(update_client_state({is_mobile}))
+
+  store.dispatch(
+    fetch_me({
+      token: ziltag_token
+    })
+  )
 
   if (!is_mobile) {
     window.addEventListener('resize', () => {

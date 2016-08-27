@@ -13,6 +13,7 @@ class ZiltagMap extends React.Component {
       x, y, width, height, map_id,
       ziltags,
       ziltag_preview,
+      user,
       client_state,
       onMouseEnter,
       onMouseLeave,
@@ -83,6 +84,7 @@ class ZiltagMap extends React.Component {
     >
     {
       !is_mobile &&
+      user.permissions && user.permissions.includes('create_ziltag') &&
       <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
     }
       {tag_ziltags}

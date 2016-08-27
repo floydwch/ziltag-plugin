@@ -6,7 +6,8 @@ import {
   ziltag_map_activated,
   ziltag_reader_activated,
   ziltag_reader_deactivated,
-  activate_ziltag_map
+  activate_ziltag_map,
+  me_fetched
 } from './actor'
 
 
@@ -46,6 +47,24 @@ function* fetch_ziltag_map(action) {
       })
     )
   }
+}
+
+function* fetch_me(action) {
+  const {
+    token
+  } = action.payload
+
+  const {
+    usr: user,
+    error
+  } = yield call(() => fetch(`${API_ADDRESS}/api/v1/me?token=${token}`).then(resp => resp.json()))
+
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  yield put(me_fetched({user}))
 }
 
 function* watch_fetch_ziltag_map() {
@@ -115,6 +134,10 @@ function* watch_goto_ziltag_page() {
   yield* takeEvery('GOTO_ZILTAG_PAGE', goto_ziltag_page)
 }
 
+function* watch_fetch_me() {
+  yield* takeEvery('FETCH_ME', fetch_me)
+}
+
 function* load_ziltag() {
   while (true) {
     const action = yield take('LOAD_ZILTAG')
@@ -139,6 +162,7 @@ export default function* root_saga() {
     watch_activate_ziltag_reader(),
     watch_deactivate_ziltag_reader(),
     watch_goto_ziltag_page(),
+    watch_fetch_me(),
     load_ziltag(),
     load_ziltag_map()
   ]
