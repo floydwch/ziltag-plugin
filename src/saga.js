@@ -57,14 +57,16 @@ function* fetch_me(action) {
   const {
     usr: user,
     error
-  } = yield call(() => fetch(`${API_ADDRESS}/api/v1/me?token=${token}`).then(resp => resp.json()))
+  } = yield call(() => fetch(`${API_ADDRESS}/api/v1/me?token=${token}`, {credentials: 'include'}).then(resp => resp.json()))
 
   if (error) {
     console.error(error)
     return
   }
 
-  yield put(me_fetched({user}))
+  if (user) {
+    yield put(me_fetched({user}))
+  }
 }
 
 function* watch_fetch_ziltag_map() {
