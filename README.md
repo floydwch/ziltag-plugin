@@ -1,10 +1,27 @@
 # ziltag-plugin
 
+## Development
+## Run dev server
+May operate by `hotel`.
+
+`npm run docker:serve`
+
+## Operate npm
+`npm run docker:npm -- command`
+
+e.g.
+
+`npm run docker:npm -- i -S react`
+
+`npm run docker:npm -- rm -S react`
+
 ## Build
 Install dependencies first.
+
 `npm install`
 
 To build staging and production versions.
+
 `gulp build`
 
 The plugin will thus be built as `/dist/staging/ziltag-plugin.js` and `/dist/production/ziltag-plugin.js`.

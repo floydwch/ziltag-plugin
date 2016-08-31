@@ -1,0 +1,12 @@
+version: "2"
+services:
+  ziltag-plugin:
+    container_name: ${CONTAINER_NAME}
+    build: .
+    image: ziltag-plugin
+    command: npm run serve
+    ports:
+      - "${PORT}:4000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
