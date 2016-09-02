@@ -4,7 +4,6 @@ services:
     container_name: ${CONTAINER_NAME}
     build: .
     image: ziltag-plugin
-    command: npm run serve
     ports:
       - "${PORT}:4000"
     volumes:
