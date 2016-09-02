@@ -1,12 +1,14 @@
 # ziltag-plugin
 
 ## Development
-## Run dev server
+### Run dev server
 May operate by `hotel`.
 
 `npm run docker:serve`
 
-## Operate npm
+### Operate npm
+Note: must run dev server first.
+
 `npm run docker:npm -- command`
 
 e.g.
