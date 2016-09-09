@@ -51,6 +51,8 @@ gulp.task('build:staging', ['clean'], (cb) => {
     }
   })
   const pro_webpack_config = Object.assign({}, webpack_config)
+
+  pro_webpack_config.devtool = 'hidden-source-map'
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:
@@ -78,6 +80,8 @@ gulp.task('build:production', ['clean'], (cb) => {
     }
   })
   const pro_webpack_config = Object.assign({}, webpack_config)
+
+  pro_webpack_config.devtool = 'hidden-source-map'
   pro_webpack_config.plugins = [...pro_webpack_config.plugins,
     new webpack.DefinePlugin(Object.assign({}, common_define, {
       SERVER_ADDRESS:

@@ -13,6 +13,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/'
   },
+  devtool: 'cheap-module-eval-source-map',
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
