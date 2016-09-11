@@ -3,7 +3,7 @@ services:
   ziltag-plugin:
     container_name: ${CONTAINER_NAME}
     build: .
-    image: ziltag-plugin
+    image: ziltag/ziltag-plugin
     ports:
       - "${PORT}:4000"
     volumes:
