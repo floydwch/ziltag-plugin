@@ -9,7 +9,7 @@
     "build:staging": "gulp build:staging",
     "build:production": "gulp build:production",
     "deploy": "gulp deploy",
-    "docker:build": "CONTAINER_NAME=ziltag-plugin_build PORT=${PORT:=4000} docker-compose build",
+    "docker:build": "docker-compose -f docker-compose.build.yml down && docker-compose -f docker-compose.build.yml build",
     "docker:serve": "CONTAINER_NAME=ziltag-plugin_serve PORT=${PORT:=4000} docker-compose up",
     "docker:npm": "docker exec ziltag-plugin_serve npm"
   },
