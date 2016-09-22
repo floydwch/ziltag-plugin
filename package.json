@@ -10,7 +10,6 @@
     "build:production": "gulp build:production",
     "deploy": "gulp deploy",
     "docker:build": "CONTAINER_NAME=ziltag-plugin_build PORT=${PORT:=4000} docker-compose build",
-    "docker:push": "docker tag ziltag-plugin localhost:5000/ziltag-plugin && docker push localhost:5000/ziltag-plugin",
     "docker:serve": "CONTAINER_NAME=ziltag-plugin_serve PORT=${PORT:=4000} docker-compose up",
     "docker:npm": "docker exec ziltag-plugin_serve npm"
   },
