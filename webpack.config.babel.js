@@ -2,6 +2,7 @@ import path from 'path'
 
 import webpack from 'webpack'
 import postcss_cssnext from 'postcss-cssnext'
+import postcss_calc from 'postcss-calc'
 
 
 module.exports = {
@@ -31,6 +32,6 @@ module.exports = {
     })
   ],
   postcss: () => {
-    return [postcss_cssnext]
+    return [postcss_cssnext, postcss_calc]
   }
 }
