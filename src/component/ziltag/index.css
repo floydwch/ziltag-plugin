@@ -1,8 +1,8 @@
 :root {
   --ziltag-diameter: 10px;
   --ziltag-border: 1px;
-  --ziltag-wave-diameter: 80px;
-  --ziltag-wave-border: 10px;
+  --ziltag-halo-diameter: 80px;
+  --ziltag-halo-border: 10px;
 }
 
 .ziltag-ziltag {
@@ -19,13 +19,13 @@
 .ziltag-ziltag::before {
   content: '';
   position: absolute;
-  width: var(--ziltag-wave-diameter);
-  height: var(--ziltag-wave-diameter);
-  top: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-wave-diameter) / 2);
-  left: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-wave-diameter) / 2);
+  width: var(--ziltag-halo-diameter);
+  height: var(--ziltag-halo-diameter);
+  top: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-halo-diameter) / 2);
+  left: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-halo-diameter) / 2);
   border-radius: 50%;
   background: rgba(239, 146, 141, .7);
-  border: var(--ziltag-wave-border) solid rgba(239, 146, 141, .7);
+  border: var(--ziltag-halo-border) solid rgba(239, 146, 141, .7);
   box-sizing: border-box;
   animation: ziltag-pulse 2s infinite;
 }
