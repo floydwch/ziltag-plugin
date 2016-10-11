@@ -8,7 +8,6 @@ class Switch extends React.Component {
     const {map_id, x, y, actors} = this.props
     const {
       activate_ziltag_reader,
-      deactivate_ziltag_map,
       load_ziltag_map
     } = actors
     const style = {top: y, left: x, zIndex: MAX_Z_INDEX - 1}

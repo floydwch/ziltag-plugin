@@ -36,10 +36,22 @@ Embed following script into the page. The `data-ziltag` should be filled with th
 ```
 
 ## Attributes
-### Disable Ziltag on Specific Image
+### Disable
 To disable Ziltag on specific image, add a `data-ziltag="false"` attribute on the `img`.
 
 `<img src="...src" data-ziltag="false"/>`
+
+### Autoplay
+
+`<img src="...src" data-ziltag-autoplay="true|false"/>`
+
+default: `true`
+
+### Enable Switch
+
+`<img src="...src" data-ziltag-switch="true|false"/>`
+
+default: `true`
 
 ## Limits
 The `img`'s width must be greater than or equal to `200px`, height must be greater than or equal to `100px`.

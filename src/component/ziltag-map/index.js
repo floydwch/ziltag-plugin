@@ -10,7 +10,7 @@ require('./index.css')
 class ZiltagMap extends React.Component {
   render() {
     const {
-      x, y, width, height, map_id,
+      x, y, width, height, map_id, enable_switch, autoplay, ziltags_activated, switch_activated,
       ziltags,
       ziltag_preview,
       user,
@@ -20,6 +20,15 @@ class ZiltagMap extends React.Component {
       onTouchStart,
       actors
     } = this.props
+
+    const {
+      load_ziltag,
+      activate_ziltag_reader,
+      activate_ziltag_preview,
+      deactivate_ziltag_preview,
+      deactivate_ziltag_map_ziltags,
+      deactivate_ziltag_map_switch
+    } = actors
 
     const style = {
       top: y,
@@ -33,20 +42,38 @@ class ZiltagMap extends React.Component {
       is_mobile
     } = client_state
 
+    const radius = 12
+
     const tag_ziltags = []
     for (let i = 0; i < (ziltags || []).length; ++i) {
       const ziltag = ziltags[i]
+      const ziltag_id = ziltag.id
 
       tag_ziltags.push(
         <Ziltag
-          key={i}
-          actors={actors}
-          ziltag_id={ziltag.id}
-          map_id={map_id}
-          x={ziltag.x * width}
-          y={ziltag.y * height}
-          is_focused={ziltag.id && ziltag_preview.ziltag_id == ziltag.id}
-          client_state={client_state}
+          key={`ziltag-${ziltag_id}`}
+          style={{
+            top: ziltag.y * height - radius,
+            left: ziltag.x * width - radius,
+            zIndex: MAX_Z_INDEX - 3
+          }}
+          onClick={() => {
+            if (is_mobile) {
+              load_ziltag({id: ziltag_id})
+            }
+            if (!(is_mobile || autoplay)) {
+              deactivate_ziltag_map_ziltags({map_id})
+            }
+            deactivate_ziltag_map_switch({map_id})
+            activate_ziltag_reader({map_id, ziltag_id, is_mobile})
+          }}
+          onMouseEnter={() => {
+            load_ziltag({id: ziltag_id})
+            if (!is_mobile) {
+              activate_ziltag_preview({map_id, ziltag_id})
+            }
+          }}
+          onMouseLeave={deactivate_ziltag_preview}
         />
       )
 
@@ -75,6 +102,11 @@ class ZiltagMap extends React.Component {
 
     const switch_width = 52
 
+    const boo = !is_mobile &&
+        user.permissions && user.permissions.includes('create_ziltag') &&
+        ziltags_activated &&
+        enable_switch
+
     return <div
       style={style}
       className='ziltag-ziltag-map'
@@ -82,11 +114,13 @@ class ZiltagMap extends React.Component {
       onMouseLeave={onMouseLeave}
       onTouchStart={onTouchStart}
     >
-    {
-      !is_mobile &&
-      user.permissions && user.permissions.includes('create_ziltag') &&
-      <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
-    }
+      {
+        !is_mobile &&
+        user.permissions && user.permissions.includes('create_ziltag') &&
+        enable_switch &&
+        switch_activated &&
+        <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
+      }
       {tag_ziltags}
       {tag_ziltag_preview}
     </div>
