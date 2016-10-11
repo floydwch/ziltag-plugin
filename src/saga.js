@@ -1,5 +1,5 @@
 import {takeLatest, takeEvery, delay, eventChannel} from 'redux-saga'
-import {call, put, take, select, race} from 'redux-saga/effects'
+import {call, put, take, select, race, fork} from 'redux-saga/effects'
 
 import {
   ziltag_map_fetched,
@@ -67,6 +67,8 @@ function* fetch_ziltag_map(action) {
     return
   }
 
+  yield put(ziltag_map_fetched({map_id, ziltags, meta: action.payload.meta}))
+
   return {
     map_id,
     ziltags
@@ -119,8 +121,6 @@ function* manage_ziltag_map(action) {
     map_id
   } = ziltag_map
 
-  yield put(ziltag_map_fetched({...ziltag_map, meta}))
-
   yield put(set_ziltag_map_meta({
     map_id,
     meta
@@ -162,8 +162,7 @@ function* manage_ziltag_map(action) {
       if (!autoplay) {
         yield put(activate_ziltag_map_ziltags({map_id}))
       }
-      const ziltag_map = yield call(fetch_ziltag_map, action)
-      yield put(ziltag_map_fetched(ziltag_map))
+      yield fork(fetch_ziltag_map, action)
     }
     else if (mouseleave_event) {
       if (is_on_img(event.relatedTarget)) {
