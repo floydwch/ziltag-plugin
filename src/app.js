@@ -34,7 +34,8 @@ class ZiltagApp extends Component {
     const {
       load_ziltag_map,
       load_ziltag,
-      deactivate_ziltag_map,
+      deactivate_ziltag_map_ziltags,
+      deactivate_ziltag_map_switch,
       deactivate_ziltag_reader
     } = actors
 
@@ -48,16 +49,21 @@ class ZiltagApp extends Component {
 
     const ziltag_map_components = Object.keys(ziltag_maps).map(id => {
       const {
-        activated,
+        ziltags_activated,
+        switch_activated,
         map_id,
         x,
         y,
         width,
         height,
-        ziltags
+        ziltags,
+        meta: {
+          enable_switch,
+          autoplay,
+        }
       } = ziltag_maps[id]
 
-      if (activated) {
+      if (ziltags_activated) {
         return (
           <ZiltagMap
             key={map_id}
@@ -67,15 +73,20 @@ class ZiltagApp extends Component {
             y={y}
             width={width}
             height={height}
+            ziltags_activated={ziltags_activated}
+            switch_activated={switch_activated}
+            enable_switch={enable_switch}
+            autoplay={autoplay}
             ziltags={ziltags}
             ziltag_preview={ziltag_preview}
             user={user}
             client_state={client_state}
             onMouseEnter={() => load_ziltag_map({id: map_id})}
             onMouseLeave={() => {
-              if (!is_mobile) {
-                deactivate_ziltag_map({is_mobile})
+              if (!(is_mobile || autoplay)) {
+                deactivate_ziltag_map_ziltags({map_id})
               }
+              deactivate_ziltag_map_switch({map_id})
             }}
             onTouchStart={() => {
               load_ziltag_map({id: map_id})

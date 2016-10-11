@@ -1,3 +1,12 @@
 .ziltag-ziltag-map {
-    position: absolute;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ziltag-ziltag {
+  pointer-events: all;
+}
+
+.ziltag-switch {
+  pointer-events: all;
 }

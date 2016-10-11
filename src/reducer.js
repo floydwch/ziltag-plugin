@@ -16,6 +16,8 @@ function client_state(state={}, action) {
 function ziltag_maps(state={}, action) {
   switch (action.type) {
     case 'ZILTAG_MAP_FETCHED':
+    case 'SET_ZILTAG_MAP_SIZE':
+    case 'SET_ZILTAG_MAP_POSITION':
       return {
         ...state,
         [action.payload.map_id]: {
@@ -23,27 +25,38 @@ function ziltag_maps(state={}, action) {
           ...action.payload
         }
       }
-    case 'ACTIVATE_ZILTAG_MAP':
-      for (let id in state) {
-        if (state[id].src == action.payload.src) {
-          return {
-            ...state,
-            [state[id].map_id]: {
-              ...state[id],
-              ...action.payload,
-              activated: true
-            }
-          }
+    case 'ACTIVATE_ZILTAG_MAP_ZILTAGS':
+      return {
+        ...state,
+        [action.payload.map_id]: {
+          ...state[action.payload.map_id],
+          ziltags_activated: true
         }
       }
-    case 'DEACTIVATE_ZILTAG_MAP':
-      const deactivated_ziltag_maps = {...state}
-      for (let id in state) {
-        if (state[id].activated) {
-          deactivated_ziltag_maps[id].activated = false
+    case 'DEACTIVATE_ZILTAG_MAP_ZILTAGS':
+      return {
+        ...state,
+        [action.payload.map_id]: {
+          ...state[action.payload.map_id],
+          ziltags_activated: false
         }
       }
-      return deactivated_ziltag_maps
+    case 'ACTIVATE_ZILTAG_MAP_SWITCH':
+      return {
+        ...state,
+        [action.payload.map_id]: {
+          ...state[action.payload.map_id],
+          switch_activated: true
+        }
+      }
+    case 'DEACTIVATE_ZILTAG_MAP_SWITCH':
+      return {
+        ...state,
+        [action.payload.map_id]: {
+          ...state[action.payload.map_id],
+          switch_activated: false
+        }
+      }
     default:
       return state
   }

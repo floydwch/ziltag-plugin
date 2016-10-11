@@ -1,15 +1,50 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { Provider } from 'react-redux'
+import {createStore, applyMiddleware, compose} from 'redux'
+import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import MobileDetect from 'mobile-detect'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import {update_client_state, activate_ziltag_map, deactivate_ziltag_map, deactivate_ziltag_reader, fetch_ziltag_map, fetch_me} from './actor'
+import {update_client_state, activate_ziltag_map_ziltags, activate_ziltag_map_switch, set_ziltag_map_meta, deactivate_ziltag_reader, fetch_ziltag_map, init_ziltag_map, fetch_me} from './actor'
 import root_saga from './saga'
 
+
+function is_qualified_img(img) {
+  const {clientWidth: width, clientHeight: height} = img
+  /*
+  const
+    switch_width = 52,
+    switch_height = 59,
+    ziltag_radius = 6,
+    ziltag_max_radius = 23,
+    ziltag_preview_margin = 2,
+    ziltag_preview_width = 172,
+    ziltag_preview_height = 60
+
+  const theoretic_min_width = 2 * (ziltag_radius +
+    ziltag_preview_margin + ziltag_preview_width)
+
+  theoretic_min_width == 372
+
+  const theoretic_min_height = ziltag_max_radius +
+    ziltag_preview_height
+
+  theoretic_min_height == 83
+
+  */
+
+  const
+    min_width = 200,
+    min_height = 100
+
+  if (width < min_width || height < min_height) {
+    return false
+  }
+
+  return true
+}
 
 const roboto_font_link = document.createElement('link')
 roboto_font_link.rel = 'stylesheet'
@@ -58,101 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return
   }
 
-  function is_outside(relatedTarget) {
-    if (relatedTarget == null) {
-      return true
-    } else {
-      const check_names = [
-        'ziltag-switch',
-        'ziltag-ziltag',
-        'ziltag-ziltag-preview'
-      ]
-      for (const check_name of check_names) {
-        if (relatedTarget.className.indexOf(check_name) != -1) {
-          return false
-        }
-      }
-      return true
-    }
-  }
-
-  function is_qualified_img(img) {
-    const {clientWidth: width, clientHeight: height} = img
-    /*
-    const
-      switch_width = 52,
-      switch_height = 59,
-      ziltag_radius = 6,
-      ziltag_max_radius = 23,
-      ziltag_preview_margin = 2,
-      ziltag_preview_width = 172,
-      ziltag_preview_height = 60
-
-    const theoretic_min_width = 2 * (ziltag_radius +
-      ziltag_preview_margin + ziltag_preview_width)
-
-    theoretic_min_width == 372
-
-    const theoretic_min_height = ziltag_max_radius +
-      ziltag_preview_height
-
-    theoretic_min_height == 83
-
-    */
-
-    const
-      min_width = 200,
-      min_height = 100
-
-    if (width < min_width || height < min_height) {
-      return false
-    }
-
-    return true
-  }
-
-  function _activate_ziltag_map(img, {is_mobile}) {
-    const {clientWidth: width, clientHeight: height, src} = img
-    const rect = img.getBoundingClientRect()
-    const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-    const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-
-    if (is_mobile) {
-      store.dispatch(
-        fetch_ziltag_map({
-          token: ziltag_token,
-          href: location.href,
-          src,
-          is_mobile,
-          x,
-          y,
-          width,
-          height
-        })
-      )
-    }
-    else {
-      store.dispatch(
-        activate_ziltag_map({
-          token: ziltag_token,
-          href: location.href,
-          src,
-          x,
-          y,
-          width,
-          height
-        })
-      )
-      store.dispatch(
-        fetch_ziltag_map({
-          token: ziltag_token,
-          href: location.href,
-          src
-        })
-      )
-    }
-  }
-
   for (let i = 0; i < scripts.length; ++i) {
     const script = scripts[i]
     if (script.dataset.ziltag) {
@@ -172,60 +112,54 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   )
 
-  if (!is_mobile) {
-    window.addEventListener('resize', () => {
-      store.dispatch(deactivate_ziltag_map())
-    })
-  } else {
-    window.addEventListener('orientationchange', () => {
-      store.dispatch(deactivate_ziltag_map())
-      for (let i = 0; i < imgs.length; ++i) {
-        const img = imgs[i]
-        if (img.dataset.ziltag == 'false') {
-          continue
-        }
-        _activate_ziltag_map(img, {is_mobile})
+  for (let i = 0; i < imgs.length; ++i) {
+    const img = imgs[i]
+    const {clientWidth: width, clientHeight: height, src} = img
+    const rect = img.getBoundingClientRect()
+    const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+    const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+    const enable_switch = img.dataset.ziltagSwitch !== undefined
+      ? JSON.parse(img.dataset.ziltagSwitch)
+      : true
+    const autoplay = img.dataset.ziltagAutoplay !== undefined
+      ? JSON.parse(img.dataset.ziltagAutoplay)
+      : true
+
+    function setup_ziltag_map() {
+      store.dispatch(
+        init_ziltag_map({
+          token: ziltag_token,
+          src,
+          href: location.href,
+          width,
+          height,
+          x,
+          y,
+          img,
+          meta: {
+            enable_switch,
+            autoplay
+          }
+        })
+      )
+    }
+
+    if (img.dataset.ziltag !== 'false' && is_qualified_img(img)) {
+      if (img.complete && img.naturalWidth) {
+        setup_ziltag_map()
       }
-    })
+      else {
+        img.addEventListener('load', setup_ziltag_map)
+      }
+    }
   }
 
   window.addEventListener('message', ({data}) => {
-    if (data == 'deactivate_ziltag_reader') {
+    if (data === 'deactivate_ziltag_reader') {
       store.dispatch(deactivate_ziltag_reader({is_mobile}))
     }
   })
-
-  for (let i = 0; i < imgs.length; ++i) {
-    const img = imgs[i]
-
-    if (img.dataset.ziltag == 'false') {
-      continue
-    }
-
-    if (!is_mobile) {
-      store.dispatch(
-        fetch_ziltag_map({
-          token: ziltag_token,
-          src: img.src,
-          href: location.href
-        })
-      )
-
-      img.addEventListener('mouseenter', (e) => {
-        if (is_qualified_img(img) && is_outside(e.relatedTarget)) {
-          _activate_ziltag_map(img, {is_mobile})
-        }
-      })
-    }
-    else {
-      if (img.complete && img.naturalWidth) {
-        _activate_ziltag_map(img, {is_mobile})
-      }
-      else {
-        img.addEventListener('load', () => _activate_ziltag_map(img, {is_mobile}))
-      }
-    }
-  }
 
   const mount_node = document.createElement('div')
   document.body.appendChild(mount_node)

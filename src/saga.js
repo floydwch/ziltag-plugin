@@ -1,19 +1,54 @@
-import {takeLatest, takeEvery, delay} from 'redux-saga'
-import {call, put, take, select} from 'redux-saga/effects'
+import {takeLatest, takeEvery, delay, eventChannel} from 'redux-saga'
+import {call, put, take, select, race} from 'redux-saga/effects'
 
 import {
   ziltag_map_fetched,
-  ziltag_map_activated,
   ziltag_reader_activated,
   ziltag_reader_deactivated,
-  activate_ziltag_map,
-  me_fetched
+  activate_ziltag_map_ziltags,
+  deactivate_ziltag_map_ziltags,
+  activate_ziltag_map_switch,
+  deactivate_ziltag_map_switch,
+  me_fetched,
+  set_ziltag_map_meta,
+  set_ziltag_map_size,
+  set_ziltag_map_position
 } from './actor'
 
 
+const createChannel = (target, event_name, ...args) => eventChannel(emitter => {
+  function handler(e) {
+    emitter(e)
+  }
+
+  target.addEventListener(event_name, handler, ...args)
+
+  return () => {
+    target.removeEventListener(event_name, handler, ...args)
+  }
+})
+
+function is_on_img(relatedTarget) {
+  if (relatedTarget == null) {
+    return true
+  } else {
+    const check_names = [
+      'ziltag-switch',
+      'ziltag-ziltag',
+      'ziltag-ziltag-preview'
+    ]
+    for (const check_name of check_names) {
+      if (relatedTarget.className.indexOf(check_name) != -1) {
+        return false
+      }
+    }
+    return true
+  }
+}
+
 function* fetch_ziltag_map(action) {
   const {
-    token, src, href, is_mobile, x, y, width, height
+    token, src, href
   } = action.payload
 
   const target = `${API_ADDRESS}/api/v1/ziltags/` +
@@ -32,20 +67,9 @@ function* fetch_ziltag_map(action) {
     return
   }
 
-  yield put(ziltag_map_fetched({map_id, src, ziltags}))
-
-  if (is_mobile) {
-    yield put(
-      activate_ziltag_map({
-        x,
-        y,
-        width,
-        height,
-        token,
-        src,
-        href
-      })
-    )
+  return {
+    map_id,
+    ziltags
   }
 }
 
@@ -70,7 +94,108 @@ function* fetch_me(action) {
 }
 
 function* watch_fetch_ziltag_map() {
-  const action = yield* takeEvery('FETCH_ZILTAG_MAP', fetch_ziltag_map)
+  const action = yield take('FETCH_ZILTAG_MAP')
+  const ziltag_map = yield call(fetch_ziltag_map, action)
+  yield put(ziltag_map_fetched(ziltag_map))
+}
+
+function* manage_ziltag_map(action) {
+  const {
+    width,
+    height,
+    x,
+    y,
+    img,
+    meta
+  } = action.payload
+
+  const {
+    enable_switch,
+    autoplay
+  } = meta
+
+  const ziltag_map = yield call(fetch_ziltag_map, action)
+  const {
+    map_id
+  } = ziltag_map
+
+  yield put(ziltag_map_fetched({...ziltag_map, meta}))
+
+  yield put(set_ziltag_map_meta({
+    map_id,
+    meta
+  }))
+
+  yield put(set_ziltag_map_size({
+    map_id,
+    width,
+    height
+  }))
+
+  yield put(set_ziltag_map_position({
+    map_id,
+    x,
+    y
+  }))
+
+  if (autoplay) {
+    yield put(activate_ziltag_map_ziltags({map_id}))
+  }
+
+  const mouseenter_channel = yield call(createChannel, img, 'mouseenter')
+  const mouseleave_channel = yield call(createChannel, img, 'mouseleave')
+  const resize_channel = yield call(createChannel, window, 'resize')
+  const orientationchange_channel = yield call(createChannel, window, 'orientationchange')
+
+  while (true) {
+    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event} = yield race({
+      mouseenter_event: take(mouseenter_channel),
+      mouseleave_event: take(mouseleave_channel),
+      resize_event: take(resize_channel),
+      orientationchange_event: take(orientationchange_channel)
+    })
+
+    if (mouseenter_event) {
+      if (enable_switch) {
+        yield put(activate_ziltag_map_switch({map_id}))
+      }
+      if (!autoplay) {
+        yield put(activate_ziltag_map_ziltags({map_id}))
+      }
+      const ziltag_map = yield call(fetch_ziltag_map, action)
+      yield put(ziltag_map_fetched(ziltag_map))
+    }
+    else if (mouseleave_event) {
+      if (is_on_img(event.relatedTarget)) {
+        if (!autoplay) {
+          yield put(deactivate_ziltag_map_ziltags({map_id}))
+        }
+        yield put(deactivate_ziltag_map_switch({map_id}))
+      }
+    }
+    else if (resize_event || orientationchange_event) {
+      const {clientWidth: width, clientHeight: height, src} = img
+      const rect = img.getBoundingClientRect()
+      const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+      const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+      yield put(set_ziltag_map_size({
+        map_id,
+        width,
+        height
+      }))
+
+      yield put(set_ziltag_map_position({
+        map_id,
+        x,
+        y
+      }))
+    }
+  }
+}
+
+function* watch_init_ziltag_map() {
+  yield* takeEvery('INIT_ZILTAG_MAP', manage_ziltag_map)
 }
 
 function* activate_ziltag_reader(action) {
@@ -166,6 +291,7 @@ export default function* root_saga() {
     watch_goto_ziltag_page(),
     watch_fetch_me(),
     load_ziltag(),
-    load_ziltag_map()
+    load_ziltag_map(),
+    watch_init_ziltag_map()
   ]
 }

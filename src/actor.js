@@ -2,9 +2,14 @@ import {createAction} from 'redux-actions'
 
 
 export const update_client_state = createAction('UPDATE_CLIENT_STATE')
-export const activate_ziltag_map = createAction('ACTIVATE_ZILTAG_MAP')
-export const deactivate_ziltag_map = createAction('DEACTIVATE_ZILTAG_MAP')
-export const ziltag_map_activated = createAction('ZILTAG_MAP_ACTIVATED')
+export const activate_ziltag_map_ziltags = createAction('ACTIVATE_ZILTAG_MAP_ZILTAGS')
+export const deactivate_ziltag_map_ziltags = createAction('DEACTIVATE_ZILTAG_MAP_ZILTAGS')
+export const activate_ziltag_map_switch = createAction('ACTIVATE_ZILTAG_MAP_SWITCH')
+export const deactivate_ziltag_map_switch = createAction('DEACTIVATE_ZILTAG_MAP_SWITCH')
+export const set_ziltag_map_meta = createAction('SET_ZILTAG_MAP_META')
+export const set_ziltag_map_position = createAction('SET_ZILTAG_MAP_POSITION')
+export const set_ziltag_map_size = createAction('SET_ZILTAG_MAP_SIZE')
+export const init_ziltag_map = createAction('INIT_ZILTAG_MAP')
 export const fetch_ziltag_map = createAction('FETCH_ZILTAG_MAP')
 export const ziltag_map_fetched = createAction('ZILTAG_MAP_FETCHED')
 export const fetch_me = createAction('FETCH_ME')
