@@ -42,7 +42,7 @@ class ZiltagMap extends React.Component {
       is_mobile
     } = client_state
 
-    const radius = 12
+    const radius = 10
 
     const tag_ziltags = []
     for (let i = 0; i < (ziltags || []).length; ++i) {
