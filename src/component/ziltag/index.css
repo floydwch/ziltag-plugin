@@ -1,31 +1,37 @@
+:root {
+  --ziltag-radius: 10px;
+  --ziltag-diameter: calc(var(--ziltag-radius) * 2);
+  --ziltag-border: 1px;
+  --ziltag-halo-diameter: 48px;
+}
+
 .ziltag-ziltag {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, .9);
-  border: 5px solid rgba(0, 0, 0, .45);
+  width: var(--ziltag-diameter);
+  height: var(--ziltag-diameter);
+  background: rgba(238, 46, 36, .9);
+  border: var(--ziltag-border) solid rgba(255, 255, 255, .9);
   border-radius: 50%;
-  box-shadow: inset 0 0 1px rgba(151, 151, 151, 1);
+  box-shadow: 0 6px 2px rgba(0, 0, 0, .1);
   box-sizing: border-box;
   cursor: pointer;
 }
 
 .ziltag-ziltag::before {
   content: '';
-  width: 60px;
-  height: 60px;
   position: absolute;
-  top: -33px;
-  left: -33px;
-  border-radius: 60px;
-  background: rgba(0, 0, 0, .45);
-  border: 10px solid rgba(0, 0, 0, .45);
-  box-sizing: content-box;
+  width: var(--ziltag-halo-diameter);
+  height: var(--ziltag-halo-diameter);
+  top: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-halo-diameter) / 2);
+  left: calc((var(--ziltag-diameter) - 2 * var(--ziltag-border)) / 2 - var(--ziltag-halo-diameter) / 2);
+  border-radius: 50%;
+  background: rgba(239, 146, 141, .7);
+  box-sizing: border-box;
   animation: ziltag-pulse 2s infinite;
-  font-smoothing: subpixel-antialiased;
-  transform: translate3d(0, 0, 0);
-  perspective: 1000;
-  backface-visibility: hidden;
+}
+
+.ziltag-ziltag:hover::before {
+  display: none;
 }
 
 @keyframes ziltag-pulse {
@@ -33,12 +39,8 @@
     transform: scale(0);
     opacity: 0;
   }
-  25% {
-    transform: scale(0);
-    opacity: 0.1;
-  }
   50% {
-    transform: scale(0.1);
+    transform: scale(0.2);
     opacity: 0.3;
   }
   75% {

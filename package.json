@@ -41,6 +41,7 @@
     "gulp-env": "^0.4.0",
     "gulp-gh-pages": "^0.5.4",
     "imports-loader": "^0.6.5",
+    "postcss-calc": "^5.3.1",
     "postcss-cssnext": "^2.7.0",
     "postcss-loader": "^0.9.1",
     "redux-devtools": "^3.3.1",
