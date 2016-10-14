@@ -1,5 +1,7 @@
 .ziltag-ziltag-preview {
   position: relative;
+  width: 240px;
+  min-height: 60px;
   padding: 12px;
   font-family: Roboto, GillSans, Calibri, Trebuchet, sans-serif;
   font-size: 12px;
@@ -12,15 +14,4 @@
 
 .ziltag-ziltag-preview__content {
   color: rgb(51, 51, 51);
-}
-
-.ziltag-ziltag-preview__avatar {
-  width: 38px;
-  height: 38px;
-}
-
-.ziltag-ziltag-preview .ziltag-ziltag-preview__avatar {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
