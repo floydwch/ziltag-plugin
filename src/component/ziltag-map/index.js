@@ -1,7 +1,8 @@
 import React from 'react'
 
 import Ziltag from '../ziltag'
-import ZiltagPreview from '../ziltag-preview'
+import CoDiv from '../CoDiv'
+import ZiltagPreview from '../ZiltagPreview'
 import Switch from '../switch'
 
 require('./index.css')
@@ -77,35 +78,38 @@ class ZiltagMap extends React.Component {
         />
       )
 
-      if (ziltag.x >= 0.5) {
-        var side = 'right'
-      } else {
-        var side = 'left'
+      const direction = ziltag.x < 0.5 ? 'right' : 'left'
+      const x_offset = 30
+      const y_offset = -30
+
+      const co_div_style = {
+        top: ziltag.y * height + y_offset,
+        zIndex: MAX_Z_INDEX - 2
       }
 
-      if (ziltag.y * height < 30) {
-        side = 'upper-' + side
-      } else if (height - ziltag.y * height < 30) {
-        side = 'lower-' + side
+      if (direction == 'left') {
+        co_div_style.right = width - ziltag.x * width + x_offset
+      } else if (direction == 'right') {
+        co_div_style.left = ziltag.x * width + x_offset
       }
 
-      if (ziltag.id && ziltag_preview.ziltag_id == ziltag.id) {
-        var tag_ziltag_preview = <ZiltagPreview
-          x={ziltag.x * width}
-          y={ziltag.y * height}
-          side={side}
-          content={ziltag.content}
-          usr={ziltag.usr}
-        />
+      if (ziltag.id && ziltag_preview.ziltag_id === ziltag.id) {
+        var tag_ziltag_preview = (
+          <CoDiv
+            className='ziltag-ziltag-map__co-div'
+            style={co_div_style}
+            direction={direction}
+          >
+            <ZiltagPreview
+              content={ziltag.content}
+              author={ziltag.usr.name}
+            />
+          </CoDiv>
+        )
       }
     }
 
     const switch_width = 52
-
-    const boo = !is_mobile &&
-        user.permissions && user.permissions.includes('create_ziltag') &&
-        ziltags_activated &&
-        enable_switch
 
     return <div
       style={style}

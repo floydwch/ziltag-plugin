@@ -10,3 +10,7 @@
 .ziltag-switch {
   pointer-events: all;
 }
+
+.ziltag-ziltag-map__co-div {
+  position: absolute;
+}
