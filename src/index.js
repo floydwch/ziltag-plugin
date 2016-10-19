@@ -155,12 +155,16 @@ document.addEventListener('DOMContentLoaded', () => {
       )
     }
 
-    if (img.dataset.ziltag !== 'false' && is_qualified_img(img)) {
-      if (img.complete && img.naturalWidth) {
+    if (img.dataset.ziltag !== 'false') {
+      if (img.complete && img.naturalWidth && is_qualified_img(img)) {
         setup_ziltag_map()
       }
       else {
-        img.addEventListener('load', setup_ziltag_map)
+        img.addEventListener('load', () => {
+          if (is_qualified_img(img)) {
+            setup_ziltag_map()
+          }
+        })
       }
     }
   }
