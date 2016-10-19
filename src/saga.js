@@ -312,19 +312,27 @@ function* dispatch_event() {
   while (true) {
     const {
       ziltag_map_switch_activated,
+      ziltag_map_switch_deactivated,
       ziltag_reader_activated,
+      ziltag_reader_deactivated,
       message_event
     } = yield race({
       ziltag_map_switch_activated: take('ACTIVATE_ZILTAG_MAP_SWITCH'),
+      ziltag_map_switch_deactivated: take('DEACTIVATE_ZILTAG_MAP_SWITCH'),
       ziltag_reader_activated: take('ZILTAG_READER_ACTIVATED'),
+      ziltag_reader_deactivated: take('ZILTAG_READER_DEACTIVATED'),
       message_event: take(message_channel)
     })
 
     const event = do {
       if (ziltag_map_switch_activated) {
         new CustomEvent('ZILTAG_MAP_SWITCH_ACTIVATED')
+      } else if (ziltag_map_switch_deactivated) {
+        new CustomEvent('ZILTAG_MAP_SWITCH_DEACTIVATED')
       } else if (ziltag_reader_activated) {
         new CustomEvent('ZILTAG_READER_ACTIVATED')
+      } else if (ziltag_reader_deactivated) {
+        new CustomEvent('ZILTAG_READER_DEACTIVATED')
       } else if (message_event) {
         new CustomEvent(message_event.payload.type)
       }
