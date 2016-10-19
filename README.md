@@ -55,3 +55,16 @@ default: `true`
 
 ## Limits
 The `img`'s width must be greater than or equal to `200px`, height must be greater than or equal to `100px`.
+
+## Events
+There are some events indicate the state of the interaction between user and Ziltag plugin.
+
+### Example
+```javascript
+const target = document.getElementsByClassName('ziltag-app')
+target.addEventListener('ZILTAG_MAP_SWITCH_ACTIVATED', () => {...})
+```
+
+### Event types
+* ZILTAG_MAP_SWITCH_ACTIVATED
+* ZILTAG_READER_ACTIVATED

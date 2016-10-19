@@ -23,3 +23,4 @@ export const ziltag_reader_deactivated = createAction('ZILTAG_READER_DEACTIVATED
 export const goto_ziltag_page = createAction('GOTO_ZILTAG_PAGE')
 export const load_ziltag = createAction('LOAD_ZILTAG')
 export const load_ziltag_map = createAction('LOAD_ZILTAG_MAP')
+export const ziltag_app_mounted = createAction('ZILTAG_APP_MOUNTED')

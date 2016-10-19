@@ -111,7 +111,7 @@ class ZiltagApp extends Component {
       pointerEvents: activated ? 'auto' : 'none'
     }
 
-    return <div>
+    return <div className='ziltag-app'>
       {
         ziltag_map_components
       }

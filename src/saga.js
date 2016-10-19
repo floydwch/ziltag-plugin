@@ -1,3 +1,5 @@
+import 'custom-event-polyfill'
+
 import {takeLatest, takeEvery, delay, eventChannel} from 'redux-saga'
 import {call, put, take, select, race, fork} from 'redux-saga/effects'
 
@@ -282,6 +284,32 @@ function* load_ziltag_map() {
   }
 }
 
+function* dispatch_event() {
+  yield take('ZILTAG_APP_MOUNTED')
+
+  const target = document.getElementsByClassName('ziltag-app')[0]
+
+  while (true) {
+    const {
+      ziltag_map_switch_activated,
+      ziltag_reader_activated
+    } = yield race({
+      ziltag_map_switch_activated: take('ACTIVATE_ZILTAG_MAP_SWITCH'),
+      ziltag_reader_activated: take('ZILTAG_READER_ACTIVATED')
+    })
+
+    const event = do {
+      if (ziltag_map_switch_activated) {
+        new CustomEvent('ZILTAG_MAP_SWITCH_ACTIVATED')
+      } else if (ziltag_reader_activated) {
+        new CustomEvent('ZILTAG_READER_ACTIVATED')
+      }
+    }
+
+    target.dispatchEvent(event)
+  }
+}
+
 export default function* root_saga() {
   yield [
     watch_fetch_ziltag_map(),
@@ -291,6 +319,7 @@ export default function* root_saga() {
     watch_fetch_me(),
     load_ziltag(),
     load_ziltag_map(),
-    watch_init_ziltag_map()
+    watch_init_ziltag_map(),
+    dispatch_event()
   ]
 }

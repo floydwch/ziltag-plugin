@@ -7,7 +7,17 @@ import MobileDetect from 'mobile-detect'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
-import {update_client_state, activate_ziltag_map_ziltags, activate_ziltag_map_switch, set_ziltag_map_meta, deactivate_ziltag_reader, fetch_ziltag_map, init_ziltag_map, fetch_me} from './actor'
+import {
+  update_client_state,
+  activate_ziltag_map_ziltags,
+  activate_ziltag_map_switch,
+  set_ziltag_map_meta,
+  deactivate_ziltag_reader,
+  fetch_ziltag_map,
+  init_ziltag_map,
+  fetch_me,
+  ziltag_app_mounted
+} from './actor'
 import root_saga from './saga'
 
 
@@ -170,6 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </Provider>,
     mount_node
   )
+
+  store.dispatch(ziltag_app_mounted())
 
   if (module.hot) {
     module.hot.accept('./app', () => {
