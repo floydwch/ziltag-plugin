@@ -34,8 +34,6 @@ class ZiltagApp extends Component {
     const {
       load_ziltag_map,
       load_ziltag,
-      deactivate_ziltag_map_ziltags,
-      deactivate_ziltag_map_switch,
       deactivate_ziltag_reader
     } = actors
 
@@ -81,13 +79,6 @@ class ZiltagApp extends Component {
             ziltag_preview={ziltag_preview}
             user={user}
             client_state={client_state}
-            onMouseEnter={() => load_ziltag_map({id: map_id})}
-            onMouseLeave={() => {
-              if (!(is_mobile || autoplay)) {
-                deactivate_ziltag_map_ziltags({map_id})
-              }
-              deactivate_ziltag_map_switch({map_id})
-            }}
             onTouchStart={() => {
               load_ziltag_map({id: map_id})
               ziltags.forEach(ziltag => {

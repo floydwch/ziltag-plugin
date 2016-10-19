@@ -14,7 +14,8 @@ import {
   me_fetched,
   set_ziltag_map_meta,
   set_ziltag_map_size,
-  set_ziltag_map_position
+  set_ziltag_map_position,
+  load_ziltag_map
 } from './actor'
 
 
@@ -172,12 +173,16 @@ function* manage_ziltag_map(action) {
     })
 
     if (mouseenter_event) {
+      yield put(load_ziltag_map({id: map_id}))
+
       if (enable_switch) {
         yield put(activate_ziltag_map_switch({map_id}))
       }
+
       if (!autoplay) {
         yield put(activate_ziltag_map_ziltags({map_id}))
       }
+
       yield fork(fetch_ziltag_map, action)
     }
     else if (mouseleave_event) {
@@ -280,7 +285,7 @@ function* watch_fetch_me() {
   yield* takeEvery('FETCH_ME', fetch_me)
 }
 
-function* load_ziltag() {
+function* watch_load_ziltag() {
   while (true) {
     const action = yield take('LOAD_ZILTAG')
     document.querySelector('.ziltag-ziltag-reader')
@@ -289,7 +294,7 @@ function* load_ziltag() {
   }
 }
 
-function* load_ziltag_map() {
+function* watch_load_ziltag_map() {
   while (true) {
     const action = yield take('LOAD_ZILTAG_MAP')
     document.querySelector('.ziltag-ziltag-reader')
@@ -336,8 +341,8 @@ export default function* root_saga() {
     watch_deactivate_ziltag_reader(),
     watch_goto_ziltag_page(),
     watch_fetch_me(),
-    load_ziltag(),
-    load_ziltag_map(),
+    watch_load_ziltag(),
+    watch_load_ziltag_map(),
     watch_init_ziltag_map(),
     dispatch_event()
   ]
