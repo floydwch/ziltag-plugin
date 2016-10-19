@@ -30,6 +30,20 @@ const createChannel = (target, event_name, ...args) => eventChannel(emitter => {
   }
 })
 
+const createMessageEventChannel = () => eventChannel(emitter => {
+  function handler(e) {
+    if (e.data.type === 'event') {
+      emitter(e.data)
+    }
+  }
+
+  window.addEventListener('message', handler)
+
+  return () => {
+    target.removeEventListener(message, handler)
+  }
+})
+
 function is_on_img(relatedTarget) {
   if (relatedTarget == null) {
     return true
@@ -288,14 +302,17 @@ function* dispatch_event() {
   yield take('ZILTAG_APP_MOUNTED')
 
   const target = document.getElementsByClassName('ziltag-app')[0]
+  const message_channel = yield call(createMessageEventChannel)
 
   while (true) {
     const {
       ziltag_map_switch_activated,
-      ziltag_reader_activated
+      ziltag_reader_activated,
+      message_event
     } = yield race({
       ziltag_map_switch_activated: take('ACTIVATE_ZILTAG_MAP_SWITCH'),
-      ziltag_reader_activated: take('ZILTAG_READER_ACTIVATED')
+      ziltag_reader_activated: take('ZILTAG_READER_ACTIVATED'),
+      message_event: take(message_channel)
     })
 
     const event = do {
@@ -303,6 +320,8 @@ function* dispatch_event() {
         new CustomEvent('ZILTAG_MAP_SWITCH_ACTIVATED')
       } else if (ziltag_reader_activated) {
         new CustomEvent('ZILTAG_READER_ACTIVATED')
+      } else if (message_event) {
+        new CustomEvent(message_event.payload.type)
       }
     }
 
