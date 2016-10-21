@@ -88,7 +88,7 @@ function ziltag_reader(state={}, action) {
 function user(state = {}, action) {
   switch (action.type) {
     case 'ME_FETCHED':
-      return action.payload.user
+      return action.payload
     default:
       return state
   }

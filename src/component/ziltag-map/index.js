@@ -111,23 +111,24 @@ class ZiltagMap extends React.Component {
 
     const switch_width = 52
 
-    return <div
-      style={style}
-      className='ziltag-ziltag-map'
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onTouchStart={onTouchStart}
-    >
-      {
+    return (
+      <div
+        style={style}
+        className='ziltag-ziltag-map'
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onTouchStart={onTouchStart}
+      > {
         !is_mobile &&
         user.permissions && user.permissions.includes('create_ziltag') &&
         enable_switch &&
         switch_activated &&
         <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
       }
-      {tag_ziltags}
-      {tag_ziltag_preview}
-    </div>
+        {tag_ziltags}
+        {tag_ziltag_preview}
+      </div>
+    )
   }
 }
 
