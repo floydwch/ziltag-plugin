@@ -65,6 +65,12 @@ const target = document.getElementsByClassName('ziltag-app')
 target.addEventListener('ZILTAG_MAP_SWITCH_ACTIVATED', () => {...})
 ```
 
+or use event capturing:
+
+```javascript
+addEventListener('ZILTAG_MAP_SWITCH_ACTIVATED', () => {...}, true)
+```
+
 ### Event types
 * ZILTAG_MAP_SWITCH_ACTIVATED
 * ZILTAG_MAP_SWITCH_DEACTIVATED
