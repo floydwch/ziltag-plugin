@@ -45,6 +45,18 @@ const createMessageEventChannel = () => eventChannel(emitter => {
   }
 })
 
+const createMutationChannel = options => eventChannel(emitter => {
+  const observer = new MutationObserver(mutations => {
+    emitter(mutations)
+  })
+
+  observer.observe(document, options)
+
+  return () => {
+    observer.disconnect()
+  }
+})
+
 function is_on_img(relatedTarget) {
   if (relatedTarget == null) {
     return true
@@ -162,13 +174,19 @@ function* manage_ziltag_map(action) {
   const mouseleave_channel = yield call(createChannel, img, 'mouseleave')
   const resize_channel = yield call(createChannel, window, 'resize')
   const orientationchange_channel = yield call(createChannel, window, 'orientationchange')
+  const attr_mutation_channel = yield call(createMutationChannel, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ['class', 'style']
+  })
 
   while (true) {
-    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event} = yield race({
+    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, attr_mutations} = yield race({
       mouseenter_event: take(mouseenter_channel),
       mouseleave_event: take(mouseleave_channel),
       resize_event: take(resize_channel),
-      orientationchange_event: take(orientationchange_channel)
+      orientationchange_event: take(orientationchange_channel),
+      attr_mutations: take(attr_mutation_channel)
     })
 
     if (mouseenter_event) {
@@ -192,7 +210,7 @@ function* manage_ziltag_map(action) {
         yield put(deactivate_ziltag_map_switch({map_id}))
       }
     }
-    else if (resize_event || orientationchange_event) {
+    else if (resize_event || orientationchange_event || attr_mutations) {
       const {clientWidth: width, clientHeight: height, src} = img
       const rect = img.getBoundingClientRect()
       const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
