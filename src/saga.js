@@ -248,6 +248,7 @@ function* activate_ziltag_reader(action) {
     scrollX: window.scrollX,
     scrollY: window.scrollY
   }))
+  yield put(deactivate_ziltag_map_switch({map_id}))
   yield call(delay, 0)
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')

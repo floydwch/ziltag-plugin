@@ -27,8 +27,7 @@ class ZiltagMap extends React.Component {
       activate_ziltag_reader,
       activate_ziltag_preview,
       deactivate_ziltag_preview,
-      deactivate_ziltag_map_ziltags,
-      deactivate_ziltag_map_switch
+      deactivate_ziltag_map_ziltags
     } = actors
 
     const style = {
@@ -66,7 +65,6 @@ class ZiltagMap extends React.Component {
               deactivate_ziltag_map_ziltags({map_id})
             }
             activate_ziltag_reader({map_id, ziltag_id, is_mobile})
-            deactivate_ziltag_map_switch({map_id})
           }}
           onMouseEnter={() => {
             load_ziltag({id: ziltag_id})
