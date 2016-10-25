@@ -370,10 +370,10 @@ function* sync_auth() {
   while (true) {
     const message_event = yield take(message_channel)
     if (
-        [
-          'CURRENT_USER_SIGNED_OUT',
-          'CURRENT_USER_SIGNED_IN'
-        ].includes(message_event.payload.type)) {
+      [
+        'CURRENT_USER_SIGNED_OUT',
+        'CURRENT_USER_SIGNED_IN'
+      ].includes(message_event.payload.type)) {
       yield put(fetch_me({token}))
     }
   }
