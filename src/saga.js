@@ -15,7 +15,8 @@ import {
   set_ziltag_map_meta,
   set_ziltag_map_size,
   set_ziltag_map_position,
-  load_ziltag_map
+  load_ziltag_map,
+  fetch_me
 } from './actor'
 
 
@@ -104,7 +105,7 @@ function* fetch_ziltag_map(action) {
   }
 }
 
-function* fetch_me(action) {
+function* fetch_me_saga(action) {
   const {
     token
   } = action.payload
@@ -300,7 +301,7 @@ function* watch_goto_ziltag_page() {
 }
 
 function* watch_fetch_me() {
-  yield* takeEvery('FETCH_ME', fetch_me)
+  yield* takeEvery('FETCH_ME', fetch_me_saga)
 }
 
 function* watch_load_ziltag() {
@@ -360,6 +361,24 @@ function* dispatch_event() {
   }
 }
 
+function* sync_auth() {
+  const message_channel = yield call(createMessageEventChannel)
+
+  yield take('ZILTAG_APP_MOUNTED')
+  const token = yield select(state => state.client_state.token)
+
+  while (true) {
+    const message_event = yield take(message_channel)
+    if (
+        [
+          'CURRENT_USER_SIGNED_OUT',
+          'CURRENT_USER_SIGNED_IN'
+        ].includes(message_event.payload.type)) {
+      yield put(fetch_me({token}))
+    }
+  }
+}
+
 export default function* root_saga() {
   yield [
     watch_fetch_ziltag_map(),
@@ -370,6 +389,7 @@ export default function* root_saga() {
     watch_load_ziltag(),
     watch_load_ziltag_map(),
     watch_init_ziltag_map(),
-    dispatch_event()
+    dispatch_event(),
+    sync_auth()
   ]
 }

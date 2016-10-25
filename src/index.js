@@ -106,19 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < scripts.length; ++i) {
     const script = scripts[i]
     if (script.dataset.ziltag) {
-      var ziltag_token = script.dataset.ziltag
+      var token = script.dataset.ziltag
     }
   }
 
-  if (!ziltag_token) {
+  if (!token) {
     console.error('Must give a token to setup Ziltag.')
   }
 
-  store.dispatch(update_client_state({is_mobile}))
+  store.dispatch(update_client_state({is_mobile, token}))
 
   store.dispatch(
     fetch_me({
-      token: ziltag_token
+      token
     })
   )
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setup_ziltag_map() {
       store.dispatch(
         init_ziltag_map({
-          token: ziltag_token,
+          token,
           src,
           href: location.href,
           width,
