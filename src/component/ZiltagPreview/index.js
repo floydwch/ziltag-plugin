@@ -9,8 +9,10 @@ function ellipsize(text) {
   return result.length < max_len ? result : `${result}...`
 }
 
+export const meta_class_name = 'ziltag-ziltag-preview'
+
 export default ({content, author}) => (
-  <div className='ziltag-ziltag-preview'>
+  <div className={meta_class_name}>
     <div className='ziltag-ziltag-preview__author'>
       {author}
     </div>

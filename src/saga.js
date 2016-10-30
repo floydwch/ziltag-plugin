@@ -3,6 +3,13 @@ import 'custom-event-polyfill'
 import {takeLatest, takeEvery, delay, eventChannel} from 'redux-saga'
 import {call, put, take, select, race, fork} from 'redux-saga/effects'
 
+import {meta_class_name as ziltag_class_name} from './component/ziltag'
+import {meta_class_name as co_div_class_name} from './component/CoDiv'
+import {meta_class_name as preview_class_name} from './component/ZiltagPreview'
+import {meta_class_name as switch_class_name} from './component/switch'
+import {meta_class_name as map_class_name} from './component/ziltag-map'
+import {meta_class_name as reader_class_name} from './component/ziltag-reader'
+
 import {
   ziltag_map_fetched,
   ziltag_reader_activated,
@@ -47,8 +54,26 @@ const createMessageEventChannel = () => eventChannel(emitter => {
 })
 
 const createMutationChannel = options => eventChannel(emitter => {
+  const ignored_classes = [
+    ziltag_class_name,
+    co_div_class_name,
+    preview_class_name,
+    switch_class_name,
+    map_class_name,
+    reader_class_name,
+    'ziltag-ziltag-reader-cover'
+  ]
+
   const observer = new MutationObserver(mutations => {
-    emitter(mutations)
+    const should_emit = !ignored_classes.some(
+      name => mutations.some(
+        mutation => mutation.target.classList.contains(name)
+      )
+    )
+
+    if (should_emit) {
+      emitter(mutations)
+    }
   })
 
   observer.observe(document, options)

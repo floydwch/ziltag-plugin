@@ -8,6 +8,8 @@ import Switch from '../switch'
 require('./index.css')
 
 
+export const meta_class_name = 'ziltag-ziltag-map'
+
 class ZiltagMap extends React.Component {
   render() {
     const {
@@ -112,7 +114,7 @@ class ZiltagMap extends React.Component {
     return (
       <div
         style={style}
-        className='ziltag-ziltag-map'
+        className={meta_class_name}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onTouchStart={onTouchStart}

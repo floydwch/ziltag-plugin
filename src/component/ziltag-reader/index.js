@@ -4,6 +4,8 @@ import classNames from 'classnames'
 require('./index.css')
 
 
+export const meta_class_name = 'ziltag-ziltag-reader'
+
 class ZiltagReader extends Component {
   shouldComponentUpdate(next_props, next_state) {
     return false
@@ -25,7 +27,7 @@ class ZiltagReader extends Component {
     return (
       <iframe
         className={
-          classNames('ziltag-ziltag-reader', {
+          classNames(meta_class_name, {
             'ziltag-ziltag-reader--mobile': is_mobile,
             'ziltag-ziltag-reader--activated': activated
           })

@@ -3,9 +3,11 @@ import React from 'react'
 require('./index.css')
 
 
+export const meta_class_name = 'ziltag-ziltag'
+
 export default ({style, onClick, onMouseEnter, onMouseLeave}) => (
   <div
-    className='ziltag-ziltag'
+    className={meta_class_name}
     style={style}
     onClick={onClick}
     onMouseEnter={onMouseEnter}

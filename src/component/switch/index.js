@@ -3,6 +3,8 @@ import React from 'react'
 require('./index.css')
 
 
+export const meta_class_name = 'ziltag-switch'
+
 class Switch extends React.Component {
   render() {
     const {map_id, x, y, actors} = this.props
@@ -14,7 +16,7 @@ class Switch extends React.Component {
 
     return <div
       style={style}
-      className='ziltag-switch'
+      className={meta_class_name}
       onClick={() => activate_ziltag_reader({map_id})}
       onMouseEnter={() => load_ziltag_map({id: map_id})}
     >
