@@ -2,6 +2,7 @@ import 'custom-event-polyfill'
 
 import {takeLatest, takeEvery, delay, eventChannel} from 'redux-saga'
 import {call, put, take, select, race, fork} from 'redux-saga/effects'
+import Hashids from 'hashids'
 
 import {meta_class_name as ziltag_class_name} from './component/ziltag'
 import {meta_class_name as co_div_class_name} from './component/CoDiv'
@@ -19,13 +20,51 @@ import {
   activate_ziltag_map_switch,
   deactivate_ziltag_map_switch,
   me_fetched,
+  init_ziltag_map,
   set_ziltag_map_meta,
   set_ziltag_map_size,
   set_ziltag_map_position,
+  delete_ziltag_map,
   load_ziltag_map,
   fetch_me
 } from './actor'
 
+
+function is_qualified_img(img) {
+  const {clientWidth: width, clientHeight: height} = img
+
+  /*
+  const
+    switch_width = 52,
+    switch_height = 59,
+    ziltag_radius = 6,
+    ziltag_max_radius = 23,
+    ziltag_preview_margin = 2,
+    ziltag_preview_width = 172,
+    ziltag_preview_height = 60
+
+  const theoretic_min_width = 2 * (ziltag_radius +
+    ziltag_preview_margin + ziltag_preview_width)
+
+  theoretic_min_width == 372
+
+  const theoretic_min_height = ziltag_max_radius +
+    ziltag_preview_height
+
+  theoretic_min_height == 83
+
+  */
+
+  const
+    min_width = 200,
+    min_height = 100
+
+  if (width < min_width || height < min_height) {
+    return false
+  }
+
+  return true
+}
 
 const createChannel = (target, event_name, ...args) => eventChannel(emitter => {
   function handler(e) {
@@ -205,18 +244,24 @@ function* manage_ziltag_map(action) {
   const orientationchange_channel = yield call(createChannel, window, 'orientationchange')
   const attr_mutation_channel = yield call(createMutationChannel, {
     attributes: true,
+    childList: true,
     subtree: true,
     attributeFilter: ['class', 'style']
   })
 
   while (true) {
-    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, attr_mutations} = yield race({
+    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, attr_mutations, delete_ziltag_map_action} = yield race({
       mouseenter_event: take(mouseenter_channel),
       mouseleave_event: take(mouseleave_channel),
       resize_event: take(resize_channel),
       orientationchange_event: take(orientationchange_channel),
-      attr_mutations: take(attr_mutation_channel)
+      attr_mutations: take(attr_mutation_channel),
+      delete_ziltag_map_action: take('DELETE_ZILTAG_MAP')
     })
+
+    if (delete_ziltag_map_action && delete_ziltag_map_action.payload.img_id === img_id) {
+      break
+    }
 
     if (mouseenter_event) {
       yield put(load_ziltag_map({id: map_id}))
@@ -409,6 +454,84 @@ function* sync_auth() {
   }
 }
 
+function* manage_all_ziltag_maps() {
+  const child_mutation_channel = yield call(createMutationChannel, {
+    childList: true,
+    subtree: true
+  })
+
+  yield take('ZILTAG_APP_MOUNTED')
+
+  const {
+    token,
+    href
+  } = yield select(state => state.client_state)
+
+  const hashids = new Hashids(`${token}-${Math.random()}`, 6, 'abcdefghijklmnopqrstuvwxyz0123456789')
+
+  while (true) {
+    const mutations = yield take(child_mutation_channel)
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.tagName === 'IMG') {
+          const img = node
+          const {clientWidth: width, clientHeight: height, src} = img
+          const rect = img.getBoundingClientRect()
+          const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+          const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+          const enable_switch = img.dataset.ziltagSwitch !== undefined
+            ? JSON.parse(img.dataset.ziltagSwitch)
+            : true
+          const autoplay = img.dataset.ziltagAutoplay !== undefined
+            ? JSON.parse(img.dataset.ziltagAutoplay)
+            : true
+
+          const current_index = yield select(state => Object.keys(state.ziltag_maps).length)
+          const img_id = hashids.encode(current_index)
+          img.dataset.ziltagImgId = img_id
+
+          if (img.dataset.ziltag !== 'false') {
+            if (!(img.complete && img.naturalWidth)) {
+              const load_event_channel = yield call(createChannel, img, 'load')
+              yield take(load_event_channel)
+            }
+
+            if (is_qualified_img(img)) {
+              yield put(init_ziltag_map({
+                token,
+                src,
+                href,
+                width,
+                height,
+                x,
+                y,
+                img,
+                img_id,
+                meta: {
+                  enable_switch,
+                  autoplay
+                }
+              }))
+            }
+          }
+        }
+      }
+
+      for (const node of mutation.removedNodes) {
+        if (node.tagName === 'IMG') {
+          const img = node
+          const img_id = img.dataset.ziltagImgId
+          const existed = yield select(state => Boolean(state.ziltag_maps[img_id]))
+          if (existed) {
+            yield put(delete_ziltag_map({img_id: img.dataset.ziltagImgId}))
+          }
+        }
+      }
+    }
+  }
+}
+
 export default function* root_saga() {
   yield [
     watch_fetch_ziltag_map(),
@@ -420,6 +543,7 @@ export default function* root_saga() {
     watch_load_ziltag_map(),
     watch_init_ziltag_map(),
     dispatch_event(),
-    sync_auth()
+    sync_auth(),
+    manage_all_ziltag_maps()
   ]
 }

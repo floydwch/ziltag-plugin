@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Must give a token to setup Ziltag.')
   }
 
-  store.dispatch(update_client_state({is_mobile, token}))
+  store.dispatch(update_client_state({is_mobile, token, href: location.href}))
 
   store.dispatch(
     fetch_me({

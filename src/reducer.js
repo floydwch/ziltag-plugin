@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux'
 
 
+function delete_key(state, key) {
+  const key_deleted_state = {...state}
+  delete key_deleted_state[key]
+  return key_deleted_state
+}
+
 function client_state(state={}, action) {
   switch (action.type) {
     case 'UPDATE_CLIENT_STATE':
@@ -57,6 +63,8 @@ function ziltag_maps(state={}, action) {
           switch_activated: false
         }
       }
+    case 'DELETE_ZILTAG_MAP':
+      return delete_key(state, action.payload.img_id)
     default:
       return state
   }
