@@ -127,11 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]
-    const {clientWidth: width, clientHeight: height, src} = img
-    const rect = img.getBoundingClientRect()
-    const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-    const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-
     const enable_switch = img.dataset.ziltagSwitch !== undefined
       ? JSON.parse(img.dataset.ziltagSwitch)
       : true
@@ -146,12 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       store.dispatch(
         init_ziltag_map({
           token,
-          src,
           href: location.href,
-          width,
-          height,
-          x,
-          y,
           img,
           img_id,
           meta: {

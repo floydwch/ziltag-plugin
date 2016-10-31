@@ -194,21 +194,26 @@ function* watch_fetch_ziltag_map() {
 
 function* manage_ziltag_map(action) {
   const {
-    width,
-    height,
-    x,
-    y,
     img,
     img_id,
     meta
   } = action.payload
+
+  const {clientWidth: width, clientHeight: height, src} = img
+  const rect = img.getBoundingClientRect()
+  const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+  const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
   const {
     enable_switch,
     autoplay
   } = meta
 
-  const ziltag_map = yield call(fetch_ziltag_map, action)
+  const ziltag_map = yield call(
+    fetch_ziltag_map,
+    {...action, payload: {...action.payload, src, x, y}}
+  )
+
   const {
     map_id,
     ziltags
