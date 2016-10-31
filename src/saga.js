@@ -122,8 +122,6 @@ function* fetch_ziltag_map(action) {
     return
   }
 
-  yield put(ziltag_map_fetched({map_id, ziltags, meta: action.payload.meta}))
-
   return {
     map_id,
     ziltags
@@ -172,7 +170,8 @@ function* manage_ziltag_map(action) {
 
   const ziltag_map = yield call(fetch_ziltag_map, action)
   const {
-    map_id
+    map_id,
+    ziltags
   } = ziltag_map
 
   yield put(set_ziltag_map_meta({
@@ -195,6 +194,8 @@ function* manage_ziltag_map(action) {
   if (autoplay) {
     yield put(activate_ziltag_map_ziltags({map_id}))
   }
+
+  yield put(ziltag_map_fetched({map_id, ziltags}))
 
   const mouseenter_channel = yield call(createChannel, img, 'mouseenter')
   const mouseleave_channel = yield call(createChannel, img, 'mouseleave')
