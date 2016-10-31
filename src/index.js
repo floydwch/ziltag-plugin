@@ -4,6 +4,7 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import MobileDetect from 'mobile-detect'
+import Hashids from 'hashids'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
@@ -122,6 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   )
 
+  const hashids = new Hashids(`${token}-${Math.random()}`, 6, 'abcdefghijklmnopqrstuvwxyz0123456789')
+
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]
     const {clientWidth: width, clientHeight: height, src} = img
@@ -136,6 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ? JSON.parse(img.dataset.ziltagAutoplay)
       : true
 
+    const img_id = hashids.encode(i)
+    img.dataset.ziltagImgId = img_id
+
     function setup_ziltag_map() {
       store.dispatch(
         init_ziltag_map({
@@ -147,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
           x,
           y,
           img,
+          img_id,
           meta: {
             enable_switch,
             autoplay

@@ -160,6 +160,7 @@ function* manage_ziltag_map(action) {
     x,
     y,
     img,
+    img_id,
     meta
   } = action.payload
 
@@ -175,24 +176,25 @@ function* manage_ziltag_map(action) {
   } = ziltag_map
 
   yield put(set_ziltag_map_meta({
+    img_id,
     map_id,
     meta
   }))
 
   yield put(set_ziltag_map_size({
-    map_id,
+    img_id,
     width,
     height
   }))
 
   yield put(set_ziltag_map_position({
-    map_id,
+    img_id,
     x,
     y
   }))
 
   if (autoplay) {
-    yield put(activate_ziltag_map_ziltags({map_id}))
+    yield put(activate_ziltag_map_ziltags({img_id}))
   }
 
   yield put(ziltag_map_fetched({map_id, ziltags}))
@@ -220,21 +222,22 @@ function* manage_ziltag_map(action) {
       yield put(load_ziltag_map({id: map_id}))
 
       if (enable_switch) {
-        yield put(activate_ziltag_map_switch({map_id}))
+        yield put(activate_ziltag_map_switch({img_id}))
       }
 
       if (!autoplay) {
-        yield put(activate_ziltag_map_ziltags({map_id}))
+        yield put(activate_ziltag_map_ziltags({img_id}))
       }
 
-      yield fork(fetch_ziltag_map, action)
+      const {ziltags} = yield call(fetch_ziltag_map, action)
+      yield put(ziltag_map_fetched({map_id, ziltags}))
     }
     else if (mouseleave_event) {
       if (is_on_img(event.relatedTarget)) {
         if (!autoplay) {
-          yield put(deactivate_ziltag_map_ziltags({map_id}))
+          yield put(deactivate_ziltag_map_ziltags({img_id}))
         }
-        yield put(deactivate_ziltag_map_switch({map_id}))
+        yield put(deactivate_ziltag_map_switch({img_id}))
       }
     }
     else if (resize_event || orientationchange_event || attr_mutations) {
@@ -244,13 +247,13 @@ function* manage_ziltag_map(action) {
       const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
       yield put(set_ziltag_map_size({
-        map_id,
+        img_id,
         width,
         height
       }))
 
       yield put(set_ziltag_map_position({
-        map_id,
+        img_id,
         x,
         y
       }))
@@ -266,6 +269,7 @@ function* activate_ziltag_reader(action) {
   const {
     map_id,
     ziltag_id,
+    img_id,
     is_mobile
   } = action.payload
 
@@ -275,7 +279,7 @@ function* activate_ziltag_reader(action) {
     scrollX: window.scrollX,
     scrollY: window.scrollY
   }))
-  yield put(deactivate_ziltag_map_switch({map_id}))
+  yield put(deactivate_ziltag_map_switch({img_id}))
   yield call(delay, 0)
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')

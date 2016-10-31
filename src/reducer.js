@@ -15,48 +15,59 @@ function client_state(state={}, action) {
 
 function ziltag_maps(state={}, action) {
   switch (action.type) {
-    case 'ZILTAG_MAP_FETCHED':
     case 'SET_ZILTAG_MAP_META':
     case 'SET_ZILTAG_MAP_SIZE':
     case 'SET_ZILTAG_MAP_POSITION':
       return {
         ...state,
-        [action.payload.map_id]: {
-          ...state[action.payload.map_id],
+        [action.payload.img_id]: {
+          ...state[action.payload.img_id],
           ...action.payload
         }
       }
     case 'ACTIVATE_ZILTAG_MAP_ZILTAGS':
       return {
         ...state,
-        [action.payload.map_id]: {
-          ...state[action.payload.map_id],
+        [action.payload.img_id]: {
+          ...state[action.payload.img_id],
           ziltags_activated: true
         }
       }
     case 'DEACTIVATE_ZILTAG_MAP_ZILTAGS':
       return {
         ...state,
-        [action.payload.map_id]: {
-          ...state[action.payload.map_id],
+        [action.payload.img_id]: {
+          ...state[action.payload.img_id],
           ziltags_activated: false
         }
       }
     case 'ACTIVATE_ZILTAG_MAP_SWITCH':
       return {
         ...state,
-        [action.payload.map_id]: {
-          ...state[action.payload.map_id],
+        [action.payload.img_id]: {
+          ...state[action.payload.img_id],
           switch_activated: true
         }
       }
     case 'DEACTIVATE_ZILTAG_MAP_SWITCH':
       return {
         ...state,
-        [action.payload.map_id]: {
-          ...state[action.payload.map_id],
+        [action.payload.img_id]: {
+          ...state[action.payload.img_id],
           switch_activated: false
         }
+      }
+    default:
+      return state
+  }
+}
+
+function ziltags(state={}, action) {
+  switch (action.type) {
+    case 'ZILTAG_MAP_FETCHED':
+      return {
+        ...state,
+        [action.payload.map_id]: action.payload.ziltags
       }
     default:
       return state
@@ -98,6 +109,7 @@ function user(state = {}, action) {
 const ZiltagAppReducer = combineReducers({
   client_state,
   ziltag_maps,
+  ziltags,
   ziltag_preview,
   ziltag_reader,
   user

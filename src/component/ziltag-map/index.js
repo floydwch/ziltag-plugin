@@ -13,7 +13,7 @@ export const meta_class_name = 'ziltag-ziltag-map'
 class ZiltagMap extends React.Component {
   render() {
     const {
-      x, y, width, height, map_id, enable_switch, autoplay, ziltags_activated, switch_activated,
+      x, y, width, height, img_id, map_id, enable_switch, autoplay, ziltags_activated, switch_activated,
       ziltags,
       ziltag_preview,
       user,
@@ -64,14 +64,14 @@ class ZiltagMap extends React.Component {
               load_ziltag({id: ziltag_id})
             }
             if (!(is_mobile || autoplay)) {
-              deactivate_ziltag_map_ziltags({map_id})
+              deactivate_ziltag_map_ziltags({img_id})
             }
-            activate_ziltag_reader({map_id, ziltag_id, is_mobile})
+            activate_ziltag_reader({img_id, map_id, ziltag_id, is_mobile})
           }}
           onMouseEnter={() => {
             load_ziltag({id: ziltag_id})
             if (!is_mobile) {
-              activate_ziltag_preview({map_id, ziltag_id})
+              activate_ziltag_preview({img_id, ziltag_id})
             }
           }}
           onMouseLeave={deactivate_ziltag_preview}
@@ -93,7 +93,11 @@ class ZiltagMap extends React.Component {
         co_div_style.left = ziltag.x * width + x_offset
       }
 
-      if (ziltag.id && ziltag_preview.ziltag_id === ziltag.id) {
+      if (
+        ziltag.id &&
+        ziltag_preview.ziltag_id === ziltag.id &&
+        ziltag_preview.img_id === img_id
+      ) {
         var tag_ziltag_preview = (
           <CoDiv
             className='ziltag-ziltag-map__co-div'
@@ -123,7 +127,7 @@ class ZiltagMap extends React.Component {
         user.permissions && user.permissions.includes('create_ziltag') &&
         enable_switch &&
         switch_activated &&
-        <Switch map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
+        <Switch img_id={img_id} map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
       }
         {tag_ziltags}
         {tag_ziltag_preview}

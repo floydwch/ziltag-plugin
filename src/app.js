@@ -23,6 +23,7 @@ class ZiltagApp extends Component {
   render() {
     const {
       ziltag_maps,
+      ziltags,
       ziltag_preview,
       ziltag_reader,
       user,
@@ -49,12 +50,12 @@ class ZiltagApp extends Component {
       const {
         ziltags_activated,
         switch_activated,
+        img_id,
         map_id,
         x,
         y,
         width,
         height,
-        ziltags,
         meta: {
           enable_switch,
           autoplay,
@@ -64,8 +65,9 @@ class ZiltagApp extends Component {
       if (ziltags_activated) {
         return (
           <ZiltagMap
-            key={map_id}
+            key={img_id}
             actors={actors}
+            img_id={img_id}
             map_id={map_id}
             x={x}
             y={y}
@@ -75,13 +77,13 @@ class ZiltagApp extends Component {
             switch_activated={switch_activated}
             enable_switch={enable_switch}
             autoplay={autoplay}
-            ziltags={ziltags}
+            ziltags={ziltags[map_id]}
             ziltag_preview={ziltag_preview}
             user={user}
             client_state={client_state}
             onTouchStart={() => {
               load_ziltag_map({id: map_id})
-              ziltags.forEach(ziltag => {
+              ziltags[map_id].forEach(ziltag => {
                 load_ziltag({id: ziltag.id})
               })
             }}
@@ -138,15 +140,4 @@ class ZiltagApp extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const {client_state, ziltag_maps, ziltag_preview, ziltag_reader, user} = state
-  return {
-    client_state,
-    ziltag_maps,
-    ziltag_preview,
-    ziltag_reader,
-    user
-  }
-}
-
-export default connect(mapStateToProps)(ZiltagApp)
+export default connect(state => state)(ZiltagApp)
