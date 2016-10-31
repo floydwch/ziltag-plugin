@@ -204,15 +204,14 @@ function* manage_ziltag_map(action) {
   const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
   const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
+  action.payload = {...action.payload, src, x, y}
+
   const {
     enable_switch,
     autoplay
   } = meta
 
-  const ziltag_map = yield call(
-    fetch_ziltag_map,
-    {...action, payload: {...action.payload, src, x, y}}
-  )
+  const ziltag_map = yield call(fetch_ziltag_map, action)
 
   const {
     map_id,
