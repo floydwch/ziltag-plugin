@@ -275,7 +275,6 @@ function* manage_ziltag_map(action) {
       })
 
       if (should_handle) {
-
         yield put(load_ziltag_map({id: map_id}))
 
         if (enable_switch) {
@@ -286,8 +285,7 @@ function* manage_ziltag_map(action) {
           yield put(activate_ziltag_map_ziltags({img_id}))
         }
 
-        const {ziltags} = yield call(fetch_ziltag_map, action)
-        yield put(ziltag_map_fetched({map_id, ziltags}))
+        yield fork(refresh_ziltag_map, action, map_id)
       }
     }
     else if (mouseleave_event) {
@@ -543,6 +541,11 @@ function* manage_all_ziltag_maps() {
       }
     }
   }
+}
+
+function* refresh_ziltag_map(action, map_id) {
+  const {ziltags} = yield call(fetch_ziltag_map, action)
+  yield put(ziltag_map_fetched({map_id, ziltags}))
 }
 
 export default function* root_saga() {
