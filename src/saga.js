@@ -218,6 +218,8 @@ function* manage_ziltag_map(action) {
     ziltags
   } = ziltag_map
 
+  const child_class_names = [ziltag_class_name, switch_class_name]
+
   yield put(set_ziltag_map_meta({
     img_id,
     map_id,
@@ -268,18 +270,21 @@ function* manage_ziltag_map(action) {
     }
 
     if (mouseenter_event) {
-      yield put(load_ziltag_map({id: map_id}))
+      if (!child_class_names.some(name => mouseenter_event.relatedTarget.classList.contains(name))) {
 
-      if (enable_switch) {
-        yield put(activate_ziltag_map_switch({img_id}))
+        yield put(load_ziltag_map({id: map_id}))
+
+        if (enable_switch) {
+          yield put(activate_ziltag_map_switch({img_id}))
+        }
+
+        if (!autoplay) {
+          yield put(activate_ziltag_map_ziltags({img_id}))
+        }
+
+        const {ziltags} = yield call(fetch_ziltag_map, action)
+        yield put(ziltag_map_fetched({map_id, ziltags}))
       }
-
-      if (!autoplay) {
-        yield put(activate_ziltag_map_ziltags({img_id}))
-      }
-
-      const {ziltags} = yield call(fetch_ziltag_map, action)
-      yield put(ziltag_map_fetched({map_id, ziltags}))
     }
     else if (mouseleave_event) {
       if (is_on_img(event.relatedTarget)) {
