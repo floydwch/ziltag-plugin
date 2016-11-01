@@ -270,7 +270,11 @@ function* manage_ziltag_map(action) {
     }
 
     if (mouseenter_event) {
-      if (!child_class_names.some(name => mouseenter_event.relatedTarget.classList.contains(name))) {
+      const should_handle = !child_class_names.some(name => {
+        return mouseenter_event.relatedTarget && mouseenter_event.relatedTarget.classList.contains(name)
+      })
+
+      if (should_handle) {
 
         yield put(load_ziltag_map({id: map_id}))
 
