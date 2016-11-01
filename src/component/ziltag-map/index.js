@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Ziltag from '../ziltag'
+import Ziltag, {meta_class_name as ziltag_class_name} from '../ziltag'
 import CoDiv from '../CoDiv'
 import ZiltagPreview from '../ZiltagPreview'
 import Switch from '../switch'
@@ -26,10 +26,12 @@ class ZiltagMap extends React.Component {
 
     const {
       load_ziltag,
+      load_ziltag_map,
       activate_ziltag_reader,
       activate_ziltag_preview,
       deactivate_ziltag_preview,
-      deactivate_ziltag_map_ziltags
+      deactivate_ziltag_map_ziltags,
+      deactivate_ziltag_map_switch
     } = actors
 
     const style = {
@@ -127,7 +129,31 @@ class ZiltagMap extends React.Component {
         user.permissions && user.permissions.includes('create_ziltag') &&
         enable_switch &&
         switch_activated &&
-        <Switch img_id={img_id} map_id={map_id} x={width - switch_width} y={0} actors={actors}/>
+        <Switch
+          img_id={img_id}
+          map_id={map_id}
+          x={width - switch_width}
+          y={0}
+          onClick={() => activate_ziltag_reader({img_id, map_id})}
+          onMouseEnter={() => load_ziltag_map({id: map_id})}
+          onMouseOut={e => {
+            const not_on_img = !(
+              e.relatedTarget &&
+              e.relatedTarget.dataset &&
+              e.relatedTarget.dataset.ziltagImgId === img_id
+            )
+            const not_on_ziltag = !e.relatedTarget.classList.contains(
+              ziltag_class_name
+            )
+
+            if (not_on_img && not_on_ziltag) {
+              deactivate_ziltag_map_switch({img_id})
+              if (!autoplay) {
+                deactivate_ziltag_map_ziltags({img_id})
+              }
+            }
+          }}
+        />
       }
         {tag_ziltags}
         {tag_ziltag_preview}
