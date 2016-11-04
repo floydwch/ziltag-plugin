@@ -39,12 +39,12 @@
     transform: scale(0);
     opacity: 0;
   }
-  50% {
-    transform: scale(0.2);
+  25% {
+    transform: scale(0.4);
     opacity: 0.3;
   }
   75% {
-    transform: scale(0.5);
+    transform: scale(0.6);
     opacity: 0.5;
   }
   100% {
