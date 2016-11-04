@@ -2,7 +2,7 @@
   --ziltag-radius: 10px;
   --ziltag-diameter: calc(var(--ziltag-radius) * 2);
   --ziltag-border: 1px;
-  --ziltag-halo-diameter: 48px;
+  --ziltag-halo-diameter: 60px;
 }
 
 .ziltag-ziltag {
