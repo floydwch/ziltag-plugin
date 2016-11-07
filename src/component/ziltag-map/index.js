@@ -37,7 +37,7 @@ class ZiltagMap extends React.Component {
     const style = {
       top: y,
       left: x,
-      zIndex: MAX_Z_INDEX - 4,
+      zIndex: MAX_Z_INDEX - 3,
       width,
       height
     }
@@ -59,7 +59,7 @@ class ZiltagMap extends React.Component {
           style={{
             top: ziltag.y * height - radius,
             left: ziltag.x * width - radius,
-            zIndex: MAX_Z_INDEX - 3
+            zIndex: MAX_Z_INDEX - 2
           }}
           onClick={() => {
             if (is_mobile) {
@@ -86,7 +86,7 @@ class ZiltagMap extends React.Component {
 
       const co_div_style = {
         top: ziltag.y * height + y_offset,
-        zIndex: MAX_Z_INDEX - 2
+        zIndex: MAX_Z_INDEX - 1
       }
 
       if (direction == 'left') {
