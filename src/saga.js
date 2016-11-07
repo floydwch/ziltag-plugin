@@ -324,14 +324,23 @@ function* activate_ziltag_reader(action) {
     is_mobile
   } = action.payload
 
+  const {autoplay} = yield select(state => state.ziltag_maps[img_id].meta)
+
   yield put(ziltag_reader_activated({
     map_id,
     ziltag_id,
     scrollX: window.scrollX,
     scrollY: window.scrollY
   }))
+
   yield put(deactivate_ziltag_map_switch({img_id}))
+
+  if (!autoplay) {
+    yield put(deactivate_ziltag_map_ziltags({img_id}))
+  }
+
   yield call(delay, 0)
+
   yield call(() => {
     document.body.classList.add('ziltag-ziltag-reader-activated')
     if (is_mobile) {
