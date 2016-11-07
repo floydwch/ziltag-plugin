@@ -132,8 +132,7 @@ class ZiltagMap extends React.Component {
         <Switch
           img_id={img_id}
           map_id={map_id}
-          x={width - switch_width}
-          y={0}
+          style={{top: 0, left: width - switch_width, zIndex: MAX_Z_INDEX - 1}}
           onClick={() => activate_ziltag_reader({img_id, map_id})}
           onMouseEnter={() => load_ziltag_map({id: map_id})}
           onMouseOut={e => {
