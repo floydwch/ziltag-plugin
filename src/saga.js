@@ -66,6 +66,19 @@ function is_qualified_img(img) {
   return true
 }
 
+function is_on_img(relatedTarget) {
+  if (relatedTarget === null) {
+    return true
+  } else {
+    const img_children_names = [
+      switch_class_name,
+      ziltag_class_name,
+      preview_class_name
+    ]
+    return !img_children_names.some(name => relatedTarget.classList.contains(name))
+  }
+}
+
 const createChannel = (target, event_name, ...args) => eventChannel(emitter => {
   function handler(e) {
     emitter(e)
@@ -121,24 +134,6 @@ const createMutationChannel = options => eventChannel(emitter => {
     observer.disconnect()
   }
 })
-
-function is_on_img(relatedTarget) {
-  if (relatedTarget == null) {
-    return true
-  } else {
-    const check_names = [
-      'ziltag-switch',
-      'ziltag-ziltag',
-      'ziltag-ziltag-preview'
-    ]
-    for (const check_name of check_names) {
-      if (relatedTarget.className.indexOf(check_name) != -1) {
-        return false
-      }
-    }
-    return true
-  }
-}
 
 function* fetch_ziltag_map(action) {
   const {
@@ -289,7 +284,7 @@ function* manage_ziltag_map(action) {
       }
     }
     else if (mouseleave_event) {
-      if (is_on_img(event.relatedTarget)) {
+      if (is_on_img(mouseleave_event.relatedTarget)) {
         if (!autoplay) {
           yield put(deactivate_ziltag_map_ziltags({img_id}))
         }
