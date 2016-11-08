@@ -101,7 +101,7 @@ const createMessageEventChannel = () => eventChannel(emitter => {
   window.addEventListener('message', handler)
 
   return () => {
-    target.removeEventListener(message, handler)
+    window.removeEventListener('message', handler)
   }
 })
 
@@ -292,7 +292,7 @@ function* manage_ziltag_map(action) {
       }
     }
     else if (resize_event || orientationchange_event || attr_mutations) {
-      const {clientWidth: width, clientHeight: height, src} = img
+      const {clientWidth: width, clientHeight: height} = img
       const rect = img.getBoundingClientRect()
       const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
       const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop

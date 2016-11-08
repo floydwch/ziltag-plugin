@@ -7,14 +7,13 @@ require('./index.css')
 export const meta_class_name = 'ziltag-ziltag-reader'
 
 class ZiltagReader extends Component {
-  shouldComponentUpdate(next_props, next_state) {
+  shouldComponentUpdate() {
     return false
   }
 
   render() {
     const {
       activated,
-      actors,
       client_state
     } = this.props
 

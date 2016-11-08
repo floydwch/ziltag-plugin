@@ -10,11 +10,7 @@ import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
 import {
   update_client_state,
-  activate_ziltag_map_ziltags,
-  activate_ziltag_map_switch,
-  set_ziltag_map_meta,
   deactivate_ziltag_reader,
-  fetch_ziltag_map,
   init_ziltag_map,
   fetch_me,
   ziltag_app_mounted
@@ -66,16 +62,17 @@ document.head.appendChild(roboto_font_link)
 
 document.addEventListener('DOMContentLoaded', () => {
   const sagaMiddleware = createSagaMiddleware()
+  let store;
 
   if (process.env.NODE_ENV != 'production') {
     const persistState = require('redux-devtools').persistState
     const DevTools = require('./devtool').default
 
-    function getDebugSessionKey() {
+    const getDebugSessionKey = () => {
       const matches = window.location.href.match(/[?&]debug_session=([^&#]+)\b/)
       return (matches && matches.length > 0) ? matches[1] : null
     }
-    var store = createStore(
+    store = createStore(
       ZiltagAppReducer,
       {},
       compose(
@@ -85,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       )
     )
   } else {
-    var store = applyMiddleware(sagaMiddleware)(createStore)(ZiltagAppReducer)
+    store = applyMiddleware(sagaMiddleware)(createStore)(ZiltagAppReducer)
   }
 
   sagaMiddleware.run(root_saga)
@@ -137,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const img_id = hashids.encode(i)
     img.dataset.ziltagImgId = img_id
 
-    function setup_ziltag_map() {
+    const setup_ziltag_map = () => {
       store.dispatch(
         init_ziltag_map({
           token,

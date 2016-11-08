@@ -13,7 +13,7 @@ export const meta_class_name = 'ziltag-ziltag-map'
 class ZiltagMap extends React.Component {
   render() {
     const {
-      x, y, width, height, img_id, map_id, enable_switch, autoplay, ziltags_activated, switch_activated,
+      x, y, width, height, img_id, map_id, enable_switch, autoplay, switch_activated,
       ziltags,
       ziltag_preview,
       user,

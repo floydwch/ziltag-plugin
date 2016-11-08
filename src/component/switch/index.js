@@ -5,7 +5,7 @@ require('./index.css')
 
 export const meta_class_name = 'ziltag-switch'
 
-export default ({img_id, map_id, x, y, style, onClick, onMouseEnter, onMouseOut}) => (
+export default ({style, onClick, onMouseEnter, onMouseOut}) => (
   <div
     style={style}
     className={meta_class_name}

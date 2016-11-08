@@ -36,7 +36,7 @@ gulp.task('serve', ['clean'], () => {
     contentBase: 'demo/development',
     hot: true,
     historyApiFallback: true
-  }).listen(`${process.env.PORT || 4000}`, '0.0.0.0', (err, result) => {
+  }).listen(`${process.env.PORT || 4000}`, '0.0.0.0', err => {
     if(err) {
       console.log(err)
     }
@@ -44,7 +44,7 @@ gulp.task('serve', ['clean'], () => {
   })
 })
 
-gulp.task('build:staging', ['clean'], (cb) => {
+gulp.task('build:staging', ['clean'], () => {
   env({
     vars:{
       NODE_ENV: 'production'
@@ -73,7 +73,7 @@ gulp.task('build:staging', ['clean'], (cb) => {
   .pipe(gulp.dest('demo/staging/dist'))
 })
 
-gulp.task('build:production', ['clean'], (cb) => {
+gulp.task('build:production', ['clean'], () => {
   env({
     vars:{
       NODE_ENV: 'production'

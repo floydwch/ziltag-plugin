@@ -94,14 +94,10 @@ class ZiltagApp extends Component {
 
     const activated = !!ziltag_reader.map_id
 
-    var reader_cover_style = {
-      zIndex: MAX_Z_INDEX
-    }
-
-    var reader_cover_style = {
-      ...reader_cover_style,
+    const reader_cover_style = {
       display: is_mobile || activated ? 'block' : 'none',
-      pointerEvents: activated ? 'auto' : 'none'
+      pointerEvents: activated ? 'auto' : 'none',
+      zIndex: MAX_Z_INDEX
     }
 
     return <div className='ziltag-app'>
