@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ? JSON.parse(img.dataset.ziltagAutoplay)
       : true
 
-    const img_id = hashids.encode(i)
+    const img_id = hashids.encode(new Date().getTime())
     img.dataset.ziltagImgId = img_id
 
     const setup_ziltag_map = () => {

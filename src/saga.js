@@ -520,8 +520,7 @@ function* manage_all_ziltag_maps() {
         ? JSON.parse(img.dataset.ziltagAutoplay)
         : true
 
-      const current_index = yield select(state => Object.keys(state.ziltag_maps).length)
-      const img_id = hashids.encode(current_index)
+      const img_id = hashids.encode(new Date().getTime())
       img.dataset.ziltagImgId = img_id
 
       if (img.dataset.ziltag !== 'false') {
