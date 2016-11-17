@@ -469,6 +469,24 @@ function* sync_auth() {
   }
 }
 
+function mutation_filter(selector, mutations) {
+  return mutations.reduce(
+    (imgs, mutation) => imgs.concat(
+      Array.from(selector(mutation)).reduce(
+        (imgs, node) => {
+          let result = []
+          if (node.tagName === 'IMG') {
+            result = [node]
+          } else if (node.getElementsByTagName) {
+            result = Array.from(node.getElementsByTagName('IMG'))
+          }
+          return imgs.concat(result)
+        }, []
+      )
+    ), []
+  )
+}
+
 function* manage_all_ziltag_maps() {
   const child_mutation_channel = yield call(createMutationChannel, {
     childList: true,
@@ -486,62 +504,57 @@ function* manage_all_ziltag_maps() {
 
   while (true) {
     const mutations = yield take(child_mutation_channel)
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        if (node.tagName === 'IMG') {
-          const img = node
-          const {clientWidth: width, clientHeight: height, src} = img
-          const rect = img.getBoundingClientRect()
-          const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-          const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+    const added_imgs = mutation_filter(mutation => mutation.addedNodes, mutations)
+    const removed_imgs = mutation_filter(mutation => mutation.removedNodes, mutations)
 
-          const enable_switch = img.dataset.ziltagSwitch !== undefined
-            ? JSON.parse(img.dataset.ziltagSwitch)
-            : true
-          const autoplay = img.dataset.ziltagAutoplay !== undefined
-            ? JSON.parse(img.dataset.ziltagAutoplay)
-            : true
+    for (const img of added_imgs) {
+      const {clientWidth: width, clientHeight: height, src} = img
+      const rect = img.getBoundingClientRect()
+      const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+      const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-          const current_index = yield select(state => Object.keys(state.ziltag_maps).length)
-          const img_id = hashids.encode(current_index)
-          img.dataset.ziltagImgId = img_id
+      const enable_switch = img.dataset.ziltagSwitch !== undefined
+        ? JSON.parse(img.dataset.ziltagSwitch)
+        : true
+      const autoplay = img.dataset.ziltagAutoplay !== undefined
+        ? JSON.parse(img.dataset.ziltagAutoplay)
+        : true
 
-          if (img.dataset.ziltag !== 'false') {
-            if (!(img.complete && img.naturalWidth)) {
-              const load_event_channel = yield call(createChannel, img, 'load')
-              yield take(load_event_channel)
+      const current_index = yield select(state => Object.keys(state.ziltag_maps).length)
+      const img_id = hashids.encode(current_index)
+      img.dataset.ziltagImgId = img_id
+
+      if (img.dataset.ziltag !== 'false') {
+        if (!(img.complete && img.naturalWidth)) {
+          const load_event_channel = yield call(createChannel, img, 'load')
+          yield take(load_event_channel)
+        }
+
+        if (is_qualified_img(img)) {
+          yield put(init_ziltag_map({
+            token,
+            src,
+            href,
+            width,
+            height,
+            x,
+            y,
+            img,
+            img_id,
+            meta: {
+              enable_switch,
+              autoplay
             }
-
-            if (is_qualified_img(img)) {
-              yield put(init_ziltag_map({
-                token,
-                src,
-                href,
-                width,
-                height,
-                x,
-                y,
-                img,
-                img_id,
-                meta: {
-                  enable_switch,
-                  autoplay
-                }
-              }))
-            }
-          }
+          }))
         }
       }
+    }
 
-      for (const node of mutation.removedNodes) {
-        if (node.tagName === 'IMG') {
-          const img = node
-          const img_id = img.dataset.ziltagImgId
-          const existed = yield select(state => Boolean(state.ziltag_maps[img_id]))
-          if (existed) {
-            yield put(delete_ziltag_map({img_id: img.dataset.ziltagImgId}))
-          }
-        }
+    for (const img of removed_imgs) {
+      const img_id = img.dataset.ziltagImgId
+      const existed = yield select(state => Boolean(state.ziltag_maps[img_id]))
+      if (existed) {
+        yield put(delete_ziltag_map({img_id: img.dataset.ziltagImgId}))
       }
     }
   }
