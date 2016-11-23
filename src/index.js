@@ -18,6 +18,10 @@ import {
 import root_saga from './saga'
 
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 function is_qualified_img(img) {
   const {clientWidth: width, clientHeight: height} = img
   /*
@@ -60,7 +64,7 @@ roboto_font_link.type = 'text/css'
 
 document.head.appendChild(roboto_font_link)
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const sagaMiddleware = createSagaMiddleware()
   let store;
 
@@ -120,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   )
 
-  const hashids = new Hashids(`${token}-${Math.random()}`, 6, 'abcdefghijklmnopqrstuvwxyz0123456789')
+  const hashids = new Hashids(`${token}-${Math.random()}`, 10, 'abcdefghijklmnopqrstuvwxyz0123456789')
 
   for (let i = 0; i < imgs.length; ++i) {
     const img = imgs[i]
@@ -131,7 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ? JSON.parse(img.dataset.ziltagAutoplay)
       : true
 
-    const img_id = hashids.encode(new Date().getTime())
+    await delay(1)
+    const img_id = hashids.encode(Date.now())
     img.dataset.ziltagImgId = img_id
 
     const setup_ziltag_map = () => {

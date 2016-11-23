@@ -500,7 +500,7 @@ function* manage_all_ziltag_maps() {
     href
   } = yield select(state => state.client_state)
 
-  const hashids = new Hashids(`${token}-${Math.random()}`, 6, 'abcdefghijklmnopqrstuvwxyz0123456789')
+  const hashids = new Hashids(`${token}-${Math.random()}`, 10, 'abcdefghijklmnopqrstuvwxyz0123456789')
 
   while (true) {
     const mutations = yield take(child_mutation_channel)
@@ -520,7 +520,8 @@ function* manage_all_ziltag_maps() {
         ? JSON.parse(img.dataset.ziltagAutoplay)
         : true
 
-      const img_id = hashids.encode(new Date().getTime())
+      yield call(delay, 1)
+      const img_id = hashids.encode(Date.now())
       img.dataset.ziltagImgId = img_id
 
       if (img.dataset.ziltag !== 'false') {
