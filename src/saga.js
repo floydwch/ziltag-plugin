@@ -153,7 +153,7 @@ function* fetch_ziltag_map(action) {
 
   if (error) {
     console.error(error)
-    return
+    return {error}
   }
 
   return {
@@ -184,7 +184,9 @@ function* fetch_me_saga(action) {
 function* watch_fetch_ziltag_map() {
   const action = yield take('FETCH_ZILTAG_MAP')
   const ziltag_map = yield call(fetch_ziltag_map, action)
-  yield put(ziltag_map_fetched(ziltag_map))
+  if (!ziltag_map.error) {
+    yield put(ziltag_map_fetched(ziltag_map))
+  }
 }
 
 function* manage_ziltag_map(action) {
@@ -210,8 +212,13 @@ function* manage_ziltag_map(action) {
 
   const {
     map_id,
-    ziltags
+    ziltags,
+    error
   } = ziltag_map
+
+  if (error) {
+    return
+  }
 
   const child_class_names = [ziltag_class_name, switch_class_name]
 
@@ -561,8 +568,10 @@ function* manage_all_ziltag_maps() {
 }
 
 function* refresh_ziltag_map(action, map_id) {
-  const {ziltags} = yield call(fetch_ziltag_map, action)
-  yield put(ziltag_map_fetched({map_id, ziltags}))
+  const {ziltags, error} = yield call(fetch_ziltag_map, action)
+  if (!error) {
+    yield put(ziltag_map_fetched({map_id, ziltags}))
+  }
 }
 
 export default function* root_saga() {
