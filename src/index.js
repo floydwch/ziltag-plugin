@@ -4,6 +4,7 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import MobileDetect from 'mobile-detect'
+import bowser from 'bowser'
 import Hashids from 'hashids'
 
 import ZiltagApp from './app'
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Must give a token to setup Ziltag.')
   }
 
-  store.dispatch(update_client_state({is_mobile, token, href: location.href}))
+  store.dispatch(update_client_state({is_mobile, bowser, token, href: location.href}))
 
   store.dispatch(
     fetch_me({

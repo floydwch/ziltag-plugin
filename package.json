@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.11.6",
+    "bowser": "^1.6.0",
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "custom-event-polyfill": "^0.3.0",
@@ -104,11 +105,21 @@
         "jsx": true
       }
     },
-    "plugins": ["react"],
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "plugins": [
+      "react"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
     "rules": {
       "no-console": "off",
-      "no-constant-condition": ["error", {"checkLoops": false}],
+      "no-constant-condition": [
+        "error",
+        {
+          "checkLoops": false
+        }
+      ],
       "react/display-name": "off",
       "react/prop-types": "off"
     },

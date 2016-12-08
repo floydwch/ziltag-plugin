@@ -39,7 +39,8 @@ class ZiltagApp extends Component {
     } = actors
 
     const {
-      is_mobile
+      is_mobile,
+      bowser
     } = client_state
 
     if (process.env.NODE_ENV != 'production' && ENABLE_DEVTOOL) {
@@ -95,6 +96,7 @@ class ZiltagApp extends Component {
     const activated = !!ziltag_reader.map_id
 
     const reader_cover_style = {
+      display: bowser.firefox || is_mobile || activated ? 'block' : 'none',
       visibility: is_mobile || activated ? 'visible' : 'hidden',
       pointerEvents: activated ? 'auto' : 'none',
       zIndex: MAX_Z_INDEX
