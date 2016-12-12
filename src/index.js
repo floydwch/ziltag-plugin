@@ -1,3 +1,6 @@
+import 'core-js/fn/array/find'
+import 'core-js/fn/promise'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {createStore, applyMiddleware, compose} from 'redux'
