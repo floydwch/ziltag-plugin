@@ -104,9 +104,6 @@ class ZiltagApp extends Component {
 
     return <div className='ziltag-app'>
       {
-        ziltag_map_components
-      }
-      {
         <div
           className={classNames(
             'ziltag-ziltag-reader-cover', {
@@ -128,6 +125,9 @@ class ZiltagApp extends Component {
             activated={activated}
           />
         </div>
+      }
+      {
+        ziltag_map_components
       }
       {
         process.env.NODE_ENV != 'production' && ENABLE_DEVTOOL
