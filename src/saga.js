@@ -517,11 +517,6 @@ function* manage_all_ziltag_maps() {
     const removed_imgs = mutation_filter(mutation => mutation.removedNodes, mutations)
 
     for (const img of added_imgs) {
-      const {clientWidth: width, clientHeight: height, src} = img
-      const rect = img.getBoundingClientRect()
-      const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-      const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
-
       const enable_switch = img.dataset.ziltagSwitch !== undefined
         ? JSON.parse(img.dataset.ziltagSwitch)
         : true
@@ -542,12 +537,7 @@ function* manage_all_ziltag_maps() {
         if (is_qualified_img(img)) {
           yield put(init_ziltag_map({
             token,
-            src,
             href,
-            width,
-            height,
-            x,
-            y,
             img,
             img_id,
             meta: {
