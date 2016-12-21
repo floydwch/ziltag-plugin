@@ -402,6 +402,7 @@ function* watch_fetch_me() {
 }
 
 function* watch_load_ziltag() {
+  yield take('ZILTAG_APP_MOUNTED')
   while (true) {
     const action = yield take('LOAD_ZILTAG')
     document.querySelector('.ziltag-ziltag-reader')
@@ -411,6 +412,7 @@ function* watch_load_ziltag() {
 }
 
 function* watch_load_ziltag_map() {
+  yield take('ZILTAG_APP_MOUNTED')
   while (true) {
     const action = yield take('LOAD_ZILTAG_MAP')
     document.querySelector('.ziltag-ziltag-reader')
