@@ -15,5 +15,6 @@
 
 .ziltag-ziltag-preview__content {
   color: rgb(51, 51, 51);
-  word-break: break-all;
+  white-space: pre-line;
+  word-wrap: break-word;
 }
