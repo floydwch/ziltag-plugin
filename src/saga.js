@@ -137,13 +137,15 @@ const createMutationChannel = options => eventChannel(emitter => {
 
 function* fetch_ziltag_map(action) {
   const {
-    token, src, href
+    token, src, href, width, height
   } = action.payload
 
   const target = `${API_ADDRESS}/api/v1/ziltags/` +
     `?token=${token}` +
     `&src=${encodeURIComponent(src)}` +
-    `&href=${encodeURIComponent(href)}`
+    `&href=${encodeURIComponent(href)}` +
+    `&width=${width}` +
+    `&height=${height}`
 
   const {
     id: map_id,
@@ -201,7 +203,7 @@ function* manage_ziltag_map(action) {
   const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
   const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-  action.payload = {...action.payload, src, x, y}
+  action.payload = {...action.payload, src, x, y, width, height}
 
   const {
     enable_switch,
