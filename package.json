@@ -65,6 +65,7 @@
     "custom-event-polyfill": "^0.3.0",
     "hashids": "^1.1.1",
     "mobile-detect": "^1.3.2",
+    "raven-js": "^3.9.1",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "react-redux": "^4.4.5",
@@ -128,7 +129,8 @@
     "globals": {
       "SERVER_ADDRESS": false,
       "API_ADDRESS": false,
-      "MAX_Z_INDEX": false
+      "MAX_Z_INDEX": false,
+      "SENTRY_KEY": false
     }
   }
 }

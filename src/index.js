@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import MobileDetect from 'mobile-detect'
 import bowser from 'bowser'
 import Hashids from 'hashids'
+import Raven from 'raven-js'
 
 import ZiltagApp from './app'
 import ZiltagAppReducer from './reducer'
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       )
     )
   } else {
+    Raven.config(SENTRY_KEY).install()
     store = applyMiddleware(sagaMiddleware)(createStore)(ZiltagAppReducer)
   }
 

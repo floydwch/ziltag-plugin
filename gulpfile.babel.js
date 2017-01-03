@@ -61,7 +61,8 @@ gulp.task('build:staging', ['clean'], () => {
         JSON.stringify('https://staging.ziltag.com'),
       'process.env': {
         NODE_ENV: JSON.stringify('production')
-      }
+      },
+      SENTRY_KEY: JSON.stringify('https://27aa2206191544919e1da664a174c3cb@sentry.io/126292')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -90,7 +91,8 @@ gulp.task('build:production', ['clean'], () => {
         JSON.stringify('https://ziltag.com'),
       'process.env': {
         NODE_ENV: JSON.stringify('production')
-      }
+      },
+      SENTRY_KEY: JSON.stringify('https://27aa2206191544919e1da664a174c3cb@sentry.io/126292')
     })),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
