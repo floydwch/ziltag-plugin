@@ -289,7 +289,7 @@ function* manage_ziltag_map(action) {
           yield put(activate_ziltag_map_ziltags({img_id}))
         }
 
-        yield fork(refresh_ziltag_map, action, map_id)
+        yield fork(refresh_ziltag_map, map_id)
       }
     }
     else if (mouseleave_event) {
@@ -561,10 +561,22 @@ function* manage_all_ziltag_maps() {
   }
 }
 
-function* refresh_ziltag_map(action, map_id) {
-  const {ziltags, error} = yield call(fetch_ziltag_map, action)
+function* refresh_ziltag_map(map_id) {
+  const target = `${API_ADDRESS}/api/v1/ziltag_maps/${map_id}`
+  const {ziltags, error} = yield call(() => fetch(target).then(resp => resp.json()))
   if (!error) {
     yield put(ziltag_map_fetched({map_id, ziltags}))
+  }
+}
+
+function* post_create_ziltag() {
+  const message_channel = yield call(createMessageEventChannel)
+
+  while (true) {
+    const message_event = yield take(message_channel)
+    if (message_event.payload.type === 'ZILTAG_CREATED') {
+      yield fork(refresh_ziltag_map, message_event.payload.map_id)
+    }
   }
 }
 
@@ -580,6 +592,7 @@ export default function* root_saga() {
     watch_init_ziltag_map(),
     dispatch_event(),
     sync_auth(),
-    manage_all_ziltag_maps()
+    manage_all_ziltag_maps(),
+    post_create_ziltag()
   ]
 }
