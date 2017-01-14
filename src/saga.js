@@ -137,12 +137,47 @@ const createMutationChannel = options => eventChannel(emitter => {
 
 function* fetch_ziltag_map(action) {
   const {
-    token, src, href, width, height
+    token, src, srcset, href, width, height
   } = action.payload
+
+  let final_src
+  try {
+    if (srcset) {
+      const src_descriptors = srcset.split(',').map(src => src.trim().split(' ')).map(sd => {
+        if (sd.length === 1) {
+          return [sd[0], '1x']
+        }
+        return sd
+      })
+
+      if (src_descriptors.some(sd => sd[1].slice(-1) !== src_descriptors[0][1].slice(-1))) {
+        throw 'srcset descriptors not match'
+      }
+
+      const max_index = src_descriptors
+      .map(sd => parseInt(sd[1].slice(0, -1)))
+      .reduce((acc, cur, index) => {
+        if (cur >= acc.max) {
+          return {
+            index,
+            max: cur
+          }
+        }
+        return acc
+      }, {index: -1, max: 0}).index
+
+      final_src = src_descriptors[max_index][0]
+    } else {
+      final_src = src
+    }
+  } catch (e) {
+    console.error(e)
+    return {error: e}
+  }
 
   const target = `${API_ADDRESS}/api/v1/ziltags/` +
     `?token=${token}` +
-    `&src=${encodeURIComponent(src)}` +
+    `&src=${encodeURIComponent(final_src)}` +
     `&href=${encodeURIComponent(href)}` +
     `&width=${width}` +
     `&height=${height}`
@@ -198,12 +233,12 @@ function* manage_ziltag_map(action) {
     meta
   } = action.payload
 
-  const {clientWidth: width, clientHeight: height, src} = img
+  const {clientWidth: width, clientHeight: height, src, srcset} = img
   const rect = img.getBoundingClientRect()
   const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
   const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-  action.payload = {...action.payload, src, x, y, width, height}
+  action.payload = {...action.payload, src, srcset, x, y, width, height}
 
   const {
     enable_switch,
