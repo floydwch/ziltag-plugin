@@ -269,7 +269,6 @@ function* manage_ziltag_map(action) {
   yield put(set_ziltag_map({
     img_id,
     map_id,
-    img,
     src,
     srcset,
     meta,
@@ -346,7 +345,6 @@ function* manage_ziltag_map(action) {
       for (const mutation of attr_mutations) {
         const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
         if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
-          const img = mutation.target
           const {clientWidth: width, clientHeight: height, src, srcset} = img
           const rect = img.getBoundingClientRect()
           const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
@@ -369,7 +367,6 @@ function* manage_ziltag_map(action) {
           yield put(set_ziltag_map({
             img_id,
             map_id,
-            img,
             src,
             srcset,
             meta,
@@ -383,7 +380,6 @@ function* manage_ziltag_map(action) {
         }
       }
     } else if (resize_event || orientationchange_event || document_attr_mutations) {
-      const {img} = yield select(state => state.ziltag_maps[img_id])
       const {clientWidth: width, clientHeight: height} = img
       const rect = img.getBoundingClientRect()
       const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
