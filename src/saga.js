@@ -133,6 +133,15 @@ const createMutationChannel = options => eventChannel(emitter => {
   }
 })
 
+const createImgMutationChannel = (target, options) => eventChannel(emitter => {
+  const observer = new MutationObserver(emitter)
+  observer.observe(target, options)
+
+  return () => {
+    observer.disconnect()
+  }
+})
+
 function* fetch_ziltag_map(action) {
   const {
     token, src, srcset, href, width, height
@@ -260,6 +269,7 @@ function* manage_ziltag_map(action) {
   yield put(set_ziltag_map({
     img_id,
     map_id,
+    img,
     src,
     srcset,
     meta,
@@ -279,19 +289,24 @@ function* manage_ziltag_map(action) {
   const mouseleave_channel = yield call(createChannel, img, 'mouseleave')
   const resize_channel = yield call(createChannel, window, 'resize')
   const orientationchange_channel = yield call(createChannel, window, 'orientationchange')
-  const attr_mutation_channel = yield call(createMutationChannel, {
+  const document_attr_mutation_channel = yield call(createMutationChannel, {
     attributes: true,
     childList: true,
     subtree: true,
-    attributeFilter: ['class', 'style', 'src', 'srcset']
+    attributeFilter: ['class', 'style']
+  })
+  const attr_mutation_channel = yield call(createImgMutationChannel, img, {
+    attributes: true,
+    attributeFilter: ['src', 'srcset']
   })
 
   while (true) {
-    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, attr_mutations, delete_ziltag_map_action} = yield race({
+    const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, document_attr_mutations, attr_mutations, delete_ziltag_map_action} = yield race({
       mouseenter_event: take(mouseenter_channel),
       mouseleave_event: take(mouseleave_channel),
       resize_event: take(resize_channel),
       orientationchange_event: take(orientationchange_channel),
+      document_attr_mutations: take(document_attr_mutation_channel),
       attr_mutations: take(attr_mutation_channel),
       delete_ziltag_map_action: take('DELETE_ZILTAG_MAP')
     })
@@ -327,37 +342,62 @@ function* manage_ziltag_map(action) {
         yield put(deactivate_ziltag_map_switch({img_id}))
       }
     }
-    else if (resize_event || orientationchange_event || attr_mutations) {
+    else if (attr_mutations) {
+      for (const mutation of attr_mutations) {
+        const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
+        if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
+          [
+            mouseenter_channel, mouseleave_channel, resize_channel,
+            orientationchange_channel, document_attr_mutation_channel
+          ].forEach(channel => channel.close())
+
+          const img = mutation.target
+          const {clientWidth: width, clientHeight: height, src, srcset} = img
+          const rect = img.getBoundingClientRect()
+          const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
+          const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
+
+          action.payload = {...action.payload, src, srcset, x, y, width, height}
+
+          const ziltag_map = yield call(fetch_ziltag_map, action)
+
+          const {
+            map_id,
+            ziltags,
+            error
+          } = ziltag_map
+
+          if (error) {
+            return
+          }
+
+          yield put(set_ziltag_map({
+            img_id,
+            map_id,
+            img,
+            src,
+            srcset,
+            meta,
+            width,
+            height,
+            x,
+            y
+          }))
+
+          yield put(ziltag_map_fetched({map_id, ziltags}))
+        }
+      }
+    } else if (resize_event || orientationchange_event || document_attr_mutations) {
+      const {img} = yield select(state => state.ziltag_maps[img_id])
       const {clientWidth: width, clientHeight: height} = img
       const rect = img.getBoundingClientRect()
       const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
       const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-      if (attr_mutations) {
-        for (const mutation of attr_mutations) {
-          if (['src', 'srcset'].includes(mutation.attributeName)) {
-            const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
-            if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
-              mouseenter_channel.close()
-              mouseleave_channel.close()
-              resize_channel.close()
-              orientationchange_channel.close()
-              attr_mutation_channel.close()
-              yield put(init_ziltag_map(action.payload))
-              return
-            }
-          }
-        }
-      }
-
       yield put(set_ziltag_map({
         img_id,
         width,
-        height
-      }))
-
-      yield put(set_ziltag_map({
-        img_id,
+        height,
         x,
         y
       }))
