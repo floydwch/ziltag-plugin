@@ -21,9 +21,7 @@ import {
   deactivate_ziltag_map_switch,
   me_fetched,
   init_ziltag_map,
-  set_ziltag_map_meta,
-  set_ziltag_map_size,
-  set_ziltag_map_position,
+  set_ziltag_map,
   delete_ziltag_map,
   load_ziltag_map,
   fetch_me
@@ -259,20 +257,14 @@ function* manage_ziltag_map(action) {
 
   const child_class_names = [ziltag_class_name, switch_class_name]
 
-  yield put(set_ziltag_map_meta({
+  yield put(set_ziltag_map({
     img_id,
     map_id,
-    meta
-  }))
-
-  yield put(set_ziltag_map_size({
-    img_id,
+    src,
+    srcset,
+    meta,
     width,
-    height
-  }))
-
-  yield put(set_ziltag_map_position({
-    img_id,
+    height,
     x,
     y
   }))
@@ -291,7 +283,7 @@ function* manage_ziltag_map(action) {
     attributes: true,
     childList: true,
     subtree: true,
-    attributeFilter: ['class', 'style']
+    attributeFilter: ['class', 'style', 'src', 'srcset']
   })
 
   while (true) {
@@ -341,13 +333,30 @@ function* manage_ziltag_map(action) {
       const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
       const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-      yield put(set_ziltag_map_size({
+      if (attr_mutations) {
+        for (const mutation of attr_mutations) {
+          if (['src', 'srcset'].includes(mutation.attributeName)) {
+            const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
+            if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
+              mouseenter_channel.close()
+              mouseleave_channel.close()
+              resize_channel.close()
+              orientationchange_channel.close()
+              attr_mutation_channel.close()
+              yield put(init_ziltag_map(action.payload))
+              return
+            }
+          }
+        }
+      }
+
+      yield put(set_ziltag_map({
         img_id,
         width,
         height
       }))
 
-      yield put(set_ziltag_map_position({
+      yield put(set_ziltag_map({
         img_id,
         x,
         y

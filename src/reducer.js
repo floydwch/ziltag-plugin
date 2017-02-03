@@ -21,9 +21,7 @@ function client_state(state={}, action) {
 
 function ziltag_maps(state={}, action) {
   switch (action.type) {
-    case 'SET_ZILTAG_MAP_META':
-    case 'SET_ZILTAG_MAP_SIZE':
-    case 'SET_ZILTAG_MAP_POSITION':
+    case 'SET_ZILTAG_MAP':
       return {
         ...state,
         [action.payload.img_id]: {
