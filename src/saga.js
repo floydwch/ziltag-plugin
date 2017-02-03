@@ -346,11 +346,6 @@ function* manage_ziltag_map(action) {
       for (const mutation of attr_mutations) {
         const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
         if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
-          [
-            mouseenter_channel, mouseleave_channel, resize_channel,
-            orientationchange_channel, document_attr_mutation_channel
-          ].forEach(channel => channel.close())
-
           const img = mutation.target
           const {clientWidth: width, clientHeight: height, src, srcset} = img
           const rect = img.getBoundingClientRect()
