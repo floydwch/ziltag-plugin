@@ -233,24 +233,14 @@ function* watch_fetch_ziltag_map() {
   }
 }
 
-function* manage_ziltag_map(action) {
-  const {
-    img,
-    img_id,
-    meta
-  } = action.payload
-
+function* touch_ziltag_map(action) {
+  const {img, img_id, meta} = action.payload
   const {clientWidth: width, clientHeight: height, src, srcset} = img
   const rect = img.getBoundingClientRect()
   const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
   const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
   action.payload = {...action.payload, src, srcset, x, y, width, height}
-
-  const {
-    enable_switch,
-    autoplay
-  } = meta
 
   const ziltag_map = yield call(fetch_ziltag_map, action)
 
@@ -261,10 +251,8 @@ function* manage_ziltag_map(action) {
   } = ziltag_map
 
   if (error) {
-    return
+    throw error
   }
-
-  const child_class_names = [ziltag_class_name, switch_class_name]
 
   yield put(set_ziltag_map({
     img_id,
@@ -278,11 +266,36 @@ function* manage_ziltag_map(action) {
     y
   }))
 
+  yield put(ziltag_map_fetched({map_id, ziltags}))
+
+  return map_id
+}
+
+function* manage_ziltag_map(action) {
+  const {
+    img,
+    img_id,
+    meta
+  } = action.payload
+
+  let map_id
+
+  try {
+    map_id = yield call(touch_ziltag_map, action)
+  } catch (error) {
+    return
+  }
+
+  const {
+    enable_switch,
+    autoplay
+  } = meta
+
+  const child_class_names = [ziltag_class_name, switch_class_name]
+
   if (autoplay) {
     yield put(activate_ziltag_map_ziltags({img_id}))
   }
-
-  yield put(ziltag_map_fetched({map_id, ziltags}))
 
   const mouseenter_channel = yield call(createChannel, img, 'mouseenter')
   const mouseleave_channel = yield call(createChannel, img, 'mouseleave')
@@ -298,6 +311,12 @@ function* manage_ziltag_map(action) {
     attributes: true,
     attributeFilter: ['src', 'srcset']
   })
+
+  try {
+    map_id = yield call(touch_ziltag_map, action)
+  } catch (error) {
+    return
+  }
 
   while (true) {
     const {mouseenter_event, mouseleave_event, resize_event, orientationchange_event, document_attr_mutations, attr_mutations, delete_ziltag_map_action} = yield race({
@@ -345,38 +364,12 @@ function* manage_ziltag_map(action) {
       for (const mutation of attr_mutations) {
         const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
         if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
-          const {clientWidth: width, clientHeight: height, src, srcset} = img
-          const rect = img.getBoundingClientRect()
-          const x = rect.left + document.documentElement.scrollLeft + document.body.scrollLeft
-          const y = rect.top + document.documentElement.scrollTop + document.body.scrollTop
 
-          action.payload = {...action.payload, src, srcset, x, y, width, height}
-
-          const ziltag_map = yield call(fetch_ziltag_map, action)
-
-          const {
-            map_id,
-            ziltags,
-            error
-          } = ziltag_map
-
-          if (error) {
+          try {
+            yield call(touch_ziltag_map, action)
+          } catch (error) {
             return
           }
-
-          yield put(set_ziltag_map({
-            img_id,
-            map_id,
-            src,
-            srcset,
-            meta,
-            width,
-            height,
-            x,
-            y
-          }))
-
-          yield put(ziltag_map_fetched({map_id, ziltags}))
         }
       }
     } else if (resize_event || orientationchange_event || document_attr_mutations) {
