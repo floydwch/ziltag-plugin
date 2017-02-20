@@ -364,7 +364,6 @@ function* manage_ziltag_map(action) {
       for (const mutation of attr_mutations) {
         const {src, srcset} = yield select(state => state.ziltag_maps[img_id])
         if (mutation.target.src !== src || mutation.target.srcset !== srcset) {
-
           try {
             yield call(touch_ziltag_map, action)
           } catch (error) {
