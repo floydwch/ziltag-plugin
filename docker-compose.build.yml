@@ -1,7 +1,0 @@
-version: "2"
-services:
-  ziltag-plugin:
-    build: .
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules

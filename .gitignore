@@ -1,6 +1,0 @@
-node_modules
-dist
-*.sublime-*
-.publish
-hotel.log
-npm-debug.log
